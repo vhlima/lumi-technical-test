@@ -5,6 +5,7 @@
   "repository": "https://github.com/vhlima/lumi-technical-test.git",
   "author": "vhlima <vhlima2000@gmail.com>",
   "license": "MIT",
+  "private": true,
   "workspaces": {
     "packages": [
       "apps/*"
