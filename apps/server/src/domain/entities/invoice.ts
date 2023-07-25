@@ -1,7 +1,7 @@
 import { InvoiceExpense } from "./invoice-expense";
 
 export class Invoice {
-  id: string;
+  id: number;
 
   clientId: string;
 
