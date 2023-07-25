@@ -26,7 +26,7 @@ export class ParseExpensesService implements ParseInvoiceExpenses {
         expenses.push({
           name: content[itemIndex],
           price: parseInt(content[itemIndex + 2], 10),
-        });
+        } as InvoiceExpense);
       } else if (content.length === 11) {
         expenses.push({
           name: content[itemIndex],
@@ -37,7 +37,7 @@ export class ParseExpensesService implements ParseInvoiceExpenses {
           unitaryTaxPrice: parseFloat(
             content[itemIndex + 10].replace(",", ".")
           ),
-        });
+        } as InvoiceExpense);
       }
 
       rowIndex++;

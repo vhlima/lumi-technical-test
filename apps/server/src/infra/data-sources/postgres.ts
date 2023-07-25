@@ -9,7 +9,7 @@ export const PostgresDataSource = new DataSource({
   database: process.env.POSTGRES_DATABASE,
   synchronize: process.env.NODE_ENV === 'development',
   logging: process.env.NODE_ENV === 'development',
-  entities:['./src/infra/entities/postgres/**/*.ts'],
+  entities:['./src/infra/entities/**/*.ts'],
   migrations: ['./src/infra/migrations/*.ts']
 });
 
