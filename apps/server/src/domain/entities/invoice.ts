@@ -3,7 +3,7 @@ import { InvoiceExpense } from "./invoice-expense";
 export class Invoice {
   id: number;
 
-  clientId: string;
+  clientId: number;
 
   installationNumber: number;
 

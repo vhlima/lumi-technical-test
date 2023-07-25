@@ -8,7 +8,7 @@ export class InvoiceEntity implements Invoice {
   id: number;
 
   @Column({ name: 'client_id' })
-  clientId: string;
+  clientId: number;
 
   @Column({ name: 'installation_number' })
   installationNumber: number;

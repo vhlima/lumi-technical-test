@@ -1,7 +1,7 @@
 import { Invoice } from "@/domain/entities";
 
 export interface CreateInvoiceData {
-  clientId: string;
+  clientId: number;
   installationNumber: number;
   relativeTo: Date;
   expiresAt: Date;
