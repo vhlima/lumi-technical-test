@@ -17,4 +17,20 @@ export class InvoicesRepository implements IInvoicesRepository {
     await this.ormRepository.save(invoice);
     return invoice;
   }
+
+  public async findLatest(
+    clientId: number,
+    latest: number
+  ): Promise<Invoice[]> {
+    const latestInvoices = await this.ormRepository.find({
+      where: {
+        clientId,
+      },
+      order: {
+        relativeTo: "DESC",
+      },
+      take: latest,
+    });
+    return latestInvoices;
+  }
 }
