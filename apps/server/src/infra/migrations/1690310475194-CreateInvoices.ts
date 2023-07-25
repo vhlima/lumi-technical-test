@@ -12,15 +12,16 @@ export class CreateInvoices1690310475194 implements MigrationInterface {
             name: "id",
             type: "int",
             isPrimary: true,
-            generationStrategy: "increment"
+            isGenerated: true,
+            generationStrategy: 'increment',
           },
           {
             name: "client_id",
-            type: "int",
+            type: "bigint",
           },
           {
             name: "installation_number",
-            type: "int",
+            type: "bigint",
           },
           {
             name: "relative_to",

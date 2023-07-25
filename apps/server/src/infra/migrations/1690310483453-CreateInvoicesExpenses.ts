@@ -12,6 +12,7 @@ export class CreateInvoicesExpenses1690310483453 implements MigrationInterface {
             name: "id",
             type: "int",
             isPrimary: true,
+            isGenerated: true,
             generationStrategy: "increment",
           },
           {
