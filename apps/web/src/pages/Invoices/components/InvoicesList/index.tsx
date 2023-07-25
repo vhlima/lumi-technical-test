@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import { Invoice } from "../../../../interfaces";
-import { ListLatestInvoicesService } from "../../../../services";
+import { ListInvoicesService } from "../../../../services";
 import { Box, CircularProgress, List, Typography } from "@mui/material";
 import InvoiceItem from "../../../../components/InvoiceItem";
 
-const LatestInvoicesList: React.FC = () => {
+const InvoicesList: React.FC = () => {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const listLatestInvoicesService = new ListLatestInvoicesService();
-      const latestInvoicesResponse = await listLatestInvoicesService.execute();
-      setInvoices(latestInvoicesResponse);
+      const listInvoicesService = new ListInvoicesService();
+      const invoicesResponse = await listInvoicesService.execute();
+      setInvoices(invoicesResponse);
       setLoading(false);
     })();
   }, []);
@@ -38,4 +38,4 @@ const LatestInvoicesList: React.FC = () => {
   );
 };
 
-export default LatestInvoicesList;
+export default InvoicesList;

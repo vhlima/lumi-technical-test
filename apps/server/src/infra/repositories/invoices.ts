@@ -32,6 +32,23 @@ export class InvoicesRepository implements IInvoicesRepository {
       relations: ["expenses"],
       take: latest,
     });
-    return latestInvoices.map(invoice => ({ ...invoice, price: invoice.price }));
+    return latestInvoices.map((invoice) => ({
+      ...invoice,
+      price: invoice.price,
+    }));
+  }
+
+  public async list(clientId: number): Promise<Invoice[]> {
+    const invoices = await this.ormRepository.find({
+      where: {
+        clientId,
+      },
+      relations: ["expenses"],
+    });
+
+    return invoices.map((invoice) => ({
+      ...invoice,
+      price: invoice.price,
+    }));
   }
 }

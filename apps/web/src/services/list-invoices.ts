@@ -1,10 +1,10 @@
 import { http } from "../client";
 import { Invoice } from "../interfaces";
 
-export class ListLatestInvoicesService {
+export class ListInvoicesService {
   public async execute(): Promise<Invoice[]> {
     try {
-      const req = await http.get("/invoices/latest", {
+      const req = await http.get("/invoices", {
         data: {
           clientId: 7202788969,
         },
@@ -12,7 +12,7 @@ export class ListLatestInvoicesService {
 
       return req.data;
     } catch (err) {
-      console.error("Error while fetching latest invoices");
+      console.error("Error while fetching invoices");
       return [];
     }
   }
