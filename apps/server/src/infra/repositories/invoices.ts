@@ -29,8 +29,9 @@ export class InvoicesRepository implements IInvoicesRepository {
       order: {
         relativeTo: "DESC",
       },
+      relations: ["expenses"],
       take: latest,
     });
-    return latestInvoices;
+    return latestInvoices.map(invoice => ({ ...invoice, price: invoice.price }));
   }
 }
