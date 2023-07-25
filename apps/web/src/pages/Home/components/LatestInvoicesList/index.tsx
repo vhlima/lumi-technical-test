@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Invoice } from "../../../../interfaces";
 import { ListLatestInvoicesService } from "../../../../services";
 import { Box, CircularProgress, List, Typography } from "@mui/material";
-import InvoiceItem from "./components/InvoiceItem";
+import InvoiceItem from "../../../../components/InvoiceItem";
 
 const LatestInvoicesList: React.FC = () => {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
