@@ -1,5 +1,6 @@
 import { Invoice } from "@/domain/entities";
 import { ParseInvoice } from "@/domain/usecases";
+import { ParseExpensesService } from "@/data/services";
 import { parseMonthByName } from "@/utils/date-utils";
 
 interface LabelMapping {
@@ -70,6 +71,19 @@ const labelMapping: { [key in keyof Omit<Invoice, "id">]: LabelMapping } = {
     location: [1, 5],
     parseValue: (value: string) =>
       parseFloat(value.replace(",", "").replace(".", "")),
+  },
+  expenses: {
+    label: "Valores Faturados",
+    location: [3, 0],
+    parseValue: (
+      value: string,
+      index: number,
+      rowIndex: number,
+      rows: string[][]
+    ) => {
+      const parseExpensesService = new ParseExpensesService();
+      return parseExpensesService.execute(rows, rowIndex, index);
+    },
   },
 };
 
