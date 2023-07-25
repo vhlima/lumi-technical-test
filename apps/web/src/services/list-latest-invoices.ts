@@ -4,7 +4,6 @@ import { Invoice } from "../interfaces";
 export class ListLatestInvoicesService {
   public async execute(): Promise<Invoice[]> {
     try {
-      console.log(`request?`)
       const req = await http.get("/invoices/latest", {
         data: {
           clientId: 7202788969,
