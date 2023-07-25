@@ -4,6 +4,7 @@ import fs from "fs";
 import path from "path";
 import {
   getCreateInvoiceFromPDFService,
+  getListInvoicesService,
   getListLatestInvoicesService,
 } from "@/main/factories";
 
@@ -45,6 +46,12 @@ invoicesRouter.get("/latest", async (req, res) => {
   const listLatestInvoicesService = getListLatestInvoicesService();
   const latest = await listLatestInvoicesService.execute(req.body.clientId);
   res.status(200).json(latest);
+});
+
+invoicesRouter.get('/', async (req, res) => {
+  const listInvoicesService = getListInvoicesService();
+  const invoices = await listInvoicesService.execute(req.body.clientId);
+  res.status(200).json(invoices);
 });
 
 export default invoicesRouter;
