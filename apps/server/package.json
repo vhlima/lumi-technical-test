@@ -12,6 +12,7 @@
     "pdf.js": "^0.1.0",
     "pdfjs-dist": "^3.8.162",
     "pg": "^8.11.1",
+    "reflect-metadata": "^0.1.13",
     "typeorm": "^0.3.17"
   },
   "devDependencies": {
