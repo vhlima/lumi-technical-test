@@ -16,10 +16,10 @@ export class InvoiceExpenseEntity implements InvoiceExpense {
   @Column({ nullable: true })
   quantity?: number;
 
-  @Column({ name: 'unitary_price', nullable: true })
+  @Column('double precision', { name: 'unitary_price', nullable: true })
   unitaryPrice?: number; 
 
-  @Column({ name: 'unitary_tax_price', nullable: true })
+  @Column('double precision', { name: 'unitary_tax_price', nullable: true })
   unitaryTaxPrice?: number;
 
   @Column({ name: 'measurement_unit', nullable: true })

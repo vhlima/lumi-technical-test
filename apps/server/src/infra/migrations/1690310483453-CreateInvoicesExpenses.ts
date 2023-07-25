@@ -24,18 +24,22 @@ export class CreateInvoicesExpenses1690310483453 implements MigrationInterface {
             type: "int",
           },
           {
+            name: "invoice_id",
+            type: "int",
+          },
+          {
             name: "quantity",
             type: "int",
             isNullable: true,
           },
           {
             name: "unitary_price",
-            type: "int",
+            type: "double precision",
             isNullable: true,
           },
           {
             name: "unitary_tax_price",
-            type: "int",
+            type: "double precision",
             isNullable: true,
           },
           {
@@ -44,6 +48,16 @@ export class CreateInvoicesExpenses1690310483453 implements MigrationInterface {
             isNullable: true,
           },
         ],
+        foreignKeys: [
+          {
+            name: 'FKInvoice',
+            referencedTableName: 'invoices',
+            referencedColumnNames: ['id'],
+            columnNames: ['invoice_id'],
+            onUpdate: 'CASCADE',
+            onDelete: 'CASCADE',
+          },
+        ]
       })
     );
   }
