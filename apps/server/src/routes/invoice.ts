@@ -2,7 +2,10 @@ import { Router } from "express";
 import multer from "multer";
 import fs from "fs";
 import path from "path";
-import { getCreateInvoiceFromPDFService } from "@/main/factories";
+import {
+  getCreateInvoiceFromPDFService,
+  getListLatestInvoicesService,
+} from "@/main/factories";
 
 const invoicesRouter = Router();
 
@@ -36,6 +39,12 @@ invoicesRouter.post("/upload", upload.single("file"), async (req, res) => {
       fs.unlinkSync(req.file.path);
     }
   }
+});
+
+invoicesRouter.get("/latest", async (req, res) => {
+  const listLatestInvoicesService = getListLatestInvoicesService();
+  const latest = await listLatestInvoicesService.execute(req.body.clientId);
+  res.status(200).json(latest);
 });
 
 export default invoicesRouter;

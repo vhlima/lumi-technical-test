@@ -8,12 +8,14 @@ export class InvoiceEntity implements Invoice {
   id: number;
 
   @Column({ name: 'client_id' })
-  clientId: string;
+  clientId: number;
 
   @Column({ name: 'installation_number' })
   installationNumber: number;
 
-  price: number;
+  get price() {
+    return this.expenses.reduce((acc, current) => acc += current.price, 0);
+  }
 
   @OneToMany(() => InvoiceExpenseEntity, expense => expense.invoice)
   expenses: InvoiceExpense[];
