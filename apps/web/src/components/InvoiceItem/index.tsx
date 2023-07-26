@@ -12,10 +12,19 @@ import { useState } from "react";
 import InvoiceExpensesList from "./components/InvoiceExpensesList";
 import { parseToBRL } from "../../utils/currency-parser";
 
-type Props = Invoice;
+type Props = Invoice & {
+  hideInstallationNumber?: boolean;
+};
 
 const InvoiceItem: React.FC<Props> = (props) => {
-  const { installationNumber, price, expiresAt, relativeTo, expenses } = props;
+  const {
+    installationNumber,
+    price,
+    expiresAt,
+    relativeTo,
+    expenses,
+    hideInstallationNumber,
+  } = props;
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -26,10 +35,9 @@ const InvoiceItem: React.FC<Props> = (props) => {
           <Receipt fontSize="large" />
         </ListItemIcon>
         <ListItemText
-          primary={`${format(
-            new Date(relativeTo),
-            "MMMM/yyyy"
-          )} (${installationNumber})`}
+          primary={`${format(new Date(relativeTo), "MMMM/yyyy")} ${
+            !hideInstallationNumber ? `(${installationNumber})` : ""
+          }`}
           secondary={
             <>
               <Typography
