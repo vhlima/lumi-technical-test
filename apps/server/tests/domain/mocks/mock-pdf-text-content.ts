@@ -1,15 +1,11 @@
-import { faker } from "@faker-js/faker";
-import { mockInvoice } from "./mock-invoice";
-import { mockInvoiceExpense } from "./mock-invoice-expense";
+import { Invoice } from "@/domain/entities";
+import {
+  formatDateToBrazilianTimeFormat,
+  parseMonthByIndex,
+} from "@/utils/date-utils";
 
-export const mockPdfTextContent = (): string[][] => {
-  const invoice = mockInvoice();
-
-  const expenses = Array.from({
-    length: faker.number.int({ min: 1, max: 5 }),
-  }).map(() => mockInvoiceExpense(invoice));
-
-  const expensesMapped = expenses.map((expense, index) => {
+export const mockPdfTextContent = (invoice: Partial<Invoice>): string[][] => {
+  const expensesMapped = (invoice?.expenses || []).map((expense, index) => {
     const expenseItem = [];
 
     if (index === 0) {
@@ -39,6 +35,30 @@ export const mockPdfTextContent = (): string[][] => {
     return expenseItem;
   });
 
+  const clientId = invoice.clientId ? String(invoice.clientId) : "";
+
+  const installationNumber = invoice.installationNumber
+    ? String(invoice.installationNumber)
+    : "";
+
+  const price = invoice.price ? String(invoice.price) : "";
+
+  const relativeTo = invoice.relativeTo
+    ? `${parseMonthByIndex(
+        invoice.relativeTo.getMonth() - 1
+      )}/${invoice.relativeTo.getFullYear()}`
+    : "";
+
+  const relativeToReduced = invoice.relativeTo
+    ? `${parseMonthByIndex(invoice.relativeTo.getMonth())
+        .slice(0, 3)
+        .toUpperCase()}/${invoice.relativeTo.getFullYear()}`
+    : "";
+
+  const expiresAt = invoice.expiresAt
+    ? formatDateToBrazilianTimeFormat(invoice.expiresAt)
+    : "";
+
   return [
     ["Valores Faturados"],
     [
@@ -67,8 +87,7 @@ export const mockPdfTextContent = (): string[][] => {
     ],
     ["ICMS", " ", "ICMS"],
     ...expensesMapped,
-    ["Contrib Ilum Publica Municipal", " ", "35,92"],
-    ["", "TOTAL", " ", "157,49"],
+    ["", "TOTAL", " ", price],
     ["", "Histórico de Consumo"],
     ["", "MÊS/ANO", " ", "Cons. kWh", " ", "Média kWh/Dia", " ", "Dias"],
     ["", "ABR/23", " ", "1.341", " ", "44,70", " ", "30"],
@@ -102,9 +121,9 @@ export const mockPdfTextContent = (): string[][] => {
       " ",
       "Total a pagar",
     ],
-    ["", "008118741548", " ", "3004298116", " ", "09/05/2023", " ", "R$157,49"],
+    ["", "008118741548", " ", installationNumber, " ", expiresAt, " ", price],
     [
-      "Abril/2023",
+      relativeTo,
       " ",
       "83690000001-6 57490138010-9 20644858233-1 08118741548-4",
     ],
@@ -121,9 +140,9 @@ export const mockPdfTextContent = (): string[][] => {
     ["", "Nº DO CLIENTE", " ", "Nº DA INSTALAÇÃO"],
     [
       "",
-      "7202788969",
+      clientId,
       " ",
-      "3004298116",
+      installationNumber,
       "",
       "Referente a",
       " ",
@@ -131,7 +150,7 @@ export const mockPdfTextContent = (): string[][] => {
       " ",
       "Valor a pagar (R$)",
     ],
-    ["", "ABR/2023", " ", "09/05/2023", " ", "157,49"],
+    ["", `${relativeToReduced}`, " ", expiresAt, " ", price],
     ["", "NOTA FISCAL Nº 027811849 - SÉRIE 000"],
     ["Data de emissão: 25/04/2023"],
     ["Consulte pela chave de acesso em:"],
@@ -245,4 +264,76 @@ export const mockPdfTextContent = (): string[][] => {
       "de energia por e-mail acessando www.cemig.com.br. MAR/23 Band. Verde - ABR/23 Band. Verde.",
     ],
   ];
+
+  // return [
+  //   ["Valores Faturados"],
+  //   [
+  //     "",
+  //     "Itens da Fatura",
+  //     " ",
+  //     "Unid.",
+  //     " ",
+  //     "Quant.",
+  //     " ",
+  //     "Preço Unit",
+  //     " ",
+  //     "Valor",
+  //     " ",
+  //     "(R$)",
+  //     " ",
+  //     "PIS/COFINS",
+  //     " ",
+  //     "Base Calc.",
+  //     " ",
+  //     "Aliq.",
+  //     " ",
+  //     "ICMS",
+  //     " ",
+  //     "Tarifa Unit.",
+  //   ],
+  //   ["ICMS", " ", "ICMS"],
+  //   ...expensesMapped,
+  //   ["", "TOTAL", " ", invoice.price ? String(invoice?.price) : ""],
+  //   [
+  //     "",
+  //     "008118741548",
+  //     " ",
+  //     invoice.installationNumber ? String(invoice.installationNumber) : "",
+  //     " ",
+  //     expiresAt,
+  //     " ",
+  //     invoice.price ? String(invoice?.price) : "",
+  //   ],
+  //   [
+  //     relativeTo,
+  //     " ",
+  //     "83690000001-6 57490138010-9 20644858233-1 08118741548-4",
+  //   ],
+  //   [
+  //     "",
+  //     invoice.clientId ? String(invoice.clientId) : "",
+  //     " ",
+  //     invoice.installationNumber ? String(invoice.installationNumber) : "",
+  //     "",
+  //     "Referente a",
+  //     " ",
+  //     "Vencimento",
+  //     " ",
+  //     "Valor a pagar (R$)",
+  //   ],
+  //   [
+  //     "",
+  //     invoice.relativeTo
+  //       ? `${parseMonthByIndex(
+  //           invoice.relativeTo.getMonth()
+  //         )}/${invoice.relativeTo.getFullYear()}`
+  //       : "",
+  //     " ",
+  //     invoice.expiresAt
+  //       ? `${invoice.expiresAt.getDay()}/${invoice.expiresAt.getMonth()}/${invoice.expiresAt.getFullYear()}`
+  //       : "",
+  //     " ",
+  //     invoice.price ? String(invoice.price) : "",
+  //   ],
+  // ];
 };
