@@ -31,7 +31,7 @@ export class ParseExpensesService implements ParseInvoiceExpenses {
         expenses.push({
           name: content[itemIndex],
           measurementUnit: content[itemIndex + 2].toUpperCase(),
-          quantity: parseInt(content[itemIndex + 4], 10),
+          quantity: parseInt(content[itemIndex + 4].replace('.', ''), 10),
           unitaryPrice: parseFloat(content[itemIndex + 6].replace(",", ".")),
           price: parseInt(content[itemIndex + 8], 10),
           unitaryTaxPrice: parseFloat(
