@@ -1,16 +1,15 @@
-import type {Config} from 'jest';
+import type { Config } from "jest";
 
 const config: Config = {
-  rootDir: './',
-  setupFilesAfterEnv: [
-    '<rootDir>/jest.setup.ts',
-  ],
+  rootDir: "./",
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   transform: {
-    '.+\\.(ts|tsx)$': 'ts-jest',
+    ".+\\.(ts|tsx)$": "ts-jest",
   },
-  testPathIgnorePatterns: ['<rootDir>/node_modules/'],
+  testPathIgnorePatterns: ["<rootDir>/node_modules/"],
   moduleNameMapper: {
-    '@/(.*)': '<rootDir>/src/$1',
+    "@/tests/(.*)": "<rootDir>/tests/$1",
+    "@/(.*)": "<rootDir>/src/$1",
   },
 };
 
