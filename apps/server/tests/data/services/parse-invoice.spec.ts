@@ -7,7 +7,7 @@ const createSut = () => {
   return sut;
 };
 
-describe("CreateInvoiceFromPDFService", () => {
+describe("ParseInvoiceService", () => {
   test("Should parse Invoice informations correctly", async () => {
     const sut = createSut();
 
