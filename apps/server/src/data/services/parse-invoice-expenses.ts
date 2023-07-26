@@ -1,7 +1,12 @@
 import { ParseInvoiceExpenses } from "@/domain/usecases";
 import { InvoiceExpense } from "@/domain/entities";
+import { ValidateInvoiceExpense } from "@/validation/contracts";
 
 export class ParseExpensesService implements ParseInvoiceExpenses {
+  constructor(
+    private readonly invoiceExpenseValidation: ValidateInvoiceExpense
+  ) {}
+
   public execute(
     rows: string[][],
     rowIndex: number,
@@ -23,21 +28,33 @@ export class ParseExpensesService implements ParseInvoiceExpenses {
       }
 
       if (content.length === 3) {
-        expenses.push({
+        const invoiceData = {
           name: content[itemIndex],
-          price: parseInt(content[itemIndex + 2], 10),
-        } as InvoiceExpense);
+          price: content[itemIndex + 2],
+        };
+
+        const invoice = this.invoiceExpenseValidation.execute(invoiceData);
+
+        if (invoice) {
+          expenses.push(invoice);
+        }
       } else if (content.length === 11) {
-        expenses.push({
+        const invoiceData = {
           name: content[itemIndex],
-          measurementUnit: content[itemIndex + 2].toUpperCase(),
-          quantity: parseInt(content[itemIndex + 4].replace('.', ''), 10),
+          measurementUnit: content[itemIndex + 2],
+          quantity: parseInt(content[itemIndex + 4].replace(".", ""), 10),
           unitaryPrice: parseFloat(content[itemIndex + 6].replace(",", ".")),
           price: parseInt(content[itemIndex + 8], 10),
           unitaryTaxPrice: parseFloat(
             content[itemIndex + 10].replace(",", ".")
           ),
-        } as InvoiceExpense);
+        };
+
+        const invoice = this.invoiceExpenseValidation.execute(invoiceData);
+
+        if (invoice) {
+          expenses.push(invoice);
+        }
       }
 
       rowIndex++;

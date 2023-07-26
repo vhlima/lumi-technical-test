@@ -1,7 +1,9 @@
 import { Invoice } from "@/domain/entities";
 import { ParseInvoice } from "@/domain/usecases";
 import { ParseExpensesService } from "@/data/services";
-import { parseMonthByName } from "@/utils/date-utils";
+import { parseBrazilianDate, parseMonthByName } from "@/utils/date-utils";
+import { ServerError } from "@/errors";
+import { InvoiceExpenseValidator } from "@/validation/validators";
 
 interface LabelMapping {
   /* 
@@ -64,7 +66,7 @@ const labelMapping: { [key in keyof Omit<Invoice, "id">]: LabelMapping } = {
   expiresAt: {
     label: "Vencimento",
     location: [1, 3],
-    parseValue: (value: string) => new Date(value),
+    parseValue: (value: string) => parseBrazilianDate(value),
   },
   price: {
     label: "Valor a pagar (R$)",
@@ -81,7 +83,7 @@ const labelMapping: { [key in keyof Omit<Invoice, "id">]: LabelMapping } = {
       rowIndex: number,
       rows: string[][]
     ) => {
-      const parseExpensesService = new ParseExpensesService();
+      const parseExpensesService = new ParseExpensesService(new InvoiceExpenseValidator());
       return parseExpensesService.execute(rows, rowIndex, index);
     },
   },
@@ -126,6 +128,17 @@ export class ParseInvoiceService implements ParseInvoice {
           }
         }
       }
+    }
+
+    if (
+      Object.keys(invoice).length !== mappingEntries.length ||
+      invoice.expenses.length === 0
+    ) {
+      throw new ServerError(
+        "InvalidInvoiceError",
+        "This invoice could not be parsed",
+        422
+      );
     }
 
     return invoice;
