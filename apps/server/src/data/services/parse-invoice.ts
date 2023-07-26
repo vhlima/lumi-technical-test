@@ -37,7 +37,7 @@ interface LabelMapping {
   We use this mapping object to specify wich informations we want to extract
   from the invoice pdf file.
 */
-const labelMapping: { [key in keyof Omit<Invoice, "id">]: LabelMapping } = {
+const labelMapping: { [key in keyof Omit<Invoice, "id" | "price" | "expenses">]: LabelMapping } = {
   clientId: {
     label: "Nº DO CLIENTE",
     location: [1, 1],
@@ -68,30 +68,12 @@ const labelMapping: { [key in keyof Omit<Invoice, "id">]: LabelMapping } = {
     location: [1, 3],
     parseValue: (value: string) => parseBrazilianDate(value),
   },
-  price: {
-    label: "Valor a pagar (R$)",
-    location: [1, 5],
-    parseValue: (value: string) =>
-      parseFloat(value.replace(",", "").replace(".", "")),
-  },
-  expenses: {
-    label: "Valores Faturados",
-    location: [3, 0],
-    parseValue: (
-      value: string,
-      index: number,
-      rowIndex: number,
-      rows: string[][]
-    ) => {
-      const parseExpensesService = new ParseExpensesService(new InvoiceExpenseValidator());
-      return parseExpensesService.execute(rows, rowIndex, index);
-    },
-  },
 };
 
 export class ParseInvoiceService implements ParseInvoice {
   public execute(contentRows: string[][]): Invoice {
     const invoice = new Invoice();
+    invoice.price = 0;
 
     const mappingEntries = Object.entries(labelMapping);
 
@@ -128,17 +110,6 @@ export class ParseInvoiceService implements ParseInvoice {
           }
         }
       }
-    }
-
-    if (
-      Object.keys(invoice).length !== mappingEntries.length ||
-      invoice.expenses.length === 0
-    ) {
-      throw new ServerError(
-        "InvalidInvoiceError",
-        "This invoice could not be parsed",
-        422
-      );
     }
 
     return invoice;
