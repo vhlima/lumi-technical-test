@@ -1,9 +1,6 @@
 import { Invoice } from "@/domain/entities";
 import { ParseInvoice } from "@/domain/usecases";
-import { ParseExpensesService } from "@/data/services";
 import { parseBrazilianDate, parseMonthByName } from "@/utils/date-utils";
-import { ServerError } from "@/errors";
-import { InvoiceExpenseValidator } from "@/validation/validators";
 
 interface LabelMapping {
   /* 
