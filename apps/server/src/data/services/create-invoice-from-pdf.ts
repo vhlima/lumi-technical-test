@@ -25,7 +25,7 @@ export class CreateInvoiceFromPDFService {
 
     const parsedInvoice = this.parseInvoiceService.execute(textContent);
 
-    const parsedExpenses = this.parseInvoiceExpenseService.execute('Valores Faturados', textContent);
+    const parsedExpenses = this.parseInvoiceExpenseService.execute(textContent);
 
     parsedInvoice.expenses = parsedExpenses;
 

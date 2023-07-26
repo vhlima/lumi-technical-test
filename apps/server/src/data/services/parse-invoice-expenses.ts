@@ -4,18 +4,20 @@ import { ValidateInvoiceExpense } from "@/validation/contracts";
 import { ServerError } from "@/errors";
 
 export class ParseExpensesService implements ParseInvoiceExpenses {
+  private labelText = 'Valores Faturados';
+
   constructor(
     private readonly invoiceExpenseValidation: ValidateInvoiceExpense
   ) {}
 
-  public execute(labelText: string, contentRows: string[][]): InvoiceExpense[] {
+  public execute(contentRows: string[][]): InvoiceExpense[] {
     const expenses: InvoiceExpense[] = [];
 
     let rowIndex = -1;
 
     for (let i = 0; i < contentRows.length; i++) {
       for (let y = 0; y < contentRows[i].length; y++) {
-        if (contentRows[i][y] === labelText) {
+        if (contentRows[i][y] === this.labelText) {
           rowIndex = i + 3;
           break;
         }
