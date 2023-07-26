@@ -6,7 +6,7 @@ import InfoCard from "../InfoCard";
 
 const InfoCardList: React.FC = () => {
   return (
-    <Stack direction={{ xs: "column", md: "row" }} spacing={1}>
+    <Stack sx={{ marginBottom: 4 }} direction={{ xs: "column", md: "row" }} spacing={1}>
       <InfoCard
         title="Clients"
         description="Amount of clients registered"
