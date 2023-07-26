@@ -6,7 +6,7 @@ import { Joi } from "celebrate";
 export class InvoiceExpenseValidator implements ValidateInvoiceExpense {
   private validationSchema = Joi.object({
     name: Joi.string().required(),
-    price: Joi.number().min(0).required(),
+    price: Joi.number().required(),
     measurementUnit: Joi.string(),
     quantity: Joi.number().integer().min(0),
     unitaryPrice: Joi.number(),
