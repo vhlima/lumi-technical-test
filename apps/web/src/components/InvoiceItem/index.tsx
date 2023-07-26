@@ -31,7 +31,7 @@ const InvoiceItem: React.FC<Props> = (props) => {
   return (
     <>
       <ListItemButton divider onClick={() => setOpen((prev) => !prev)}>
-        <ListItemIcon>
+        <ListItemIcon sx={{ color: 'grey.600'}}>
           <Receipt fontSize="large" />
         </ListItemIcon>
         <ListItemText

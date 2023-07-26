@@ -23,7 +23,7 @@ const InfoCard: React.FC<Props> = (props) => {
     <Card sx={{ width: '100%' }}>
       <CardContent>
         <Box sx={{ display: "flex" }}>
-          <Icon fontSize="large" />
+          <Icon sx={{ color: 'grey.600' }} fontSize="large" />
 
           <Stack sx={{ marginLeft: 2 }}>
             <Typography variant="h6">{title}</Typography>
