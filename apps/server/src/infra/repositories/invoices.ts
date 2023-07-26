@@ -43,6 +43,9 @@ export class InvoicesRepository implements IInvoicesRepository {
       where: {
         clientId,
       },
+      order: {
+        relativeTo: "DESC",
+      },
       relations: ["expenses"],
     });
 
