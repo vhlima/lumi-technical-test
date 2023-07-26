@@ -12,19 +12,23 @@ const UploadInvoice: React.FC = (props) => {
       return;
     }
 
-    const createInvoiceService = new CreateInvoiceService();
-    const invoice = await createInvoiceService.execute(file);
+    try {
+      const createInvoiceService = new CreateInvoiceService();
+      const invoice = await createInvoiceService.execute(file);
 
-    if (!invoice) {
-      setUploadMessage("An error occurred while uploading your invoice.");
-    } else {
-      setUploadMessage(`Invoice #${invoice.id} loaded with success.`);
+      if (invoice) {
+        setUploadMessage(`Invoice #${invoice.id} loaded with success.`);
+      }
+    } catch (err) {
+      setUploadMessage((err as Error).message);
     }
   };
 
   return (
     <>
-      {uploadMessage && <Typography sx={{ marginTop: 2 }}>{uploadMessage}</Typography>}
+      {uploadMessage && (
+        <Typography sx={{ marginTop: 2 }}>{uploadMessage}</Typography>
+      )}
       <UploadInvoiceButton onChange={(e) => handleUpload(e)} />
     </>
   );
