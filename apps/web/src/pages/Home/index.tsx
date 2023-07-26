@@ -3,6 +3,7 @@ import Layout from "../../layout";
 
 import InfoCardList from "./components/InfoCardList";
 import LatestInvoicesList from "./components/LatestInvoicesList";
+import UploadInvoice from "./components/UploadInvoice";
 
 const HomePage: React.FC = () => {
   return (
@@ -10,10 +11,16 @@ const HomePage: React.FC = () => {
       <InfoCardList />
 
       <Box sx={{ marginTop: 4 }}>
-        <Typography variant="h5" gutterBottom>
-          Latest Invoices
-        </Typography>
+        <Typography variant="h5">Upload Invoice</Typography>
         <Divider />
+
+        <UploadInvoice />
+      </Box>
+
+      <Box sx={{ marginTop: 4 }}>
+        <Typography variant="h5">Latest Invoices</Typography>
+        <Divider />
+
         <LatestInvoicesList />
       </Box>
     </Layout>
