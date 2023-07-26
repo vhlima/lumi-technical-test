@@ -16,7 +16,7 @@ export class CreateInvoiceFromPDFService {
     private readonly createInvoiceExpenseService: CreateInvoiceExpense,
   ) {}
 
-  public async execute(pdfPath: string): Promise<Invoice> {
+  public async execute(pdfPath: string): Promise<Invoice | null> {
     const pdfDoc = await this.pdfLoader.execute(pdfPath);
 
     const page = await pdfDoc.getPage(1);
@@ -25,6 +25,10 @@ export class CreateInvoiceFromPDFService {
 
     const parsedInvoice = this.parseInvoiceService.execute(textContent);
 
+    if(!parsedInvoice) {
+      return null;
+    }
+    
     const parsedExpenses = this.parseInvoiceExpenseService.execute(textContent);
 
     parsedInvoice.expenses = parsedExpenses;
