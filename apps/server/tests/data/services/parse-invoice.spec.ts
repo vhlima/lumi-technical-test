@@ -17,7 +17,7 @@ describe("ParseInvoiceService", () => {
 
     const createdInvoice = sut.execute(pdfTextContent);
 
-    const { id, ...invoiceCompare } = mockedInvoice;
+    const { id, expenses, ...invoiceCompare } = mockedInvoice;
 
     expect(createdInvoice).toEqual(invoiceCompare);
   });
