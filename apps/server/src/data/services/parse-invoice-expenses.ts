@@ -4,7 +4,7 @@ import { ValidateInvoiceExpense } from "@/validation/contracts";
 import { ServerError } from "@/errors";
 
 export class ParseExpensesService implements ParseInvoiceExpenses {
-  private labelText = 'Valores Faturados';
+  private labelText = "Valores Faturados";
 
   constructor(
     private readonly invoiceExpenseValidation: ValidateInvoiceExpense
@@ -44,7 +44,7 @@ export class ParseExpensesService implements ParseInvoiceExpenses {
       if (content.length === 3) {
         const invoiceData = {
           name: content[0],
-          price: parseInt(content[2], 10),
+          price: parseFloat(content[2].replace(",", ".")),
         };
 
         const invoice = this.invoiceExpenseValidation.execute(invoiceData);
@@ -58,10 +58,8 @@ export class ParseExpensesService implements ParseInvoiceExpenses {
           measurementUnit: content[2],
           quantity: parseInt(content[4].replace(".", ""), 10),
           unitaryPrice: parseFloat(content[6].replace(",", ".")),
-          price: parseInt(content[8], 10),
-          unitaryTaxPrice: parseFloat(
-            content[10].replace(",", ".")
-          ),
+          price: parseFloat(content[8].replace(",", ".")),
+          unitaryTaxPrice: parseFloat(content[10].replace(",", ".")),
         };
 
         const invoice = this.invoiceExpenseValidation.execute(invoiceData);
