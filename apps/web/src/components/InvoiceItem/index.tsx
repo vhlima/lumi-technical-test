@@ -10,6 +10,7 @@ import { format } from "date-fns";
 import { Invoice } from "../../interfaces";
 import { useState } from "react";
 import InvoiceExpensesList from "./components/InvoiceExpensesList";
+import { parseToBRL } from "../../utils/currency-parser";
 
 type Props = Invoice;
 
@@ -35,7 +36,7 @@ const InvoiceItem: React.FC<Props> = (props) => {
                 sx={{ display: "block" }}
                 component="span"
                 variant="body2"
-              >{`Price: R$ ${price}`}</Typography>
+              >{`Price: ${parseToBRL(price)}`}</Typography>
               <Typography
                 sx={{ display: "block" }}
                 component="span"
