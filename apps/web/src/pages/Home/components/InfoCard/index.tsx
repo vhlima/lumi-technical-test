@@ -20,7 +20,7 @@ const InfoCard: React.FC<Props> = (props) => {
   const { icon: Icon, title, value, description } = props;
 
   return (
-    <Card>
+    <Card sx={{ width: '100%' }}>
       <CardContent>
         <Box sx={{ display: "flex" }}>
           <Icon fontSize="large" />

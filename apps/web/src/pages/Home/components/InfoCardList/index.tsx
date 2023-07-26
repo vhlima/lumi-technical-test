@@ -30,12 +30,6 @@ const InfoCardList: React.FC = () => {
       spacing={1}
     >
       <InfoCard
-        title="Clients"
-        description="Amount of clients registered"
-        value={"0"}
-        icon={SupervisorAccount}
-      />
-      <InfoCard
         title="Invoices"
         description="Total amount of invoices registered"
         value={String(clientProfile?.invoiceCount || 0)}
