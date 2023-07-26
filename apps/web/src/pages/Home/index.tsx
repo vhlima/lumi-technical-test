@@ -1,4 +1,4 @@
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Button, Divider, Typography } from "@mui/material";
 import Layout from "../../layout";
 
 import InfoCardList from "./components/InfoCardList";
@@ -18,7 +18,11 @@ const HomePage: React.FC = () => {
       </Box>
 
       <Box sx={{ marginTop: 4 }}>
-        <Typography variant="h5">Latest Invoices</Typography>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Typography variant="h5">Latest Invoices</Typography>
+          <Button sx={{ marginLeft: "auto" }} href="/invoices">View all</Button>
+        </Box>
+
         <Divider />
 
         <LatestInvoicesList />
