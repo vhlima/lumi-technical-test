@@ -8,7 +8,6 @@ export const mockInvoiceExpense = (invoice: Invoice): InvoiceExpense => {
     id: faker.number.int(),
     price: faker.number.int(),
     name: faker.science.chemicalElement().name,
-    invoice,
   };
 
   invoice.price += basicExpense.price;
