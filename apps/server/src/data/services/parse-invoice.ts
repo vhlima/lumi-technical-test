@@ -1,6 +1,7 @@
 import { Invoice } from "@/domain/entities";
 import { ParseInvoice } from "@/domain/usecases";
 import { parseBrazilianDate, parseMonthByName } from "@/utils/date-utils";
+import { InvoiceValidator } from "@/validation/validators";
 
 interface LabelMapping {
   /* 
@@ -68,9 +69,10 @@ const labelMapping: { [key in keyof Omit<Invoice, "id" | "price" | "expenses">]:
 };
 
 export class ParseInvoiceService implements ParseInvoice {
-  public execute(contentRows: string[][]): Invoice {
-    const invoice = new Invoice();
-    invoice.price = 0;
+  constructor(private readonly invoiceValidation: InvoiceValidator) {}
+
+  public execute(contentRows: string[][]): Invoice | null {
+    const invoiceData: Record<string, unknown> = {};
 
     const mappingEntries = Object.entries(labelMapping);
 
@@ -95,7 +97,7 @@ export class ParseInvoiceService implements ParseInvoice {
               const value = row[possibleValueIndex];
 
               /* After the value is found, add to the invoice object */
-              (invoice as any)[key] = mapping.parseValue
+              invoiceData[key] = mapping.parseValue
                 ? mapping.parseValue(
                     value,
                     possibleValueIndex,
@@ -109,6 +111,7 @@ export class ParseInvoiceService implements ParseInvoice {
       }
     }
 
-    return invoice;
+    const validatedInvoice = this.invoiceValidation.execute(invoiceData);
+    return validatedInvoice;
   }
 }

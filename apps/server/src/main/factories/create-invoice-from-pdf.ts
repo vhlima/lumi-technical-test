@@ -10,12 +10,12 @@ import {
   InvoicesExpensesRepository,
   InvoicesRepository,
 } from "@/infra/repositories";
-import { InvoiceExpenseValidator } from "@/validation/validators";
+import { InvoiceExpenseValidator, InvoiceValidator } from "@/validation/validators";
 
 export function getCreateInvoiceFromPDFService(): CreateInvoiceFromPDFService {
   const service = new CreateInvoiceFromPDFService(
     new LoadPDFAdapter(),
-    new ParseInvoiceService(),
+    new ParseInvoiceService(new InvoiceValidator()),
     new ParseExpensesService(new InvoiceExpenseValidator()),
     new CreateInvoiceService(new InvoicesRepository()),
     new CreateInvoiceExpenseService(new InvoicesExpensesRepository())
