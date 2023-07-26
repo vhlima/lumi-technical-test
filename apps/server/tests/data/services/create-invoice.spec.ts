@@ -9,7 +9,7 @@ const createSut = (invoices?: Invoice[]) => {
 };
 
 describe('CreateInvoiceService', () => {
-  test('Should throw error if Invoice date already exists', async () => {
+  test('Should throw error if Invoice date already exists', () => {
     const invoice = mockInvoice();
 
     const sut = createSut([invoice]);
@@ -21,5 +21,17 @@ describe('CreateInvoiceService', () => {
     const response = sut.execute(conflictingInvoice);
   
     expect(response).rejects.toThrow();
+  });
+  test('Should create Invoice with correct params', async () => {
+    const sut = createSut();
+
+    const invoice = mockInvoice();
+
+    const response = await sut.execute(invoice);
+
+    expect(response.clientId).toEqual(invoice.clientId);
+    expect(response.installationNumber).toEqual(invoice.installationNumber);
+    expect(response.relativeTo).toEqual(invoice.relativeTo);
+    expect(response.expiresAt).toEqual(invoice.expiresAt);
   });
 });
