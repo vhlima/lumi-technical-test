@@ -1,5 +1,3 @@
-import { Invoice } from "./invoice";
-
 export class InvoiceExpense {
   id: number;
   name: string;
@@ -8,5 +6,4 @@ export class InvoiceExpense {
   unitaryPrice?: number; 
   unitaryTaxPrice?: number;
   measurementUnit?: string;
-  invoice: Invoice;
 }
