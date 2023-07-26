@@ -1,5 +1,6 @@
 import { http } from "../client";
 import { Invoice } from "../interfaces";
+import { raiseAxiosError } from "../utils/raise-axios-error";
 
 export class CreateInvoiceService {
   public async execute(file: File): Promise<Invoice | null> {
@@ -15,7 +16,7 @@ export class CreateInvoiceService {
 
       return req.data;
     } catch (err) {
-      console.error("Error while creating invoice");
+      raiseAxiosError(err);
       return null;
     }
   }
