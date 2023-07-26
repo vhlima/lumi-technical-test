@@ -21,4 +21,30 @@ describe("CreateInvoiceFromPDFService", () => {
 
     expect(createdInvoice).toEqual(invoiceCompare);
   });
+  test("Should throw error if validation fails", () => {
+    const sut = createSut();
+
+    const mockedInvoice = mockInvoice();
+
+    /* Select random fields from mockedInvoice */
+    const shuffled = Object.entries(mockedInvoice).sort(
+      () => 0.5 - Math.random()
+    );
+
+    const selectedEntries = shuffled.slice(
+      0,
+      faker.number.int({ min: 0, max: shuffled.length - 2 })
+    );
+
+    /* We are passing some valid fields and other invalids to always make 
+       sure we are not validating the same thing 
+    */
+    const pdfTextContent = mockPdfTextContent(
+      Object.fromEntries(selectedEntries)
+    );
+
+    expect(() => {
+      sut.execute(pdfTextContent);
+    }).toThrow();
+  });
 });
