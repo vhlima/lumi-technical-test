@@ -1,7 +1,7 @@
-import { Invoice, InvoiceExpense } from "@/domain/entities";
+import { InvoiceExpense } from "@/domain/entities";
 import { faker } from "@faker-js/faker";
 
-export const mockInvoiceExpense = (invoice: Invoice): InvoiceExpense => {
+export const mockInvoiceExpense = (): InvoiceExpense => {
   const isSimple = faker.number.int({ min: 1, max: 10 }) % 2 === 0;
 
   const basicExpense: InvoiceExpense = {
@@ -9,8 +9,6 @@ export const mockInvoiceExpense = (invoice: Invoice): InvoiceExpense => {
     price: faker.number.int(),
     name: faker.science.chemicalElement().name,
   };
-
-  invoice.price += basicExpense.price;
 
   if (isSimple) {
     return basicExpense;

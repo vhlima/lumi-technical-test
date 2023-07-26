@@ -30,7 +30,7 @@ export const mockInvoice = (expenses?: InvoiceExpense[]): Invoice => {
     ? expenses
     : Array.from({
         length: faker.number.int({ min: 1, max: 5 }),
-      }).map(() => mockInvoiceExpense(invoice));
+      }).map(() => mockInvoiceExpense());
 
   invoice.price = invoice.expenses.reduce(
     (acc, expense) => (acc += expense.price),
