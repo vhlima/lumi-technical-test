@@ -11,7 +11,7 @@ const HomePage: React.FC = () => {
       <InfoCardList />
 
       <Box sx={{ marginTop: 4 }}>
-        <Typography variant="h5">Upload Invoice</Typography>
+        <Typography variant="h5" gutterBottom>Upload Invoice</Typography>
         <Divider />
 
         <UploadInvoice />
@@ -19,7 +19,7 @@ const HomePage: React.FC = () => {
 
       <Box sx={{ marginTop: 4 }}>
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Typography variant="h5">Latest Invoices</Typography>
+          <Typography variant="h5" gutterBottom>Latest Invoices</Typography>
           <Button sx={{ marginLeft: "auto" }} href="/invoices">View all</Button>
         </Box>
 
