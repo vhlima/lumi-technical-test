@@ -25,10 +25,10 @@ describe("ParseInvoiceService", () => {
   test("Should throw error if validation fails", () => {
     const sut = createSut();
 
-    const mockedInvoice = mockInvoice();
+    const { expenses, price, id, ...invoiceData } = mockInvoice([]);
 
     /* Select random fields from mockedInvoice */
-    const shuffled = Object.entries(mockedInvoice).sort(
+    const shuffled = Object.entries(invoiceData).sort(
       () => 0.5 - Math.random()
     );
 
