@@ -4,12 +4,14 @@ import {
   CreateInvoiceExpense,
   LoadPDF,
   ParseInvoice,
+  ParseInvoiceExpenses,
 } from "@/domain/usecases";
 
 export class CreateInvoiceFromPDFService {
   constructor(
     private readonly pdfLoader: LoadPDF,
     private readonly parseInvoiceService: ParseInvoice,
+    private readonly parseInvoiceExpenseService: ParseInvoiceExpenses,
     private readonly createInvoiceService: CreateInvoice,
     private readonly createInvoiceExpenseService: CreateInvoiceExpense,
   ) {}
@@ -21,16 +23,20 @@ export class CreateInvoiceFromPDFService {
 
     const textContent = await page.getTextContent();
 
-    const invoice = this.parseInvoiceService.execute(textContent);
+    const parsedInvoice = this.parseInvoiceService.execute(textContent);
+
+    const parsedExpenses = this.parseInvoiceExpenseService.execute('Valores Faturados', textContent);
+
+    parsedInvoice.expenses = parsedExpenses;
 
     const createdInvoice = await this.createInvoiceService.execute({
-      clientId: invoice.clientId,
-      expiresAt: invoice.expiresAt,
-      installationNumber: invoice.installationNumber,
-      relativeTo: invoice.relativeTo,
+      clientId: parsedInvoice.clientId,
+      expiresAt: parsedInvoice.expiresAt,
+      installationNumber: parsedInvoice.installationNumber,
+      relativeTo: parsedInvoice.relativeTo,
     });
 
-    const promises = invoice.expenses.map(async expenseData => {
+    const promises = parsedExpenses.map(async expenseData => {
       const expense = await this.createInvoiceExpenseService.execute({
         invoiceId: createdInvoice.id,
         ...expenseData,
@@ -38,8 +44,8 @@ export class CreateInvoiceFromPDFService {
       return expense;
     });
 
-    const expenses = await Promise.all(promises);
-    createdInvoice.expenses = expenses;
+    const createdExpenses = await Promise.all(promises);
+    createdInvoice.expenses = createdExpenses;
 
     return createdInvoice;
   }
