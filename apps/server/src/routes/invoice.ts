@@ -7,6 +7,7 @@ import {
   getListInvoicesService,
   getListLatestInvoicesService,
 } from "@/main/factories";
+import { errorHandler } from "@/adapters";
 
 const invoicesRouter = Router();
 
@@ -33,8 +34,8 @@ invoicesRouter.post("/upload", upload.single("file"), async (req, res) => {
 
     res.status(200).json(invoice);
   } catch (error) {
-    console.error("Error parsing PDF:", error);
-    res.status(500).json({ error: "Error parsing PDF" });
+    const errorResponse = errorHandler.handle(error);
+    res.status(errorResponse.code).json({ error: errorResponse.message });
   } finally {
     if (req.file?.path) {
       fs.unlinkSync(req.file.path);

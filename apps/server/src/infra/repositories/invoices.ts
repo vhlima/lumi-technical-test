@@ -54,4 +54,15 @@ export class InvoicesRepository implements IInvoicesRepository {
       price: invoice.price,
     }));
   }
+
+  public async findByDate(clientId: number, date: Date): Promise<Invoice | null> {
+    const invoice = await this.ormRepository.findOne({
+      where: {
+        clientId,
+        relativeTo: date,
+      },
+    });
+
+    return invoice;
+  }
 }
