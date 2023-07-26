@@ -13,12 +13,8 @@ export class FindClientProfileService implements FindClientProfile {
       0
     );
 
-    const formattedAverage = (
-      Math.round((invoicesTotalPrice / invoices.length) * 100) / 100
-    ).toFixed(2);
-
     return {
-      averageMonthlyPrice: parseInt(formattedAverage.replace(".", ""), 10),
+      averageMonthlyPrice: invoicesTotalPrice / invoices.length,
       invoiceCount: invoices.length,
       invoicesTotalPrice,
     };
