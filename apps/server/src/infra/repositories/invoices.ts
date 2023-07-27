@@ -13,7 +13,14 @@ export class InvoicesRepository implements IInvoicesRepository {
   }
 
   public async create(data: CreateInvoiceData): Promise<Invoice> {
-    const invoice = this.ormRepository.create(data);
+    const { clientId, ...invoiceData } = data;
+
+    const invoice = this.ormRepository.create({
+      client: {
+        id: clientId,
+      },
+      ...invoiceData,
+    });
     await this.ormRepository.save(invoice);
     return invoice;
   }
