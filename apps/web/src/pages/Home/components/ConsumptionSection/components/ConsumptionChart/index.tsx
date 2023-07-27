@@ -13,7 +13,6 @@ import {
   Legend,
 } from "chart.js";
 import { format } from "date-fns";
-import { Box } from "@mui/material";
 
 ChartJS.register(
   CategoryScale,
@@ -24,7 +23,13 @@ ChartJS.register(
   Legend
 );
 
-const ConsumptionChart: React.FC = () => {
+interface Props {
+  label: string;
+  onValueIncrement: (invoice: Invoice, currentAmount: number) => number;
+}
+
+const ConsumptionChart: React.FC<Props> = (props) => {
+  const { label, onValueIncrement } = props;
   const [invoices, setInvoices] = useState<Invoice[]>([]);
 
   useEffect(() => {
@@ -42,9 +47,9 @@ const ConsumptionChart: React.FC = () => {
 
   /*
     This function will group all the invoices from same month and sum the
-    energy spent from each of them.
+    current value from each of them using the onValueIncrement function.
   */
-  const convertInvoicesEnergySpent = (invoices: Invoice[]) => {
+  const convertInvoicesToValue = (invoices: Invoice[]) => {
     const invoicesByMonth: number[] = [];
 
     for (let i = 0; i < invoices.length; i++) {
@@ -57,37 +62,37 @@ const ConsumptionChart: React.FC = () => {
 
       const monthIndex = date.getMonth();
 
-      invoicesByMonth[monthIndex] = invoicesByMonth[monthIndex]
-        ? (invoicesByMonth[monthIndex] += invoice.energySpent)
-        : invoice.energySpent;
+      invoicesByMonth[monthIndex] = onValueIncrement(
+        invoice,
+        invoicesByMonth[monthIndex] ? invoicesByMonth[monthIndex] : 0
+      );
     }
 
     return invoicesByMonth;
   };
 
   return (
-    <Box>
-      <Bar
-        options={{
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              display: false,
-            },
+    <Bar
+      options={{
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false,
           },
-        }}
-        data={{
-          labels,
-          datasets: [
-            {
-              data: convertInvoicesEnergySpent(invoices),
-              backgroundColor: "rgb(1, 41, 23)",
-            },
-          ],
-        }}
-      />
-    </Box>
+        },
+      }}
+      data={{
+        labels,
+        datasets: [
+          {
+            label,
+            data: convertInvoicesToValue(invoices),
+            backgroundColor: "rgb(1, 41, 23)",
+          },
+        ],
+      }}
+    />
   );
 };
 
