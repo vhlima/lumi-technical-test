@@ -23,26 +23,38 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-invoicesRouter.post("/:clientId/upload", upload.single("file"), async (req, res) => {
-  try {
-    if (!req.file) {
-      throw new Error("Missing PDF file");
-    }
+invoicesRouter.post(
+  "/:clientId/upload",
+  upload.single("file"),
+  celebrate({
+    [Segments.PARAMS]: {
+      clientId: Joi.number().required(),
+    },
+  }),
+  async (req, res) => {
+    try {
+      if (!req.file) {
+        throw new Error("Missing PDF file");
+      }
 
-    const service = getCreateInvoiceFromPDFService();
+      const service = getCreateInvoiceFromPDFService();
 
-    const invoice = await service.execute(req.file.path);
+      const invoice = await service.execute(
+        parseInt(req.params.clientId, 10),
+        req.file.path
+      );
 
-    res.status(200).json(invoice);
-  } catch (error) {
-    const errorResponse = errorHandler.handle(error);
-    res.status(errorResponse.code).json({ error: errorResponse.message });
-  } finally {
-    if (req.file?.path) {
-      fs.unlinkSync(req.file.path);
+      res.status(200).json(invoice);
+    } catch (error) {
+      const errorResponse = errorHandler.handle(error);
+      res.status(errorResponse.code).json({ error: errorResponse.message });
+    } finally {
+      if (req.file?.path) {
+        fs.unlinkSync(req.file.path);
+      }
     }
   }
-});
+);
 
 invoicesRouter.get(
   "/:clientId/latest",
