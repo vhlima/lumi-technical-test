@@ -2,7 +2,7 @@ import { Stack } from "@mui/material";
 
 import { Receipt, AttachMoney, MonetizationOn, Power } from "@mui/icons-material";
 
-import InfoCard from "../InfoCard";
+import InfoCard from "./components/InfoCard";
 import { useEffect, useState } from "react";
 import { ClientProfile } from "../../../../interfaces";
 import { FindClientProfileService } from "../../../../services";
