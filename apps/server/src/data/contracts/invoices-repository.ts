@@ -5,5 +5,5 @@ export interface IInvoicesRepository {
   create: (data: CreateInvoiceData) => Promise<Invoice>;
   findLatest: (clientId: number, latest: number) => Promise<Invoice[]>;
   list: (clientId: number) => Promise<Invoice[]>;
-  findByDate: (clientId: number, date: Date) => Promise<Invoice | null>;
+  findByDate: (clientId: number, addressId: number, date: Date) => Promise<Invoice | null>;
 }

@@ -9,6 +9,7 @@ export class CreateInvoiceService implements CreateInvoice {
   public async execute(data: CreateInvoiceData): Promise<Invoice> {
     const invoiceExists = await this.invoicesRepository.findByDate(
       data.clientId,
+      data.addressId,
       data.relativeTo
     );
 
