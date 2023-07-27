@@ -8,3 +8,4 @@ export * from './list-invoices';
 export * from './find-client-profile';
 export * from './label-mapper';
 export * from './parse-client';
+export * from './invoice-parsers';

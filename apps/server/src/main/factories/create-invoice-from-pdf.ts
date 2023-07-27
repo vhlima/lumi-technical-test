@@ -3,7 +3,9 @@ import {
   CreateInvoiceExpenseService,
   CreateInvoiceFromPDFService,
   CreateInvoiceService,
+  InvoiceParsersService,
   LabelMapperService,
+  ParseClientService,
   ParseExpensesService,
   ParseInvoiceService,
 } from "@/data/services";
@@ -11,13 +13,22 @@ import {
   InvoicesExpensesRepository,
   InvoicesRepository,
 } from "@/infra/repositories";
-import { InvoiceExpenseValidator, InvoiceValidator } from "@/validation/validators";
+import {
+  ClientValidator,
+  InvoiceExpenseValidator,
+  InvoiceValidator,
+} from "@/validation/validators";
 
 export function getCreateInvoiceFromPDFService(): CreateInvoiceFromPDFService {
+  const labelMapper = new LabelMapperService();
+
   const service = new CreateInvoiceFromPDFService(
     new LoadPDFAdapter(),
-    new ParseInvoiceService(new InvoiceValidator(), new LabelMapperService()),
-    new ParseExpensesService(new InvoiceExpenseValidator(), new LabelMapperService()),
+    new InvoiceParsersService(
+      new ParseClientService(new ClientValidator(), labelMapper),
+      new ParseInvoiceService(new InvoiceValidator(), labelMapper),
+      new ParseExpensesService(new InvoiceExpenseValidator(), labelMapper)
+    ),
     new CreateInvoiceService(new InvoicesRepository()),
     new CreateInvoiceExpenseService(new InvoicesExpensesRepository())
   );
