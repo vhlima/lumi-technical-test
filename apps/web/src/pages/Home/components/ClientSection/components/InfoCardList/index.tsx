@@ -2,11 +2,11 @@ import { Stack } from "@mui/material";
 
 import { Receipt, AttachMoney, MonetizationOn, Power } from "@mui/icons-material";
 
-import InfoCard from "./components/InfoCard";
+import InfoCard from "../InfoCard";
 import { useEffect, useState } from "react";
-import { ClientProfile } from "../../../../interfaces";
-import { FindClientProfileService } from "../../../../services";
-import { parseToBRL } from "../../../../utils/currency-parser";
+import { ClientProfile } from "../../../../../../interfaces";
+import { FindClientProfileService } from "../../../../../../services";
+import { parseToBRL } from "../../../../../../utils/currency-parser";
 
 const InfoCardList: React.FC = () => {
   const [clientProfile, setClientProfile] = useState<ClientProfile>();

@@ -1,5 +1,5 @@
 import { useSession } from "../../../../hooks/useSession";
-import InfoCardList from "../InfoCardList";
+import InfoCardList from "./components/InfoCardList";
 import Section from "../Section";
 
 const ClientSection: React.FC = () => {
