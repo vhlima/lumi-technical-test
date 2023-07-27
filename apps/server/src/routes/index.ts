@@ -2,10 +2,12 @@ import { Router } from "express";
 import invoicesRouter from "./invoice";
 import { getFindClientProfileService } from "@/main/factories";
 import { Joi, Segments, celebrate } from "celebrate";
+import clientsRouter from "./client";
 
 const serverRouter = Router();
 
 serverRouter.use("/invoices", invoicesRouter);
+serverRouter.use("/clients", clientsRouter);
 
 serverRouter.get(
   "/client/profile",
