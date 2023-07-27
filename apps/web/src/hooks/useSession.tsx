@@ -61,7 +61,9 @@ export const SessionProvider: React.FC<PropsWithChildren> = (props) => {
             return;
           }
           setClient(client);
-        } catch (err) {}
+        } catch (err) {
+          signOut();
+        }
       }
     })();
   }, [client, signOut]);
