@@ -1,14 +1,24 @@
 import { Invoice, InvoiceExpense } from "@/domain/entities";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { InvoiceExpenseEntity } from "./invoice-expense";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { InvoiceExpenseEntity, ClientEntity } from "@/infra/entities";
 
 @Entity("invoices")
 export class InvoiceEntity implements Invoice {
   @PrimaryGeneratedColumn("increment")
   id: number;
 
-  @Column({ name: "client_id" })
-  clientId: number;
+  @ManyToOne(() => ClientEntity, {
+    onDelete: "CASCADE",
+  })
+  @JoinColumn({ referencedColumnName: "id", name: "client_id" })
+  client: ClientEntity;
 
   @Column({ name: "installation_number" })
   installationNumber: number;
