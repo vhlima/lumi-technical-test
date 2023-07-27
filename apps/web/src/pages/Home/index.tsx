@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Stack, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import Layout from "../../layout";
 
 import LatestInvoicesList from "./components/LatestInvoicesList";
@@ -8,61 +8,50 @@ import ClientSection from "./components/ClientSection";
 import { useSession } from "../../hooks/useSession";
 import UnauthSection from "./components/UnauthSection";
 import ClientSelector from "./components/ClientSelector";
-import InfoCardList from "./components/InfoCardList";
+import Section from "./components/Section";
 
 const HomePage: React.FC = () => {
   const { client: session } = useSession();
 
   return (
     <Layout>
-      {session ? (
-        <>
-          <ClientSection />
-          <InfoCardList />
-        </>
-      ) : (
-        <UnauthSection />
-      )}
+      {session ? <ClientSection /> : <UnauthSection />}
 
-      <Box sx={{ marginTop: 4 }}>
-        <Stack direction={{ md: "row" }} sx={{ alignItems: "center" }}>
-          <Typography variant="h5" gutterBottom>
-            Upload Invoice
-          </Typography>
-
+      <Section.Root>
+        <Section.Title
+          sx={{ display: "flex", alignItems: "center" }}
+          title="Upload Invoice"
+        >
           <ClientSelector />
-        </Stack>
-
-        <Divider />
+        </Section.Title>
 
         <UploadInvoice />
-      </Box>
+      </Section.Root>
 
       {session && (
         <>
-          <Box sx={{ marginTop: 4 }}>
-            <Typography variant="h5" gutterBottom>
-              Consumption Chart (kWH)
-            </Typography>
-            <Divider />
+          <Section.Root>
+            <Section.Title title="Consumption Chart (kWH)" />
 
-            <ConsumptionChart />
-          </Box>
+            <Section.Content>
+              <ConsumptionChart />
+            </Section.Content>
+          </Section.Root>
 
-          <Box sx={{ marginTop: 4 }}>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Typography variant="h5" gutterBottom>
-                Latest Invoices
-              </Typography>
+          <Section.Root>
+            <Section.Title
+              sx={{ display: "flex", alignItems: "center" }}
+              title="Latest Invoices"
+            >
               <Button sx={{ marginLeft: "auto" }} href="/invoices">
                 View all
               </Button>
-            </Box>
+            </Section.Title>
 
-            <Divider />
-
-            <LatestInvoicesList />
-          </Box>
+            <Section.Content disableMargin>
+              <LatestInvoicesList />
+            </Section.Content>
+          </Section.Root>
         </>
       )}
     </Layout>
