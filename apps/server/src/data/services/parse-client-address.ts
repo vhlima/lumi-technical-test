@@ -15,7 +15,6 @@ const labelMapping: LabelMappersObject = {
     label: "Código de Débito Automático",
     location: [5, 0],
     parseValue: (value: string) => {
-      console.log(`district? ${value}`);
       return value;
     }
   },
