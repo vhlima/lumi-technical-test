@@ -8,11 +8,6 @@ import { parseBrazilianDate, parseMonthByName } from "@/utils/date-utils";
 import { InvoiceValidator } from "@/validation/validators";
 
 const labelMapping: LabelMappersObject = {
-  clientId: {
-    label: "Nº DO CLIENTE",
-    location: [1, 1],
-    parseValue: (value: string) => parseInt(value, 10),
-  },
   installationNumber: {
     label: "Nº DA INSTALAÇÃO",
     location: [1, 3],
