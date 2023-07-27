@@ -14,7 +14,7 @@ import InvoiceItem from "../../../../components/InvoiceItem";
 const InvoicesList: React.FC = () => {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [selectedTab, setSelectedTab] = useState<number>(-1);
+  const [selectedTab, setSelectedTab] = useState<string>("");
 
   useEffect(() => {
     (async () => {
@@ -38,7 +38,7 @@ const InvoicesList: React.FC = () => {
   }
 
   const installments = new Set(
-    invoices.map((invoice) => invoice.installationNumber)
+    invoices.map((invoice) => invoice.address.streetAddress)
   );
 
   return (
@@ -48,11 +48,11 @@ const InvoicesList: React.FC = () => {
           value={selectedTab}
           onChange={(_, value) => setSelectedTab(value)}
         >
-          <Tab label="All installments" value={-1} />
+          <Tab label="All installments" value={""} />
           {Array.from(installments).map((installment) => (
             <Tab
               key={`installment-tab-${installment}`}
-              label={String(installment)}
+              label={installment}
               value={installment}
             />
           ))}
@@ -60,15 +60,15 @@ const InvoicesList: React.FC = () => {
       </Box>
 
       <List disablePadding>
-        {(selectedTab === -1
+        {(!selectedTab
           ? invoices
           : invoices.filter(
-              (invoice) => invoice.installationNumber === selectedTab
+              (invoice) => invoice.address.streetAddress === selectedTab
             )
         ).map((invoice) => (
           <InvoiceItem
             key={`invoice-item-${invoice.id}`}
-            hideInstallationNumber={selectedTab !== -1}
+            hideAddress={!!selectedTab}
             {...invoice}
           />
         ))}

@@ -13,31 +13,30 @@ import InvoiceExpensesList from "./components/InvoiceExpensesList";
 import { parseToBRL } from "../../utils/currency-parser";
 
 type Props = Invoice & {
-  hideInstallationNumber?: boolean;
+  hideAddress?: boolean;
 };
 
 const InvoiceItem: React.FC<Props> = (props) => {
-  const {
-    installationNumber,
-    price,
-    expiresAt,
-    relativeTo,
-    expenses,
-    hideInstallationNumber,
-  } = props;
+  const { price, expiresAt, relativeTo, expenses, address, hideAddress } =
+    props;
 
   const [open, setOpen] = useState<boolean>(false);
 
   return (
     <>
       <ListItemButton divider onClick={() => setOpen((prev) => !prev)}>
-        <ListItemIcon sx={{ color: 'grey.600'}}>
+        <ListItemIcon sx={{ color: "grey.600" }}>
           <Receipt fontSize="large" />
         </ListItemIcon>
         <ListItemText
-          primary={`${format(new Date(relativeTo), "MMMM/yyyy")} ${
-            !hideInstallationNumber ? `(${installationNumber})` : ""
-          }`}
+          primary={
+            <>
+              {!hideAddress && <Typography>{address.streetAddress}</Typography>}
+              <Typography>
+                {format(new Date(relativeTo), "MMMM/yyyy")}
+              </Typography>
+            </>
+          }
           secondary={
             <>
               <Typography
