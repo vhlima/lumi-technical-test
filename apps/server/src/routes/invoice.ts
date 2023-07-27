@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-invoicesRouter.post("/upload", upload.single("file"), async (req, res) => {
+invoicesRouter.post("/:clientId/upload", upload.single("file"), async (req, res) => {
   try {
     if (!req.file) {
       throw new Error("Missing PDF file");
@@ -45,9 +45,9 @@ invoicesRouter.post("/upload", upload.single("file"), async (req, res) => {
 });
 
 invoicesRouter.get(
-  "/latest",
+  "/:clientId/latest",
   celebrate({
-    [Segments.BODY]: {
+    [Segments.PARAMS]: {
       clientId: Joi.number().required(),
     },
   }),
@@ -59,9 +59,9 @@ invoicesRouter.get(
 );
 
 invoicesRouter.get(
-  "/",
+  "/:clientId",
   celebrate({
-    [Segments.BODY]: {
+    [Segments.PARAMS]: {
       clientId: Joi.number().required(),
     },
   }),

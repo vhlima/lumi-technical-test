@@ -8,7 +8,7 @@ export class CreateInvoiceService {
       const formData = new FormData();
       formData.append('file', file);
 
-      const req = await http.post("/invoices/upload", formData, {
+      const req = await http.post(`/invoices/${7202788969}/upload`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
