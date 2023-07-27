@@ -24,7 +24,9 @@ export class InvoicesRepository implements IInvoicesRepository {
   ): Promise<Invoice[]> {
     const latestInvoices = await this.ormRepository.find({
       where: {
-        clientId,
+        client: {
+          id: clientId,
+        },
       },
       order: {
         relativeTo: "DESC",
@@ -42,7 +44,9 @@ export class InvoicesRepository implements IInvoicesRepository {
   public async list(clientId: number): Promise<Invoice[]> {
     const invoices = await this.ormRepository.find({
       where: {
-        clientId,
+        client: {
+          id: clientId,
+        },
       },
       order: {
         relativeTo: "DESC",
@@ -57,10 +61,15 @@ export class InvoicesRepository implements IInvoicesRepository {
     }));
   }
 
-  public async findByDate(clientId: number, date: Date): Promise<Invoice | null> {
+  public async findByDate(
+    clientId: number,
+    date: Date
+  ): Promise<Invoice | null> {
     const invoice = await this.ormRepository.findOne({
       where: {
-        clientId,
+        client: {
+          id: clientId,
+        },
         relativeTo: date,
       },
     });
