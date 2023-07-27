@@ -47,7 +47,6 @@ export class InvoicesRepository implements IInvoicesRepository {
     return latestInvoices.map((invoice) => ({
       ...invoice,
       energySpent: invoice.energySpent,
-      price: invoice.price,
     }));
   }
 
@@ -67,7 +66,6 @@ export class InvoicesRepository implements IInvoicesRepository {
     return invoices.map((invoice) => ({
       ...invoice,
       energySpent: invoice.energySpent,
-      price: invoice.price,
     }));
   }
 

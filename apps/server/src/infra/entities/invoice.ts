@@ -30,9 +30,8 @@ export class InvoiceEntity implements Invoice {
   @JoinColumn({ referencedColumnName: "id", name: "address_id" })
   address: ClientAddressEntity;
 
-  get price() {
-    return Number(this.expenses.reduce((acc, current) => (acc += current.price), 0).toFixed(2));
-  }
+  @Column({ type: "double precision", precision: 10, scale: 2, default: 0 })
+  price: number;
 
   get energySpent() {
     return this.expenses

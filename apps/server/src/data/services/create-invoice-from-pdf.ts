@@ -60,6 +60,7 @@ export class CreateInvoiceFromPDFService {
     const createdInvoice = await this.createInvoiceService.execute({
       clientId: parsedInvoice.client.id,
       addressId: createdClientAddress.id,
+      price: parsedInvoice.price,
       expiresAt: parsedInvoice.expiresAt,
       relativeTo: parsedInvoice.relativeTo,
     });
