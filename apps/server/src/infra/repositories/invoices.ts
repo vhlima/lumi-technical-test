@@ -41,7 +41,7 @@ export class InvoicesRepository implements IInvoicesRepository {
       order: {
         relativeTo: "DESC",
       },
-      relations: ["expenses"],
+      relations: ["expenses", "address"],
       take: latest,
     });
     return latestInvoices.map((invoice) => ({
@@ -61,7 +61,7 @@ export class InvoicesRepository implements IInvoicesRepository {
       order: {
         relativeTo: "DESC",
       },
-      relations: ["expenses"],
+      relations: ["expenses", "address"],
     });
 
     return invoices.map((invoice) => ({
