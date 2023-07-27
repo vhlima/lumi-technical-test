@@ -1,9 +1,17 @@
-import { Dialog, DialogTitle, List } from "@mui/material";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  List,
+  Typography,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { Client } from "../../../../../../interfaces";
 import { useSession } from "../../../../../../hooks/useSession";
 import { ListClientsService } from "../../../../../../services";
 import ClientItem from "./components/ClientItem";
+import { Close } from "@mui/icons-material";
 
 interface Props {
   open: boolean;
@@ -27,20 +35,36 @@ const ClientSelectorDialog: React.FC<Props> = (props) => {
 
   return (
     <Dialog onClose={onClose} open={open}>
-      <DialogTitle>Switch accounts</DialogTitle>
-      <List sx={{ pt: 0 }}>
-        {clientList.map((client) => (
-          <ClientItem
-            key={`client-${client.id}`}
-            fullName={client.fullName}
-            active={session && session.id === client.id}
-            onClick={() => {
-              signIn(client);
-              onClose();
-            }}
-          />
-        ))}
-      </List>
+      <DialogTitle>
+        Switch accounts
+        <IconButton
+          size="large"
+          sx={{ marginLeft: "auto", color: "warning.main" }}
+          onClick={onClose}
+        >
+          <Close />
+        </IconButton>
+      </DialogTitle>
+
+      {clientList.length === 0 ? (
+        <DialogContent>
+          <Typography>No account was found.</Typography>
+        </DialogContent>
+      ) : (
+        <List sx={{ pt: 0 }}>
+          {clientList.map((client) => (
+            <ClientItem
+              key={`client-${client.id}`}
+              fullName={client.fullName}
+              active={session && session.id === client.id}
+              onClick={() => {
+                signIn(client);
+                onClose();
+              }}
+            />
+          ))}
+        </List>
+      )}
     </Dialog>
   );
 };
