@@ -13,7 +13,7 @@ export class CreateInvoices1690310475194 implements MigrationInterface {
             type: "int",
             isPrimary: true,
             isGenerated: true,
-            generationStrategy: 'increment',
+            generationStrategy: "increment",
           },
           {
             name: "client_id",
@@ -30,6 +30,16 @@ export class CreateInvoices1690310475194 implements MigrationInterface {
           {
             name: "expires_at",
             type: "timestamp",
+          },
+        ],
+        foreignKeys: [
+          {
+            name: "FKClient",
+            referencedTableName: "clients",
+            referencedColumnNames: ["id"],
+            columnNames: ["client_id"],
+            onUpdate: "CASCADE",
+            onDelete: "CASCADE",
           },
         ],
       })
