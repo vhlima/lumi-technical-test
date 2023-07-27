@@ -1,5 +1,6 @@
 import { Invoice } from "@/domain/entities";
 import {
+  CreateClient,
   CreateInvoice,
   CreateInvoiceExpense,
   InvoiceParsers,
@@ -10,8 +11,9 @@ export class CreateInvoiceFromPDFService {
   constructor(
     private readonly pdfLoader: LoadPDF,
     private readonly invoiceParserService: InvoiceParsers,
+    private readonly createClientService: CreateClient,
     private readonly createInvoiceService: CreateInvoice,
-    private readonly createInvoiceExpenseService: CreateInvoiceExpense
+    private readonly createInvoiceExpenseService: CreateInvoiceExpense,
   ) {}
 
   public async execute(pdfPath: string): Promise<Invoice | null> {
@@ -26,6 +28,13 @@ export class CreateInvoiceFromPDFService {
     if (!parsedInvoice) {
       return null;
     }
+
+    const createdClient = await this.createClientService.execute({
+      id: parsedInvoice.client.id,
+      fullName: parsedInvoice.client.fullName,
+    });
+
+    console.log(`parsed invoice? ${JSON.stringify(parsedInvoice)}`)
 
     const createdInvoice = await this.createInvoiceService.execute({
       clientId: parsedInvoice.client.id,
