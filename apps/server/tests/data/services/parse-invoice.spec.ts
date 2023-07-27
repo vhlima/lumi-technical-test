@@ -1,10 +1,13 @@
-import { ParseInvoiceService } from "@/data/services";
+import { LabelMapperService, ParseInvoiceService } from "@/data/services";
 import { mockInvoice, mockPdfTextContent } from "@/tests/domain/mocks";
 import { InvoiceValidator } from "@/validation/validators";
 import { faker } from "@faker-js/faker";
 
 const createSut = () => {
-  const sut = new ParseInvoiceService(new InvoiceValidator());
+  const sut = new ParseInvoiceService(
+    new InvoiceValidator(),
+    new LabelMapperService()
+  );
   return sut;
 };
 
@@ -18,7 +21,8 @@ describe("ParseInvoiceService", () => {
 
     const createdInvoice = sut.execute(pdfTextContent);
 
-    const { id, price, expenses, ...invoiceCompare } = mockedInvoice;
+    const { id, price, expenses, client, energySpent, ...invoiceCompare } =
+      mockedInvoice;
 
     expect(createdInvoice).toEqual(invoiceCompare);
   });

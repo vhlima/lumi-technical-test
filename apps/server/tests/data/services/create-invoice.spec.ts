@@ -8,28 +8,34 @@ const createSut = (invoices?: Invoice[]) => {
   return sut;
 };
 
-describe('CreateInvoiceService', () => {
-  test('Should throw error if Invoice date already exists', () => {
+describe("CreateInvoiceService", () => {
+  test("Should throw error if Invoice date already exists", () => {
     const invoice = mockInvoice();
 
     const sut = createSut([invoice]);
 
     const conflictingInvoice = mockInvoice();
-    conflictingInvoice.clientId = invoice.clientId;
+    conflictingInvoice.client = invoice.client;
     conflictingInvoice.relativeTo = invoice.relativeTo;
 
-    const response = sut.execute(conflictingInvoice);
-  
+    const response = sut.execute({
+      ...conflictingInvoice,
+      clientId: conflictingInvoice.client.id,
+    });
+
     expect(response).rejects.toThrow();
   });
-  test('Should create Invoice with correct params', async () => {
+  test("Should create Invoice with correct params", async () => {
     const sut = createSut();
 
     const invoice = mockInvoice();
 
-    const response = await sut.execute(invoice);
+    const response = await sut.execute({
+      ...invoice,
+      clientId: invoice.client.id,
+    });
 
-    expect(response.clientId).toEqual(invoice.clientId);
+    expect(response.client.id).toEqual(invoice.client.id);
     expect(response.installationNumber).toEqual(invoice.installationNumber);
     expect(response.relativeTo).toEqual(invoice.relativeTo);
     expect(response.expiresAt).toEqual(invoice.expiresAt);
