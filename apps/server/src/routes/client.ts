@@ -9,9 +9,9 @@ import { Joi, Segments, celebrate } from "celebrate";
 const clientsRouter = Router();
 
 clientsRouter.get(
-  "/",
+  "/:clientId",
   celebrate({
-    [Segments.BODY]: {
+    [Segments.PARAMS]: {
       clientId: Joi.number().required(),
     },
   }),
@@ -19,9 +19,11 @@ clientsRouter.get(
     try {
       const findClientService = getFindClientService();
 
-      const client = await findClientService.execute(req.body.clientId);
+      const client = await findClientService.execute(
+        parseInt(req.params.clientId, 10)
+      );
 
-      res.status(200).json({ client });
+      res.status(200).json(client);
     } catch (error) {
       const errorResponse = errorHandler.handle(error);
       res.status(errorResponse.code).json({ error: errorResponse.message });
@@ -30,16 +32,16 @@ clientsRouter.get(
 );
 
 clientsRouter.get(
-  "/profile",
+  "/:clientId/profile",
   celebrate({
-    [Segments.BODY]: {
+    [Segments.PARAMS]: {
       clientId: Joi.number().required(),
     },
   }),
   async (req, res) => {
     const findClientProfileService = getFindClientProfileService();
     const clientProfile = await findClientProfileService.execute(
-      req.body.clientId
+      parseInt(req.params.clientId, 10)
     );
     res.status(200).json(clientProfile);
   }
