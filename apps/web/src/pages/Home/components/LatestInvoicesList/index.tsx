@@ -20,7 +20,7 @@ const LatestInvoicesList: React.FC = () => {
 
   if (loading || invoices.length === 0) {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
         {loading && <CircularProgress />}
         {!loading && invoices.length === 0 && (
           <Typography>No invoice was found.</Typography>
