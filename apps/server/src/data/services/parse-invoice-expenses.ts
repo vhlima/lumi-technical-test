@@ -1,75 +1,84 @@
-import { ParseInvoiceExpenses } from "@/domain/usecases";
+import { LabelMapper, ParseInvoiceExpenses } from "@/domain/usecases";
 import { InvoiceExpense } from "@/domain/entities";
 import { ValidateInvoiceExpense } from "@/validation/contracts";
 import { ServerError } from "@/errors";
 
 export class ParseExpensesService implements ParseInvoiceExpenses {
-  private labelText = "Valores Faturados";
-
   constructor(
-    private readonly invoiceExpenseValidation: ValidateInvoiceExpense
+    private readonly invoiceExpenseValidation: ValidateInvoiceExpense,
+    private readonly labelMapper: LabelMapper
   ) {}
 
   public execute(contentRows: string[][]): InvoiceExpense[] {
     const expenses: InvoiceExpense[] = [];
 
-    let rowIndex = -1;
+    this.labelMapper.execute(contentRows, {
+      expenses: {
+        label: "Valores Faturados",
+        location: [3, 0],
+        parseValue: (
+          value: string,
+          index: number,
+          rowIndex: number,
+          rows: string[][]
+        ) => {
+          const startRowIndex = rowIndex;
 
-    for (let i = 0; i < contentRows.length; i++) {
-      for (let y = 0; y < contentRows[i].length; y++) {
-        if (contentRows[i][y] === this.labelText) {
-          rowIndex = i + 3;
-          break;
-        }
-      }
-    }
+          while (rowIndex < contentRows.length) {
+            const content = contentRows[rowIndex];
 
-    if (rowIndex === -1) {
-      throw new ServerError("ParseExpenseError", "Label text not found", 404);
-    }
+            if (rowIndex !== startRowIndex && !content[0].trim()) {
+              break;
+            }
 
-    const startRowIndex = rowIndex;
+            if (rowIndex === startRowIndex) {
+              content.splice(0, 1);
+            }
 
-    while (rowIndex < contentRows.length) {
-      const content = contentRows[rowIndex];
+            if (content.length === 3) {
+              const invoiceData = {
+                name: content[0],
+                price: parseFloat(content[2].replace(",", ".")),
+              };
 
-      if (rowIndex !== startRowIndex && !content[0].trim()) {
-        break;
-      }
+              const invoice =
+                this.invoiceExpenseValidation.execute(invoiceData);
 
-      if (rowIndex === startRowIndex) {
-        content.splice(0, 1);
-      }
+              if (invoice) {
+                expenses.push(invoice);
+              }
+            } else if (content.length === 11) {
+              const invoiceData = {
+                name: content[0],
+                measurementUnit: content[2],
+                quantity: parseInt(content[4].replace(".", ""), 10),
+                unitaryPrice: parseFloat(content[6].replace(",", ".")),
+                price: parseFloat(content[8].replace(",", ".")),
+                unitaryTaxPrice: parseFloat(content[10].replace(",", ".")),
+              };
 
-      if (content.length === 3) {
-        const invoiceData = {
-          name: content[0],
-          price: parseFloat(content[2].replace(",", ".")),
-        };
+              const invoice =
+                this.invoiceExpenseValidation.execute(invoiceData);
 
-        const invoice = this.invoiceExpenseValidation.execute(invoiceData);
+              if (invoice) {
+                expenses.push(invoice);
+              }
+            }
 
-        if (invoice) {
-          expenses.push(invoice);
-        }
-      } else if (content.length === 11) {
-        const invoiceData = {
-          name: content[0],
-          measurementUnit: content[2],
-          quantity: parseInt(content[4].replace(".", ""), 10),
-          unitaryPrice: parseFloat(content[6].replace(",", ".")),
-          price: parseFloat(content[8].replace(",", ".")),
-          unitaryTaxPrice: parseFloat(content[10].replace(",", ".")),
-        };
+            rowIndex++;
+          }
 
-        const invoice = this.invoiceExpenseValidation.execute(invoiceData);
+          return expenses;
+        },
+      },
+    });
 
-        if (invoice) {
-          expenses.push(invoice);
-        }
-      }
-
-      rowIndex++;
+    if (expenses.length === 0) {
+      throw new ServerError(
+        "InvoiceExpensesNotFound",
+        "No expense for this Invoice was found",
+        404
+      );
     }
 
     return expenses;

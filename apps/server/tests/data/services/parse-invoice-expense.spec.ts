@@ -1,4 +1,4 @@
-import { ParseExpensesService } from "@/data/services";
+import { LabelMapperService, ParseExpensesService } from "@/data/services";
 import {
   mockInvoice,
   mockInvoiceExpense,
@@ -8,7 +8,10 @@ import { InvoiceExpenseValidator } from "@/validation/validators";
 import { faker } from "@faker-js/faker";
 
 const createSut = () => {
-  const sut = new ParseExpensesService(new InvoiceExpenseValidator());
+  const sut = new ParseExpensesService(
+    new InvoiceExpenseValidator(),
+    new LabelMapperService()
+  );
   return sut;
 };
 

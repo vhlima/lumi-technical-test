@@ -1,40 +1,56 @@
 import { Box, Button, Divider, Typography } from "@mui/material";
 import Layout from "../../layout";
 
-import InfoCardList from "./components/InfoCardList";
 import LatestInvoicesList from "./components/LatestInvoicesList";
 import UploadInvoice from "./components/UploadInvoice";
 import ConsumptionChart from "./components/ConsumptionChart";
+import ClientSection from "./components/ClientSection";
+import { useSession } from "../../hooks/useSession";
+import UnauthSection from "./components/UnauthSection";
 
 const HomePage: React.FC = () => {
+  const { client: session } = useSession();
+
   return (
     <Layout>
-      <InfoCardList />
+      {session ? <ClientSection /> : <UnauthSection />}
 
       <Box sx={{ marginTop: 4 }}>
-        <Typography variant="h5" gutterBottom>Upload Invoice</Typography>
+        <Typography variant="h5" gutterBottom>
+          Upload Invoice
+        </Typography>
         <Divider />
 
         <UploadInvoice />
       </Box>
 
-      <Box sx={{ marginTop: 4 }}>
-        <Typography variant="h5" gutterBottom>Consumption Chart (kWH)</Typography>
-        <Divider />
+      {session && (
+        <>
+          <Box sx={{ marginTop: 4 }}>
+            <Typography variant="h5" gutterBottom>
+              Consumption Chart (kWH)
+            </Typography>
+            <Divider />
 
-        <ConsumptionChart />
-      </Box>
+            <ConsumptionChart />
+          </Box>
 
-      <Box sx={{ marginTop: 4 }}>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Typography variant="h5" gutterBottom>Latest Invoices</Typography>
-          <Button sx={{ marginLeft: "auto" }} href="/invoices">View all</Button>
-        </Box>
+          <Box sx={{ marginTop: 4 }}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Typography variant="h5" gutterBottom>
+                Latest Invoices
+              </Typography>
+              <Button sx={{ marginLeft: "auto" }} href="/invoices">
+                View all
+              </Button>
+            </Box>
 
-        <Divider />
+            <Divider />
 
-        <LatestInvoicesList />
-      </Box>
+            <LatestInvoicesList />
+          </Box>
+        </>
+      )}
     </Layout>
   );
 };

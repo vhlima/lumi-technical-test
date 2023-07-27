@@ -35,7 +35,7 @@ export const mockPdfTextContent = (invoice: Partial<Invoice>): string[][] => {
     return expenseItem;
   });
 
-  const clientId = invoice.clientId ? String(invoice.clientId) : "";
+  const clientId = invoice.client ? String(invoice.client.id) : "";
 
   const installationNumber = invoice.installationNumber
     ? String(invoice.installationNumber)

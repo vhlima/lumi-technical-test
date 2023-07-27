@@ -2,8 +2,11 @@ import { ChangeEvent, useState } from "react";
 import UploadInvoiceButton from "./components/UploadInvoiceButton";
 import { CreateInvoiceService } from "../../../../services";
 import { Typography } from "@mui/material";
+import { useSession } from "../../../../hooks/useSession";
 
 const UploadInvoice: React.FC = (props) => {
+  const { client: session, signIn } = useSession();
+
   const [uploadMessage, setUploadMessage] = useState<string>();
 
   const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -17,6 +20,10 @@ const UploadInvoice: React.FC = (props) => {
       const invoice = await createInvoiceService.execute(file);
 
       if (invoice) {
+        if (!session) {
+          signIn(invoice.client);
+        }
+
         setUploadMessage(`Invoice #${invoice.id} loaded with success.`);
       }
     } catch (err) {

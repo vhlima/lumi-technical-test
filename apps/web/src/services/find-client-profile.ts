@@ -4,7 +4,7 @@ import { ClientProfile } from "../interfaces";
 export class FindClientProfileService {
   public async execute(): Promise<ClientProfile> {
     try {
-      const req = await http.get("/client/profile", {
+      const req = await http.get(`/clients/${7202788969}/profile`, {
         data: {
           clientId: 7202788969,
         },

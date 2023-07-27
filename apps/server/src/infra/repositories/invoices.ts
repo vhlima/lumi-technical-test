@@ -13,7 +13,17 @@ export class InvoicesRepository implements IInvoicesRepository {
   }
 
   public async create(data: CreateInvoiceData): Promise<Invoice> {
-    const invoice = this.ormRepository.create(data);
+    const { clientId, addressId, ...invoiceData } = data;
+
+    const invoice = this.ormRepository.create({
+      client: {
+        id: clientId,
+      },
+      address: {
+        id: addressId,
+      },
+      ...invoiceData,
+    });
     await this.ormRepository.save(invoice);
     return invoice;
   }
@@ -24,12 +34,14 @@ export class InvoicesRepository implements IInvoicesRepository {
   ): Promise<Invoice[]> {
     const latestInvoices = await this.ormRepository.find({
       where: {
-        clientId,
+        client: {
+          id: clientId,
+        },
       },
       order: {
         relativeTo: "DESC",
       },
-      relations: ["expenses"],
+      relations: ["expenses", "address"],
       take: latest,
     });
     return latestInvoices.map((invoice) => ({
@@ -42,12 +54,14 @@ export class InvoicesRepository implements IInvoicesRepository {
   public async list(clientId: number): Promise<Invoice[]> {
     const invoices = await this.ormRepository.find({
       where: {
-        clientId,
+        client: {
+          id: clientId,
+        },
       },
       order: {
         relativeTo: "DESC",
       },
-      relations: ["expenses"],
+      relations: ["expenses", "address"],
     });
 
     return invoices.map((invoice) => ({
@@ -57,10 +71,19 @@ export class InvoicesRepository implements IInvoicesRepository {
     }));
   }
 
-  public async findByDate(clientId: number, date: Date): Promise<Invoice | null> {
+  public async findByDate(
+    clientId: number,
+    addressId: number,
+    date: Date
+  ): Promise<Invoice | null> {
     const invoice = await this.ormRepository.findOne({
       where: {
-        clientId,
+        client: {
+          id: clientId,
+        },
+        address: {
+          id: addressId,
+        },
         relativeTo: date,
       },
     });

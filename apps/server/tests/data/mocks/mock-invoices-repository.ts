@@ -11,11 +11,17 @@ export class MockInvoicesRepository implements IInvoicesRepository {
   }
 
   public async create(data: CreateInvoiceData): Promise<Invoice> {
+    const { clientId, ...invoiceData } = data;
     const invoice: Invoice = {
       id: faker.number.int(),
       expenses: [],
       price: 0,
-      ...data,
+      energySpent: 0,
+      client: {
+        id: clientId,
+        fullName: "",
+      },
+      ...invoiceData,
     };
 
     this.invoices.push(invoice);
@@ -28,7 +34,7 @@ export class MockInvoicesRepository implements IInvoicesRepository {
   ): Promise<Invoice | null> {
     const invoice = this.invoices.find(
       (invoice) =>
-        invoice.clientId === clientId &&
+        invoice.client?.id === clientId &&
         invoice.relativeTo.getTime() === date.getTime()
     );
 
@@ -40,13 +46,13 @@ export class MockInvoicesRepository implements IInvoicesRepository {
     latest: number
   ): Promise<Invoice[]> {
     const sorted = [...this.invoices]
-      .filter((invoice) => invoice.clientId === clientId)
+      .filter((invoice) => invoice.client?.id === clientId)
       .sort((i1, i2) => i1.relativeTo.getTime() - i2.relativeTo.getTime());
 
     return sorted.slice(0, latest);
   }
 
   public async list(clientId: number): Promise<Invoice[]> {
-    return this.invoices.filter(invoice => invoice.clientId === clientId);
+    return this.invoices.filter((invoice) => invoice.client?.id === clientId);
   }
 }

@@ -1,3 +1,5 @@
+import { Client, ClientAddress } from "./client";
+
 export interface InvoiceExpense {
   id: number;
   name: string;
@@ -12,9 +14,9 @@ export interface InvoiceExpense {
 export interface Invoice {
   id: number;
 
-  clientId: string;
+  client: Client;
 
-  installationNumber: number;
+  address: ClientAddress;
 
   price: number;
 

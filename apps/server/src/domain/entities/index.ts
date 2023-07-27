@@ -3,3 +3,5 @@ export * from './pdf-page';
 export * from './invoice';
 export * from './invoice-expense';
 export * from './client-profile';
+export * from './client';
+export * from './client-address';

@@ -21,7 +21,7 @@ const InfoCardList: React.FC = () => {
 
   return (
     <Stack
-      sx={{ marginBottom: 4 }}
+      sx={{ marginBottom: 4, marginTop: 2 }}
       direction={{ xs: "column", md: "row" }}
       spacing={1}
     >
