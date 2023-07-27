@@ -3,7 +3,7 @@ import Layout from "../../layout";
 
 import LatestInvoicesList from "./components/LatestInvoicesList";
 import UploadInvoiceSection from "./components/UploadInvoiceSection";
-import ConsumptionChart from "./components/ConsumptionChart";
+import ConsumptionSection from "./components/ConsumptionSection";
 import ClientSection from "./components/ClientSection";
 import { useSession } from "../../hooks/useSession";
 import UnauthSection from "./components/UnauthSection";
@@ -20,13 +20,7 @@ const HomePage: React.FC = () => {
 
       {session && (
         <>
-          <Section.Root>
-            <Section.Title title="Consumption Chart (kWH)" />
-
-            <Section.Content>
-              <ConsumptionChart />
-            </Section.Content>
-          </Section.Root>
+          <ConsumptionSection />
 
           <Section.Root>
             <Section.Title

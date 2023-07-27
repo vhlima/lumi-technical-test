@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Invoice } from "../../../../interfaces";
-import { ListInvoicesService } from "../../../../services";
+import { Invoice } from "../../../../../../interfaces";
+import { ListInvoicesService } from "../../../../../../services";
 import { Bar } from "react-chartjs-2";
 
 import {
