@@ -17,7 +17,11 @@ export const mockInvoice = (expenses?: InvoiceExpense[]): Invoice => {
   relativeTo.setMilliseconds(0);
 
   const invoice: Invoice = {
-    clientId: faker.number.int(),
+    client: {
+      id: faker.number.int(),
+      fullName: faker.person.fullName(),
+    },
+    energySpent: 0,
     expenses: [],
     price: 0,
     expiresAt,
