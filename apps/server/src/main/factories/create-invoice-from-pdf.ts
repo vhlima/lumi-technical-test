@@ -1,5 +1,6 @@
 import { LoadPDFAdapter } from "@/adapters";
 import {
+  CreateClientAddressService,
   CreateClientService,
   CreateInvoiceExpenseService,
   CreateInvoiceFromPDFService,
@@ -12,6 +13,7 @@ import {
   ParseInvoiceService,
 } from "@/data/services";
 import {
+  ClientsAddressesRepository,
   ClientsRepository,
   InvoicesExpensesRepository,
   InvoicesRepository,
@@ -36,7 +38,8 @@ export function getCreateInvoiceFromPDFService(): CreateInvoiceFromPDFService {
     ),
     new CreateClientService(new ClientsRepository()),
     new CreateInvoiceService(new InvoicesRepository()),
-    new CreateInvoiceExpenseService(new InvoicesExpensesRepository())
+    new CreateInvoiceExpenseService(new InvoicesExpensesRepository()),
+    new CreateClientAddressService(new ClientsAddressesRepository())
   );
   return service;
 }

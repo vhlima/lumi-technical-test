@@ -1,6 +1,7 @@
 import { Invoice } from "@/domain/entities";
 import {
   CreateClient,
+  CreateClientAddress,
   CreateInvoice,
   CreateInvoiceExpense,
   InvoiceParsers,
@@ -14,6 +15,7 @@ export class CreateInvoiceFromPDFService {
     private readonly createClientService: CreateClient,
     private readonly createInvoiceService: CreateInvoice,
     private readonly createInvoiceExpenseService: CreateInvoiceExpense,
+    private readonly createClientAddressService: CreateClientAddress
   ) {}
 
   public async execute(pdfPath: string): Promise<Invoice | null> {
@@ -23,7 +25,7 @@ export class CreateInvoiceFromPDFService {
 
     const textContent = await page.getTextContent();
 
-    const parsedInvoice = await this.invoiceParserService.execute(textContent);
+    const parsedInvoice = this.invoiceParserService.execute(textContent);
 
     if (!parsedInvoice) {
       return null;
@@ -34,14 +36,24 @@ export class CreateInvoiceFromPDFService {
       fullName: parsedInvoice.client.fullName,
     });
 
-    console.log(`parsed invoice? ${JSON.stringify(parsedInvoice)}`)
+    const createdClientAddress = await this.createClientAddressService.execute({
+      clientId: parsedInvoice.client.id,
+      city: parsedInvoice.address.city,
+      district: parsedInvoice.address.district,
+      state: parsedInvoice.address.state,
+      streetAddress: parsedInvoice.address.streetAddress,
+      zipCode: parsedInvoice.address.zipCode,
+    });
 
     const createdInvoice = await this.createInvoiceService.execute({
       clientId: parsedInvoice.client.id,
+      addressId: createdClientAddress.id,
       expiresAt: parsedInvoice.expiresAt,
-      installationNumber: parsedInvoice.installationNumber,
       relativeTo: parsedInvoice.relativeTo,
     });
+
+    createdInvoice.client = createdClient;
+    createdInvoice.address = createdClientAddress;
 
     const promises = parsedInvoice.expenses.map(async (expenseData) => {
       const expense = await this.createInvoiceExpenseService.execute({
