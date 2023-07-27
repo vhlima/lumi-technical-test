@@ -1,12 +1,11 @@
-import { Box, Button, Divider, Typography } from "@mui/material";
 import Layout from "../../layout";
 
-import LatestInvoicesList from "./components/LatestInvoicesList";
-import UploadInvoice from "./components/UploadInvoice";
-import ConsumptionChart from "./components/ConsumptionChart";
+import UploadInvoiceSection from "./components/UploadInvoiceSection";
+import ConsumptionSection from "./components/ConsumptionSection";
 import ClientSection from "./components/ClientSection";
 import { useSession } from "../../hooks/useSession";
 import UnauthSection from "./components/UnauthSection";
+import LatestInvoicesSection from "./components/LatestInvoicesSection";
 
 const HomePage: React.FC = () => {
   const { client: session } = useSession();
@@ -15,40 +14,13 @@ const HomePage: React.FC = () => {
     <Layout>
       {session ? <ClientSection /> : <UnauthSection />}
 
-      <Box sx={{ marginTop: 4 }}>
-        <Typography variant="h5" gutterBottom>
-          Upload Invoice
-        </Typography>
-        <Divider />
-
-        <UploadInvoice />
-      </Box>
+      <UploadInvoiceSection />
 
       {session && (
         <>
-          <Box sx={{ marginTop: 4 }}>
-            <Typography variant="h5" gutterBottom>
-              Consumption Chart (kWH)
-            </Typography>
-            <Divider />
+          <ConsumptionSection />
 
-            <ConsumptionChart />
-          </Box>
-
-          <Box sx={{ marginTop: 4 }}>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Typography variant="h5" gutterBottom>
-                Latest Invoices
-              </Typography>
-              <Button sx={{ marginLeft: "auto" }} href="/invoices">
-                View all
-              </Button>
-            </Box>
-
-            <Divider />
-
-            <LatestInvoicesList />
-          </Box>
+          <LatestInvoicesSection />
         </>
       )}
     </Layout>

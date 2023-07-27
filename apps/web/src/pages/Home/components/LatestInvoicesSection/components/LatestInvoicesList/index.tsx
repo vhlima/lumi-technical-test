@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Invoice } from "../../../../interfaces";
-import { ListLatestInvoicesService } from "../../../../services";
+import { Invoice } from "../../../../../../interfaces";
+import { ListLatestInvoicesService } from "../../../../../../services";
 import { Box, CircularProgress, List, Typography } from "@mui/material";
-import InvoiceItem from "../../../../components/InvoiceItem";
+import InvoiceItem from "../../../../../../components/InvoiceItem";
 
 const LatestInvoicesList: React.FC = () => {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
@@ -20,7 +20,7 @@ const LatestInvoicesList: React.FC = () => {
 
   if (loading || invoices.length === 0) {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
         {loading && <CircularProgress />}
         {!loading && invoices.length === 0 && (
           <Typography>No invoice was found.</Typography>

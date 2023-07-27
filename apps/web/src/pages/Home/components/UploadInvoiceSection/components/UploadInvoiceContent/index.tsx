@@ -1,10 +1,10 @@
 import { ChangeEvent, useState } from "react";
-import UploadInvoiceButton from "./components/UploadInvoiceButton";
-import { CreateInvoiceService } from "../../../../services";
+import UploadInvoiceButton from "../UploadInvoiceButton";
+import { CreateInvoiceService } from "../../../../../../services";
 import { Typography } from "@mui/material";
-import { useSession } from "../../../../hooks/useSession";
+import { useSession } from "../../../../../../hooks/useSession";
 
-const UploadInvoice: React.FC = (props) => {
+const UploadInvoiceContent: React.FC = (props) => {
   const { client: session, signIn } = useSession();
 
   const [uploadMessage, setUploadMessage] = useState<string>();
@@ -41,4 +41,4 @@ const UploadInvoice: React.FC = (props) => {
   );
 };
 
-export default UploadInvoice;
+export default UploadInvoiceContent;

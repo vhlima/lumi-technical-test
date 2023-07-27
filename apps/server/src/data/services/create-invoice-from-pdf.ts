@@ -7,6 +7,7 @@ import {
   InvoiceParsers,
   LoadPDF,
 } from "@/domain/usecases";
+import { ServerError } from "@/errors";
 
 export class CreateInvoiceFromPDFService {
   constructor(
@@ -18,7 +19,10 @@ export class CreateInvoiceFromPDFService {
     private readonly createClientAddressService: CreateClientAddress
   ) {}
 
-  public async execute(pdfPath: string): Promise<Invoice | null> {
+  public async execute(
+    clientId: number,
+    pdfPath: string
+  ): Promise<Invoice | null> {
     const pdfDoc = await this.pdfLoader.execute(pdfPath);
 
     const page = await pdfDoc.getPage(1);
@@ -29,6 +33,14 @@ export class CreateInvoiceFromPDFService {
 
     if (!parsedInvoice) {
       return null;
+    }
+
+    if (parsedInvoice.client.id !== clientId) {
+      throw new ServerError(
+        "InvoiceNotFromClient",
+        "This Invoice is not from the current client you are trying to upload",
+        400
+      );
     }
 
     const createdClient = await this.createClientService.execute({

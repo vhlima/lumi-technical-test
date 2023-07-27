@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Invoice } from "../../../../interfaces";
-import { ListInvoicesService } from "../../../../services";
+import { Invoice } from "../../../../../../interfaces";
+import { ListInvoicesService } from "../../../../../../services";
 import { Bar } from "react-chartjs-2";
 
 import {
@@ -66,7 +66,7 @@ const ConsumptionChart: React.FC = () => {
   };
 
   return (
-    <Box sx={{ mt: 2 }}>
+    <Box>
       <Bar
         options={{
           responsive: true,
