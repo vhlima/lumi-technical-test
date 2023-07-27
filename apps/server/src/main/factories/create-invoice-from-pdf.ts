@@ -17,7 +17,7 @@ export function getCreateInvoiceFromPDFService(): CreateInvoiceFromPDFService {
   const service = new CreateInvoiceFromPDFService(
     new LoadPDFAdapter(),
     new ParseInvoiceService(new InvoiceValidator(), new LabelMapperService()),
-    new ParseExpensesService(new InvoiceExpenseValidator()),
+    new ParseExpensesService(new InvoiceExpenseValidator(), new LabelMapperService()),
     new CreateInvoiceService(new InvoicesRepository()),
     new CreateInvoiceExpenseService(new InvoicesExpensesRepository())
   );
