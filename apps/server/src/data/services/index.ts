@@ -7,3 +7,4 @@ export * from './list-latest-invoices';
 export * from './list-invoices';
 export * from './find-client-profile';
 export * from './label-mapper';
+export * from './parse-client';
