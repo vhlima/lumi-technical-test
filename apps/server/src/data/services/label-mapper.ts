@@ -11,33 +11,35 @@ export class LabelMapperService implements LabelMapper {
 
     for (let i = 0; i < contentRows.length; i++) {
       for (let y = 0; y < contentRows[i].length; y++) {
-        const rowFound = mappingEntries.find(
+        const rowFound = mappingEntries.filter(
           ([, mapping]) => contentRows[i][y] === mapping.label
         );
 
         /* Search through every row element to try to find our label row */
         if (rowFound) {
-          const [key, mapping] = rowFound;
+          /* We can have multiple mappers with the same label */
+          for (let z = 0; z < rowFound.length; z++) {
+            const [key, mapping] = rowFound[z];
+            /* Value row index would be currentRowIndex + mappingIndexCount */
+            const possibleValueRowIndex = i + mapping.location[0];
 
-          /* Value row index would be currentRowIndex + mappingIndexCount */
-          const possibleValueRowIndex = i + mapping.location[0];
+            if (possibleValueRowIndex < contentRows.length) {
+              const row = contentRows[possibleValueRowIndex];
+              const possibleValueIndex = mapping.location[1];
 
-          if (possibleValueRowIndex < contentRows.length) {
-            const row = contentRows[possibleValueRowIndex];
-            const possibleValueIndex = mapping.location[1];
+              if (possibleValueIndex < row.length) {
+                const value = row[possibleValueIndex];
 
-            if (possibleValueIndex < row.length) {
-              const value = row[possibleValueIndex];
-
-              /* After the value is found, add to the invoice object */
-              invoiceData[key] = mapping.parseValue
-                ? mapping.parseValue(
-                    value,
-                    possibleValueIndex,
-                    possibleValueRowIndex,
-                    contentRows
-                  )
-                : value;
+                /* After the value is found, add to the invoice object */
+                invoiceData[key] = mapping.parseValue
+                  ? mapping.parseValue(
+                      value,
+                      possibleValueIndex,
+                      possibleValueRowIndex,
+                      contentRows
+                    )
+                  : value;
+              }
             }
           }
         }
