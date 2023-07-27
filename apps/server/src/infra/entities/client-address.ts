@@ -19,9 +19,6 @@ export class ClientAddressEntity implements ClientAddress {
   @Column()
   state: string;
 
-  @Column({ name: 'federal_unit' })
-  federalUnit: string;
-
   @Column()
   city: string;
 

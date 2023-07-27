@@ -4,6 +4,5 @@ export class ClientAddress {
   district: string;
   zipCode: string;
   state: string;
-  federalUnit: string;
   city: string;
 }

@@ -9,7 +9,6 @@ export class ClientAddressValidator implements ValidateClientAddress {
     district: Joi.string().required(),
     zipCode: Joi.string().required(),
     state: Joi.string().required(),
-    federalUnit: Joi.string().required(),
     city: Joi.string().required(),
   });
 
