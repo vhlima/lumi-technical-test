@@ -1,6 +1,7 @@
 import { LabelMapper, ParseInvoiceExpenses } from "@/domain/usecases";
 import { InvoiceExpense } from "@/domain/entities";
 import { ValidateInvoiceExpense } from "@/validation/contracts";
+import { ServerError } from "@/errors";
 
 export class ParseExpensesService implements ParseInvoiceExpenses {
   constructor(
@@ -71,6 +72,14 @@ export class ParseExpensesService implements ParseInvoiceExpenses {
         },
       },
     });
+
+    if (expenses.length === 0) {
+      throw new ServerError(
+        "InvoiceExpensesNotFound",
+        "No expense for this Invoice was found",
+        404
+      );
+    }
 
     return expenses;
   }
