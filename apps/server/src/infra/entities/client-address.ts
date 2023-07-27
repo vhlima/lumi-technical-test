@@ -1,10 +1,16 @@
 import { ClientAddress, Client } from "@/domain/entities";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { ClientEntity } from "@/infra/entities";
 
 @Entity("clients_addresses")
 export class ClientAddressEntity implements ClientAddress {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column({ name: "street_address" })
