@@ -10,3 +10,4 @@ export * from './label-mapper';
 export * from './parse-client';
 export * from './invoice-parsers';
 export * from './create-client';
+export * from './parse-client-address';
