@@ -13,6 +13,7 @@ export class FindClientProfileService {
       return req.data;
     } catch (err) {
       return {
+        energySpent: 0,
         averageMonthlyPrice: 0,
         invoiceCount: 0,
         invoicesTotalPrice: 0,

@@ -10,32 +10,41 @@ import { format } from "date-fns";
 import { Invoice } from "../../interfaces";
 import { useState } from "react";
 import InvoiceExpensesList from "./components/InvoiceExpensesList";
+import { parseToBRL } from "../../utils/currency-parser";
 
-type Props = Invoice;
+type Props = Invoice & {
+  hideInstallationNumber?: boolean;
+};
 
 const InvoiceItem: React.FC<Props> = (props) => {
-  const { installationNumber, price, expiresAt, relativeTo, expenses } = props;
+  const {
+    installationNumber,
+    price,
+    expiresAt,
+    relativeTo,
+    expenses,
+    hideInstallationNumber,
+  } = props;
 
   const [open, setOpen] = useState<boolean>(false);
 
   return (
     <>
       <ListItemButton divider onClick={() => setOpen((prev) => !prev)}>
-        <ListItemIcon>
+        <ListItemIcon sx={{ color: 'grey.600'}}>
           <Receipt fontSize="large" />
         </ListItemIcon>
         <ListItemText
-          primary={`${format(
-            new Date(relativeTo),
-            "MMMM/yyyy"
-          )} (${installationNumber})`}
+          primary={`${format(new Date(relativeTo), "MMMM/yyyy")} ${
+            !hideInstallationNumber ? `(${installationNumber})` : ""
+          }`}
           secondary={
             <>
               <Typography
                 sx={{ display: "block" }}
                 component="span"
                 variant="body2"
-              >{`Price: R$ ${price}`}</Typography>
+              >{`Price: ${parseToBRL(price)}`}</Typography>
               <Typography
                 sx={{ display: "block" }}
                 component="span"

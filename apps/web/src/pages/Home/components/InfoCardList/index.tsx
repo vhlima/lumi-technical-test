@@ -1,16 +1,12 @@
 import { Stack } from "@mui/material";
 
-import {
-  SupervisorAccount,
-  Receipt,
-  AttachMoney,
-  MonetizationOn,
-} from "@mui/icons-material";
+import { Receipt, AttachMoney, MonetizationOn, Power } from "@mui/icons-material";
 
 import InfoCard from "../InfoCard";
 import { useEffect, useState } from "react";
 import { ClientProfile } from "../../../../interfaces";
 import { FindClientProfileService } from "../../../../services";
+import { parseToBRL } from "../../../../utils/currency-parser";
 
 const InfoCardList: React.FC = () => {
   const [clientProfile, setClientProfile] = useState<ClientProfile>();
@@ -30,22 +26,27 @@ const InfoCardList: React.FC = () => {
       spacing={1}
     >
       <InfoCard
+        title="Energy Spent"
+        description="Amount of energy spent from all invoices"
+        value={`${clientProfile?.energySpent || 0} kWh`}
+        icon={Power}
+      />
+      <InfoCard
         title="Invoices"
         description="Total amount of invoices registered"
         value={String(clientProfile?.invoiceCount || 0)}
         icon={Receipt}
       />
       <InfoCard
-        title="Total Price"
-        description="Total price of invoices registered"
-        value={`R$ ${clientProfile?.invoicesTotalPrice?.toFixed(2) || 0}`}
+        title="Total Cost"
+        description="Total cost of invoices registered"
+        value={parseToBRL(clientProfile?.invoicesTotalPrice || 0)}
         icon={AttachMoney}
       />
-
       <InfoCard
-        title="Average monthly price"
+        title="Average Cost"
         description="Average monthly price for invoices"
-        value={`R$ ${clientProfile?.averageMonthlyPrice?.toFixed(2) || 0}`}
+        value={parseToBRL(clientProfile?.averageMonthlyPrice || 0)}
         icon={MonetizationOn}
       />
     </Stack>

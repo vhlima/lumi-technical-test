@@ -13,10 +13,13 @@ export class FindClientProfileService implements FindClientProfile {
       0
     );
 
-    const averageMonthlyPrice = invoicesTotalPrice / invoices.length;
+    const energySpent = invoices.reduce((acc, invoice) => {
+      return (acc += invoice.energySpent);
+    }, 0);
 
     return {
-      averageMonthlyPrice,
+      energySpent,
+      averageMonthlyPrice: invoicesTotalPrice / invoices.length,
       invoiceCount: invoices.length,
       invoicesTotalPrice,
     };
