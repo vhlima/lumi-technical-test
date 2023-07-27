@@ -66,7 +66,7 @@ const ConsumptionChart: React.FC = () => {
   };
 
   return (
-    <Box sx={{ height: "20rem", mt: 2 }}>
+    <Box sx={{ mt: 2 }}>
       <Bar
         options={{
           responsive: true,
