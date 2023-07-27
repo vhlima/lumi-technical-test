@@ -18,6 +18,8 @@ export interface Invoice {
 
   price: number;
 
+  energySpent: number;
+
   expenses: InvoiceExpense[];
 
   relativeTo: string;
