@@ -31,7 +31,7 @@ export class InvoiceEntity implements Invoice {
   address: ClientAddressEntity;
 
   get price() {
-    return this.expenses.reduce((acc, current) => (acc += current.price), 0);
+    return Number(this.expenses.reduce((acc, current) => (acc += current.price), 0).toFixed(2));
   }
 
   get energySpent() {
