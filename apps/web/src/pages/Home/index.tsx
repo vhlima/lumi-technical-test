@@ -6,13 +6,14 @@ import UploadInvoice from "./components/UploadInvoice";
 import ConsumptionChart from "./components/ConsumptionChart";
 import ClientSection from "./components/ClientSection";
 import { useSession } from "../../hooks/useSession";
+import UnauthSection from "./components/UnauthSection";
 
 const HomePage: React.FC = () => {
   const { client: session } = useSession();
 
   return (
     <Layout>
-      <ClientSection />
+      {session ? <ClientSection /> : <UnauthSection />}
 
       <Box sx={{ marginTop: 4 }}>
         <Typography variant="h5" gutterBottom>
