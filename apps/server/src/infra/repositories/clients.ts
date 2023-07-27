@@ -26,4 +26,10 @@ export class ClientsRepository implements IClientsRepository {
       relations: ["addresses"],
     });
   }
+
+  public async list(): Promise<Client[]> {
+    return this.ormRepository.find({
+      relations: ["addresses"],
+    });
+  }
 }

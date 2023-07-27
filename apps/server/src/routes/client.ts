@@ -2,11 +2,25 @@ import { Router } from "express";
 import {
   getFindClientProfileService,
   getFindClientService,
+  getListClientsService,
 } from "@/main/factories";
 import { errorHandler } from "@/adapters";
 import { Joi, Segments, celebrate } from "celebrate";
 
 const clientsRouter = Router();
+
+clientsRouter.get("/", async (req, res) => {
+  try {
+    const listClientsService = getListClientsService();
+
+    const clients = await listClientsService.execute();
+
+    res.status(200).json(clients);
+  } catch (error) {
+    const errorResponse = errorHandler.handle(error);
+    res.status(errorResponse.code).json({ error: errorResponse.message });
+  }
+});
 
 clientsRouter.get(
   "/:clientId",

@@ -13,3 +13,4 @@ export * from './create-client';
 export * from './parse-client-address';
 export * from './create-client-address';
 export * from './find-client';
+export * from './list-clients';
