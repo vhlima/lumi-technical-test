@@ -6,6 +6,7 @@ import {
   CreateInvoiceService,
   InvoiceParsersService,
   LabelMapperService,
+  ParseClientAddressService,
   ParseClientService,
   ParseExpensesService,
   ParseInvoiceService,
@@ -16,6 +17,7 @@ import {
   InvoicesRepository,
 } from "@/infra/repositories";
 import {
+  ClientAddressValidator,
   ClientValidator,
   InvoiceExpenseValidator,
   InvoiceValidator,
@@ -29,7 +31,8 @@ export function getCreateInvoiceFromPDFService(): CreateInvoiceFromPDFService {
     new InvoiceParsersService(
       new ParseClientService(new ClientValidator(), labelMapper),
       new ParseInvoiceService(new InvoiceValidator(), labelMapper),
-      new ParseExpensesService(new InvoiceExpenseValidator(), labelMapper)
+      new ParseExpensesService(new InvoiceExpenseValidator(), labelMapper),
+      new ParseClientAddressService(new ClientAddressValidator(), labelMapper)
     ),
     new CreateClientService(new ClientsRepository()),
     new CreateInvoiceService(new InvoicesRepository()),
