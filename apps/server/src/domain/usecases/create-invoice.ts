@@ -2,7 +2,7 @@ import { Invoice } from "@/domain/entities";
 
 export interface CreateInvoiceData {
   clientId: number;
-  installationNumber: number;
+  addressId: number;
   relativeTo: Date;
   expiresAt: Date;
 }
