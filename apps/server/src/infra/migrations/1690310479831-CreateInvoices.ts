@@ -24,6 +24,10 @@ export class CreateInvoices1690310475397 implements MigrationInterface {
             type: "int",
           },
           {
+            name: "price",
+            type: "double precision",
+          },
+          {
             name: "relative_to",
             type: "timestamp",
           },

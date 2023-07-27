@@ -8,6 +8,13 @@ import { parseBrazilianDate, parseMonthByName } from "@/utils/date-utils";
 import { InvoiceValidator } from "@/validation/validators";
 
 const labelMapping: LabelMappersObject = {
+  price: {
+    label: "Valor a pagar (R$)",
+    location: [1, 5],
+    parseValue: (value: string) => {
+      return parseFloat(value.replace(",", "."));
+    },
+  },
   relativeTo: {
     label: "Referente a",
     location: [1, 1],
