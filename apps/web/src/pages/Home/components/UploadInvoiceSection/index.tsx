@@ -8,6 +8,7 @@ const UploadInvoiceSection: React.FC = () => {
       <Section.Title
         sx={{ display: "flex", alignItems: "center" }}
         title="Upload Invoice"
+        disableGutter
       >
         <ClientSelector />
       </Section.Title>

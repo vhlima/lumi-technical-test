@@ -6,10 +6,12 @@ interface Props {
   title: string;
   description?: string;
   disableMargin?: boolean;
+  disableGutter?: boolean;
 }
 
 export const SectionTitle: React.FC<PropsWithChildren<Props>> = (props) => {
-  const { sx, title, description, disableMargin, children } = props;
+  const { sx, title, description, disableMargin, disableGutter, children } =
+    props;
   return (
     <>
       <Box
@@ -18,19 +20,22 @@ export const SectionTitle: React.FC<PropsWithChildren<Props>> = (props) => {
           ...sx,
         }}
       >
-        <Typography variant="h5" gutterBottom={!description}>
+        <Typography variant="h5" gutterBottom={!description && !disableGutter}>
           {title}
         </Typography>
 
         {description && (
-          <Typography sx={{ color: "text.secondary" }} gutterBottom>
+          <Typography
+            sx={{ color: "text.secondary" }}
+            gutterBottom={!disableGutter}
+          >
             {description}
           </Typography>
         )}
 
         {children}
       </Box>
-      
+
       <Divider />
     </>
   );

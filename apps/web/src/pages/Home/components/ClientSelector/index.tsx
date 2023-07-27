@@ -8,7 +8,7 @@ const ClientSelector: React.FC = () => {
   return (
     <>
       <ClientSelectorDialog open={open} onClose={() => setOpen(false)} />
-      <Button sx={{ marginLeft: { md: "auto" } }} onClick={() => setOpen(true)}>
+      <Button sx={{ marginLeft: "auto" }} onClick={() => setOpen(true)}>
         Switch account
       </Button>
     </>
