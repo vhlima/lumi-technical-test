@@ -51,10 +51,10 @@ const ClientSelectorDialog: React.FC<Props> = (props) => {
               sx={{
                 ...(isSameSession ? { backgroundColor: "primary.main" } : {}),
               }}
+              key={`client-${client.id}`}
               disableGutters
             >
               <ListItemButton
-                key={`client-${client.id}`}
                 onClick={() => {
                   signIn(client);
                   onClose();
