@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class CreateInvoices1690310475194 implements MigrationInterface {
+export class CreateInvoices1690310475397 implements MigrationInterface {
   private tableName = "invoices";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -20,8 +20,8 @@ export class CreateInvoices1690310475194 implements MigrationInterface {
             type: "bigint",
           },
           {
-            name: "installation_number",
-            type: "bigint",
+            name: "address_id",
+            type: "int",
           },
           {
             name: "relative_to",
@@ -38,6 +38,14 @@ export class CreateInvoices1690310475194 implements MigrationInterface {
             referencedTableName: "clients",
             referencedColumnNames: ["id"],
             columnNames: ["client_id"],
+            onUpdate: "CASCADE",
+            onDelete: "CASCADE",
+          },
+          {
+            name: "FKAddress",
+            referencedTableName: "clients_addresses",
+            referencedColumnNames: ["id"],
+            columnNames: ["address_id"],
             onUpdate: "CASCADE",
             onDelete: "CASCADE",
           },

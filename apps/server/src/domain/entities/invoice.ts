@@ -1,11 +1,11 @@
-import { Client, InvoiceExpense } from "@/domain/entities";
+import { Client, ClientAddress, InvoiceExpense } from "@/domain/entities";
 
 export class Invoice {
   id: number;
 
   client: Client;
 
-  installationNumber: number;
+  address: ClientAddress;
 
   price: number;
 

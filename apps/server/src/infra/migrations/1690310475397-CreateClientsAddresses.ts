@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class CreateClientsAddresses1690423112174 implements MigrationInterface {
+export class CreateClientsAddresses1690310475397 implements MigrationInterface {
   private tableName = "clients_addresses";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -33,10 +33,6 @@ export class CreateClientsAddresses1690423112174 implements MigrationInterface {
           },
           {
             name: "state",
-            type: "varchar",
-          },
-          {
-            name: "federal_unit",
             type: "varchar",
           },
           {

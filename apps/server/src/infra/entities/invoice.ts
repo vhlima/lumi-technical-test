@@ -7,7 +7,11 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { InvoiceExpenseEntity, ClientEntity } from "@/infra/entities";
+import {
+  InvoiceExpenseEntity,
+  ClientEntity,
+  ClientAddressEntity,
+} from "@/infra/entities";
 
 @Entity("invoices")
 export class InvoiceEntity implements Invoice {
@@ -20,8 +24,11 @@ export class InvoiceEntity implements Invoice {
   @JoinColumn({ referencedColumnName: "id", name: "client_id" })
   client: ClientEntity;
 
-  @Column({ name: "installation_number" })
-  installationNumber: number;
+  @ManyToOne(() => ClientAddressEntity, {
+    onDelete: "CASCADE",
+  })
+  @JoinColumn({ referencedColumnName: "id", name: "address_id" })
+  address: ClientAddressEntity;
 
   get price() {
     return this.expenses.reduce((acc, current) => (acc += current.price), 0);
