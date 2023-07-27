@@ -6,3 +6,4 @@ export * from './create-invoice-expense';
 export * from './list-latest-invoices';
 export * from './list-invoices';
 export * from './find-client-profile';
+export * from './label-mapper';
