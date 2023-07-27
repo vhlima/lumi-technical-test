@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Typography } from "@mui/material";
+import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import Layout from "../../layout";
 
 import LatestInvoicesList from "./components/LatestInvoicesList";
@@ -7,18 +7,32 @@ import ConsumptionChart from "./components/ConsumptionChart";
 import ClientSection from "./components/ClientSection";
 import { useSession } from "../../hooks/useSession";
 import UnauthSection from "./components/UnauthSection";
+import ClientSelector from "./components/ClientSelector";
+import InfoCardList from "./components/InfoCardList";
 
 const HomePage: React.FC = () => {
   const { client: session } = useSession();
 
   return (
     <Layout>
-      {session ? <ClientSection /> : <UnauthSection />}
+      {session ? (
+        <>
+          <ClientSection />
+          <InfoCardList />
+        </>
+      ) : (
+        <UnauthSection />
+      )}
 
       <Box sx={{ marginTop: 4 }}>
-        <Typography variant="h5" gutterBottom>
-          Upload Invoice
-        </Typography>
+        <Stack direction={{ md: "row" }} sx={{ alignItems: "center" }}>
+          <Typography variant="h5" gutterBottom>
+            Upload Invoice
+          </Typography>
+
+          <ClientSelector />
+        </Stack>
+
         <Divider />
 
         <UploadInvoice />
