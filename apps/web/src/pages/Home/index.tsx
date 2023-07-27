@@ -4,6 +4,7 @@ import Layout from "../../layout";
 import InfoCardList from "./components/InfoCardList";
 import LatestInvoicesList from "./components/LatestInvoicesList";
 import UploadInvoice from "./components/UploadInvoice";
+import ConsumptionChart from "./components/ConsumptionChart";
 
 const HomePage: React.FC = () => {
   return (
@@ -15,6 +16,13 @@ const HomePage: React.FC = () => {
         <Divider />
 
         <UploadInvoice />
+      </Box>
+
+      <Box sx={{ marginTop: 4 }}>
+        <Typography variant="h5" gutterBottom>Consumption Chart (kWH)</Typography>
+        <Divider />
+
+        <ConsumptionChart />
       </Box>
 
       <Box sx={{ marginTop: 4 }}>
