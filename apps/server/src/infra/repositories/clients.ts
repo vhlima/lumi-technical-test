@@ -23,6 +23,7 @@ export class ClientsRepository implements IClientsRepository {
       where: {
         id: clientId,
       },
+      relations: ["addresses"],
     });
   }
 }
