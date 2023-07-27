@@ -39,7 +39,7 @@ const ClientSelectorDialog: React.FC<Props> = (props) => {
         Switch accounts
         <IconButton
           size="large"
-          sx={{ marginLeft: "auto", color: "warning.main" }}
+          sx={{ marginLeft: 2, color: "warning.main" }}
           onClick={onClose}
         >
           <Close />
