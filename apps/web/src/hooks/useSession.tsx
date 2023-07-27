@@ -13,6 +13,7 @@ import { FindClientService } from "../services";
 interface SessionContextData {
   client?: Client;
   signIn: (client: Client) => void;
+  signOut: () => void;
 }
 
 const SessionContext = createContext({} as SessionContextData);
@@ -35,10 +36,15 @@ export const SessionProvider: React.FC<PropsWithChildren> = (props) => {
     [setClient]
   );
 
+  const signOut = useCallback(() => {
+    localStorage.removeItem("client-id");
+    setClient(undefined);
+  }, [setClient]);
+
   useEffect(() => {
     (async () => {
       if (client) {
-        return; 
+        return;
       }
 
       const localStorageClientId = localStorage.getItem("client-id");
@@ -51,17 +57,19 @@ export const SessionProvider: React.FC<PropsWithChildren> = (props) => {
           );
 
           if (!client) {
-            localStorage.removeItem("cleint-id");
-            setClient(undefined);
+            signOut();
             return;
           }
           setClient(client);
         } catch (err) {}
       }
     })();
-  }, [client]);
+  }, [client, signOut]);
 
-  const contextValue = useMemo(() => ({ client, signIn }), [client, signIn]);
+  const contextValue = useMemo(
+    () => ({ client, signIn, signOut }),
+    [client, signIn, signOut]
+  );
 
   return (
     <SessionContext.Provider value={contextValue}>
