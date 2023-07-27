@@ -1,5 +1,5 @@
 import UploadInvoiceContent from "./components/UploadInvoiceContent";
-import ClientSelector from "../ClientSelector";
+import ClientSelector from "./components/ClientSelector";
 import Section from "../Section";
 
 const UploadInvoiceSection: React.FC = () => {
