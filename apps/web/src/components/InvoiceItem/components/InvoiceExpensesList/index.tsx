@@ -28,12 +28,9 @@ const InvoiceExpensesList: React.FC<Props> = (props) => {
             </Typography>
             {expense.quantity && (
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                Quantity: {expense.quantity}
-              </Typography>
-            )}
-            {expense.measurementUnit && (
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                Measurement Unit: {expense.measurementUnit}
+                {`Consumption: ${expense.quantity}${
+                  expense.measurementUnit ? ` ${expense.measurementUnit}` : ""
+                }`}
               </Typography>
             )}
             {expense.unitaryPrice && (
