@@ -2,12 +2,11 @@ import { Button } from "@mui/material";
 import Layout from "../../layout";
 
 import LatestInvoicesList from "./components/LatestInvoicesList";
-import UploadInvoice from "./components/UploadInvoice";
+import UploadInvoiceSection from "./components/UploadInvoiceSection";
 import ConsumptionChart from "./components/ConsumptionChart";
 import ClientSection from "./components/ClientSection";
 import { useSession } from "../../hooks/useSession";
 import UnauthSection from "./components/UnauthSection";
-import ClientSelector from "./components/ClientSelector";
 import Section from "./components/Section";
 
 const HomePage: React.FC = () => {
@@ -17,16 +16,7 @@ const HomePage: React.FC = () => {
     <Layout>
       {session ? <ClientSection /> : <UnauthSection />}
 
-      <Section.Root>
-        <Section.Title
-          sx={{ display: "flex", alignItems: "center" }}
-          title="Upload Invoice"
-        >
-          <ClientSelector />
-        </Section.Title>
-
-        <UploadInvoice />
-      </Section.Root>
+      <UploadInvoiceSection />
 
       {session && (
         <>
