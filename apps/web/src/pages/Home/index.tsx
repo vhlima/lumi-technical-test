@@ -19,7 +19,7 @@ const HomePage: React.FC = () => {
       </Box>
 
       <Box sx={{ marginTop: 4 }}>
-        <Typography variant="h5" gutterBottom>Consumption Chart</Typography>
+        <Typography variant="h5" gutterBottom>Consumption Chart (kWH)</Typography>
         <Divider />
 
         <ConsumptionChart />
