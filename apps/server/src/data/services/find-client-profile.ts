@@ -14,18 +14,7 @@ export class FindClientProfileService implements FindClientProfile {
     );
 
     const energySpent = invoices.reduce((acc, invoice) => {
-      for (let i = 0; i < invoice.expenses.length; i++) {
-        const expense = invoice.expenses[i];
-        if (
-          expense.quantity &&
-          expense.measurementUnit &&
-          expense.measurementUnit === "kWh" &&
-          expense.price >= 0
-        ) {
-          acc += expense.quantity;
-        }
-      }
-      return acc;
+      return (acc += invoice.energySpent);
     }, 0);
 
     return {

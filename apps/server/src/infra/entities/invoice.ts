@@ -2,27 +2,39 @@ import { Invoice, InvoiceExpense } from "@/domain/entities";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { InvoiceExpenseEntity } from "./invoice-expense";
 
-@Entity('invoices')
+@Entity("invoices")
 export class InvoiceEntity implements Invoice {
-  @PrimaryGeneratedColumn('increment')
+  @PrimaryGeneratedColumn("increment")
   id: number;
 
-  @Column({ name: 'client_id' })
+  @Column({ name: "client_id" })
   clientId: number;
 
-  @Column({ name: 'installation_number' })
+  @Column({ name: "installation_number" })
   installationNumber: number;
 
   get price() {
-    return this.expenses.reduce((acc, current) => acc += current.price, 0);
+    return this.expenses.reduce((acc, current) => (acc += current.price), 0);
   }
 
-  @OneToMany(() => InvoiceExpenseEntity, expense => expense.invoice)
+  get energySpent() {
+    return this.expenses
+      .filter(
+        (expense) =>
+          expense.quantity &&
+          expense.measurementUnit &&
+          expense.measurementUnit === "kWh" &&
+          expense.price >= 0
+      )
+      .reduce((acc, expense) => (acc += expense?.quantity || 0), 0);
+  }
+
+  @OneToMany(() => InvoiceExpenseEntity, (expense) => expense.invoice)
   expenses: InvoiceExpense[];
 
-  @Column({ name: 'relative_to' })
+  @Column({ name: "relative_to" })
   relativeTo: Date;
 
-  @Column({ name: 'expires_at' })
+  @Column({ name: "expires_at" })
   expiresAt: Date;
 }

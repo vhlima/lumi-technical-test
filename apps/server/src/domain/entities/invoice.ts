@@ -11,6 +11,8 @@ export class Invoice {
 
   expenses: InvoiceExpense[];
 
+  energySpent: number;
+
   relativeTo: Date;
 
   expiresAt: Date;
