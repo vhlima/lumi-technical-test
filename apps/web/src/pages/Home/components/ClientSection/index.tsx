@@ -1,5 +1,6 @@
 import { useSession } from "../../../../hooks/useSession";
-import { Box, Divider, Typography } from "@mui/material";
+import InfoCardList from "../InfoCardList";
+import Section from "../Section";
 
 const ClientSection: React.FC = () => {
   const { client: session } = useSession();
@@ -9,15 +10,17 @@ const ClientSection: React.FC = () => {
   }
 
   return (
-    <Box>
-      <Typography variant="h5">Welcome {session.fullName}</Typography>
-      <Typography sx={{ color: "text.secondary" }} gutterBottom>
-        Here you can find out more about your expenses and invoices uploaded to
-        our system.
-      </Typography>
+    <Section.Content>
+      <Section.Title
+        title={`Welcome ${session.fullName}`}
+        description="Here you can find out more about your expenses and invoices uploaded
+          to our system."
+      />
 
-      <Divider />
-    </Box>
+      <Section.Content>
+        <InfoCardList />
+      </Section.Content>
+    </Section.Content>
   );
 };
 
