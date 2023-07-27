@@ -1,22 +1,23 @@
-import SectionHeader from "../SectionHeader";
 import { useSession } from "../../../../hooks/useSession";
-import ClientSelector from "../ClientSelector";
-import InfoCardList from "../InfoCardList";
+import { Box, Divider, Typography } from "@mui/material";
 
 const ClientSection: React.FC = () => {
   const { client: session } = useSession();
 
+  if (!session) {
+    return null;
+  }
+
   return (
-    <SectionHeader
-      title={
-        session
-          ? `Welcome, ${session.fullName}`
-          : `Welcome! Please upload your first invoice to register`
-      }
-      header={<ClientSelector />}
-    >
-      <InfoCardList />
-    </SectionHeader>
+    <Box>
+      <Typography variant="h5">Welcome {session.fullName}</Typography>
+      <Typography sx={{ color: "text.secondary" }} gutterBottom>
+        Here you can find out more about your expenses and invoices uploaded to
+        our system.
+      </Typography>
+
+      <Divider />
+    </Box>
   );
 };
 
