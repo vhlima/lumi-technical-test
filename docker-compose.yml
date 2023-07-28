@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   pg:
@@ -10,3 +10,26 @@ services:
       POSTGRES_DB: lumi
     ports:
       - "5432:5432"
+
+  server:
+    build: ./apps/server
+    container_name: server
+    ports:
+      - "4000:4000"
+    depends_on:
+      - pg
+    environment:
+      POSTGRES_DATABASE: "lumi"
+      POSTGRES_HOST: "pg"
+      POSTGRES_PASSWORD: "123"
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: "postgres"
+      WEB_APP_URL: "http://localhost:3000"
+
+  web:
+    build: ./apps/web
+    container_name: web
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_API_ENDPOINT: "http://localhost:4000"
