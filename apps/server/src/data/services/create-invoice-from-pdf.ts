@@ -57,6 +57,21 @@ export class CreateInvoiceFromPDFService {
       zipCode: parsedInvoice.address.zipCode,
     });
 
+    if (!createdClient.addresses) {
+      createdClient.addresses = [];
+    }
+
+    if (
+      createdClient.addresses.findIndex(
+        (address) => address.id === createdClientAddress.id
+      ) === -1
+    ) {
+      createdClient.addresses = [
+        ...createdClient.addresses,
+        createdClientAddress,
+      ];
+    }
+
     const createdInvoice = await this.createInvoiceService.execute({
       clientId: parsedInvoice.client.id,
       addressId: createdClientAddress.id,
