@@ -50,11 +50,11 @@ export class InvoicesRepository implements IInvoicesRepository {
     }));
   }
 
-  public async list(clientId: number): Promise<Invoice[]> {
+  public async list(addressId: number): Promise<Invoice[]> {
     const invoices = await this.ormRepository.find({
       where: {
-        client: {
-          id: clientId,
+        address: {
+          id: addressId,
         },
       },
       order: {

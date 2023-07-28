@@ -71,15 +71,15 @@ invoicesRouter.get(
 );
 
 invoicesRouter.get(
-  "/:clientId",
+  "/:addressId",
   celebrate({
     [Segments.PARAMS]: {
-      clientId: Joi.number().required(),
+      addressId: Joi.number().required(),
     },
   }),
   async (req, res) => {
     const listInvoicesService = getListInvoicesService();
-    const invoices = await listInvoicesService.execute(req.body.clientId);
+    const invoices = await listInvoicesService.execute(req.body.addressId);
     res.status(200).json(invoices);
   }
 );
