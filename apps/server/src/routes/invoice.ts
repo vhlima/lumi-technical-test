@@ -79,7 +79,7 @@ invoicesRouter.get(
   }),
   async (req, res) => {
     const listInvoicesService = getListInvoicesService();
-    const invoices = await listInvoicesService.execute(req.body.addressId);
+    const invoices = await listInvoicesService.execute(parseInt(req.params.addressId, 10));
     res.status(200).json(invoices);
   }
 );
