@@ -20,7 +20,7 @@ export const SectionTitle: React.FC<PropsWithChildren<Props>> = (props) => {
           ...sx,
         }}
       >
-        <Typography variant="h5" gutterBottom={!description && !disableGutter}>
+        <Typography sx={{ color: "text.primary" }} variant="h5" gutterBottom={!description && !disableGutter}>
           {title}
         </Typography>
 
