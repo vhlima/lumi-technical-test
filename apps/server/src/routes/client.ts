@@ -1,9 +1,5 @@
 import { Router } from "express";
-import {
-  getFindClientProfileService,
-  getFindClientService,
-  getListClientsService,
-} from "@/main/factories";
+import { getFindClientService, getListClientsService } from "@/main/factories";
 import { errorHandler } from "@/adapters";
 import { Joi, Segments, celebrate } from "celebrate";
 
@@ -42,22 +38,6 @@ clientsRouter.get(
       const errorResponse = errorHandler.handle(error);
       res.status(errorResponse.code).json({ error: errorResponse.message });
     }
-  }
-);
-
-clientsRouter.get(
-  "/:clientId/profile",
-  celebrate({
-    [Segments.PARAMS]: {
-      clientId: Joi.number().required(),
-    },
-  }),
-  async (req, res) => {
-    const findClientProfileService = getFindClientProfileService();
-    const clientProfile = await findClientProfileService.execute(
-      parseInt(req.params.clientId, 10)
-    );
-    res.status(200).json(clientProfile);
   }
 );
 
