@@ -24,11 +24,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 invoicesRouter.post(
-  "/:clientId/upload",
+  "/upload",
   upload.single("file"),
   celebrate({
-    [Segments.PARAMS]: {
-      clientId: Joi.number().required(),
+    [Segments.BODY]: {
+      clientId: Joi.string(),
     },
   }),
   async (req, res) => {
@@ -40,8 +40,8 @@ invoicesRouter.post(
       const service = getCreateInvoiceFromPDFService();
 
       const invoice = await service.execute(
-        parseInt(req.params.clientId, 10),
-        req.file.path
+        req.file.path,
+        req.body.clientId ? parseInt(req.body.clientId, 10) : undefined
       );
 
       res.status(200).json(invoice);
