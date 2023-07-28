@@ -1,16 +1,10 @@
 import { useEffect, useState } from "react";
 import { Invoice } from "../../../../interfaces";
 import { ListInvoicesService } from "../../../../services";
-import {
-  Box,
-  CircularProgress,
-  List,
-  Tab,
-  Tabs,
-  Typography,
-} from "@mui/material";
+import { Box, CircularProgress, List, Typography } from "@mui/material";
 import InvoiceItem from "../../../../components/InvoiceItem";
 import { useSession } from "../../../../hooks/useSession";
+import ClientAddressesSelect from "../../../../components/ClientAddressesSelect";
 
 const InvoicesList: React.FC = () => {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
@@ -33,54 +27,39 @@ const InvoicesList: React.FC = () => {
     })();
   }, [session]);
 
-  if (loading || invoices.length === 0) {
-    return (
-      <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
-        {loading && <CircularProgress />}
-        {!loading && invoices.length === 0 && (
-          <Typography>No invoice was found.</Typography>
-        )}
-      </Box>
-    );
-  }
-
-  const installments = new Set(
-    invoices.map((invoice) => invoice.address.streetAddress)
-  );
+  const filteredInvoices = !selectedTab
+    ? invoices
+    : invoices.filter(
+        (invoice) => invoice.address.streetAddress === selectedTab
+      );
 
   return (
-    <>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          value={selectedTab}
-          onChange={(_, value) => setSelectedTab(value)}
-        >
-          <Tab label="All installments" value={""} />
-          {Array.from(installments).map((installment) => (
-            <Tab
-              key={`installment-tab-${installment}`}
-              label={installment}
-              value={installment}
-            />
-          ))}
-        </Tabs>
-      </Box>
+    <Box>
+      <ClientAddressesSelect
+        id="installmentFilter"
+        sx={{ marginBottom: 2, marginTop: 2 }}
+        label="Filter by Installment"
+        value={selectedTab}
+        onChange={(value) => setSelectedTab(value ? value : "")}
+      />
 
-      <List disablePadding>
-        {(!selectedTab
-          ? invoices
-          : invoices.filter(
-              (invoice) => invoice.address.streetAddress === selectedTab
-            )
-        ).map((invoice) => (
-          <InvoiceItem
-            key={`invoice-item-${invoice.id}`}
-            hideAddress={!!selectedTab}
-            {...invoice}
-          />
+      {loading && <CircularProgress />}
+
+      {!loading &&
+        (filteredInvoices.length === 0 ? (
+          <Typography>No invoice was found.</Typography>
+        ) : (
+          <List disablePadding>
+            {filteredInvoices.map((invoice) => (
+              <InvoiceItem
+                key={`invoice-item-${invoice.id}`}
+                hideAddress={!!selectedTab}
+                {...invoice}
+              />
+            ))}
+          </List>
         ))}
-      </List>
-    </>
+    </Box>
   );
 };
 
