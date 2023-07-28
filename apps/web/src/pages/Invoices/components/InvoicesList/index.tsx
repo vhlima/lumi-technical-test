@@ -10,21 +10,28 @@ import {
   Typography,
 } from "@mui/material";
 import InvoiceItem from "../../../../components/InvoiceItem";
+import { useSession } from "../../../../hooks/useSession";
 
 const InvoicesList: React.FC = () => {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedTab, setSelectedTab] = useState<string>("");
 
+  const { client: session } = useSession();
+
   useEffect(() => {
     (async () => {
+      if (!session) {
+        return;
+      }
+
       setLoading(true);
       const listInvoicesService = new ListInvoicesService();
-      const invoicesResponse = await listInvoicesService.execute();
+      const invoicesResponse = await listInvoicesService.execute(session.id);
       setInvoices(invoicesResponse);
       setLoading(false);
     })();
-  }, []);
+  }, [session]);
 
   if (loading || invoices.length === 0) {
     return (
