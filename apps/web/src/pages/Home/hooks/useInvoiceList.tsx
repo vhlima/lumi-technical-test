@@ -11,7 +11,7 @@ import {
 
 import { Invoice } from "../../../interfaces";
 import { ListInvoicesService } from "../../../services";
-import { useSession } from "../../../hooks/useSession";
+import { useAddress } from "../../../hooks/useAddress";
 
 interface InvoiceListContextData {
   invoices: Invoice[];
@@ -25,19 +25,19 @@ export const InvoiceListProvider: React.FC<PropsWithChildren> = (props) => {
 
   const [invoices, setInvoices] = useState<Invoice[]>([]);
 
-  const { client: session } = useSession();
+  const { address } = useAddress();
 
   useEffect(() => {
     (async () => {
-      if (!session) {
+      if (!address) {
         return;
       }
 
       const listInvoicesService = new ListInvoicesService();
-      const invoiceListResponse = await listInvoicesService.execute(session.id);
+      const invoiceListResponse = await listInvoicesService.execute(address.id);
       setInvoices(invoiceListResponse);
     })();
-  }, [session]);
+  }, [address]);
 
   const contextValue = useMemo(
     () => ({ invoices, setInvoices }),
