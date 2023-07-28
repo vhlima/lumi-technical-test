@@ -1,57 +1,16 @@
-import {
-  Box,
-  Button,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Typography,
-} from "@mui/material";
-import { useAddress } from "../../../../../../hooks/useAddress";
+import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
-import Selector from "../../../../../../components/Selector";
-import { useSession } from "../../../../../../hooks/useSession";
+import AddressSelector from "./components/AddressSelector";
+import { useAddress } from "../../../../../../hooks/useAddress";
 
 const AddressSelect: React.FC = () => {
-  const { client: session } = useSession();
-  const { address, setAddress } = useAddress();
-
   const [open, setOpen] = useState<boolean>(false);
+
+  const { address } = useAddress();
 
   return (
     <>
-      <Selector
-        title="Select your address"
-        open={open}
-        onClose={() => setOpen(false)}
-      >
-        {session &&
-          session.addresses.map((currentAddress) => {
-            const active = currentAddress.id === address.id;
-            return (
-              <ListItem
-                key={`address-${currentAddress.id}`}
-                sx={{
-                  ...(active ? { backgroundColor: "primary.main" } : {}),
-                }}
-                disableGutters
-              >
-                <ListItemButton
-                  onClick={() => {
-                    setAddress(currentAddress);
-                    setOpen(false);
-                  }}
-                >
-                  <ListItemText
-                    sx={{
-                      ...(active ? { color: "white" } : {}),
-                    }}
-                    primary={currentAddress.streetAddress}
-                  />
-                </ListItemButton>
-              </ListItem>
-            );
-          })}
-      </Selector>
+      <AddressSelector open={open} onClose={() => setOpen(false)} />
 
       <Box
         sx={{
