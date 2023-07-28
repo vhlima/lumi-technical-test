@@ -10286,6 +10286,11 @@ ts-node@^10.4.0, ts-node@^10.9.1:
     v8-compile-cache-lib "^3.0.1"
     yn "3.1.1"
 
+ts-paths-esm-loader@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/ts-paths-esm-loader/-/ts-paths-esm-loader-1.4.3.tgz#7664e251d6eade2a23d567b19a2d184d53a9abac"
+  integrity sha512-e3zWtkkq6Bk51LNi3v3g/b4kW0/qYwthYN//36HPFFnIi9qHFccMgwo215tCtx1niK538gO10G3Lf+j8D8DUqg==
+
 tsconfig-paths@^3.14.1:
   version "3.14.2"
   resolved "https://registry.yarnpkg.com/tsconfig-paths/-/tsconfig-paths-3.14.2.tgz#6e32f1f79412decd261f92d633a9dc1cfa99f088"
