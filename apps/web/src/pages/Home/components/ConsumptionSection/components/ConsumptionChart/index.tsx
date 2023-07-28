@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
 import { Invoice } from "../../../../../../interfaces";
-import { ListInvoicesService } from "../../../../../../services";
 import { Bar } from "react-chartjs-2";
 
 import {
@@ -13,6 +11,7 @@ import {
   Legend,
 } from "chart.js";
 import { format } from "date-fns";
+import { useInvoiceList } from "../../../../hooks/useInvoiceList";
 
 ChartJS.register(
   CategoryScale,
@@ -25,20 +24,14 @@ ChartJS.register(
 
 interface Props {
   label: string;
+  filter?: (invoices: Invoice[]) => Invoice[];
   onValueIncrement: (invoice: Invoice, currentAmount: number) => number;
 }
 
 const ConsumptionChart: React.FC<Props> = (props) => {
-  const { label, onValueIncrement } = props;
-  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const { label, filter, onValueIncrement } = props;
 
-  useEffect(() => {
-    (async () => {
-      const listInvoicesService = new ListInvoicesService();
-      const invoicesResponse = await listInvoicesService.execute();
-      setInvoices(invoicesResponse);
-    })();
-  }, []);
+  const { invoices } = useInvoiceList();
 
   /* Months label generator */
   const labels = Array.from({ length: 12 }).map((_, index) =>
@@ -52,8 +45,10 @@ const ConsumptionChart: React.FC<Props> = (props) => {
   const convertInvoicesToValue = (invoices: Invoice[]) => {
     const invoicesByMonth: number[] = [];
 
-    for (let i = 0; i < invoices.length; i++) {
-      const invoice = invoices[i];
+    const invoicesFiltered = filter ? filter(invoices) : invoices;
+
+    for (let i = 0; i < invoicesFiltered.length; i++) {
+      const invoice = invoicesFiltered[i];
 
       const date = new Date(invoice.relativeTo);
       if (date.getFullYear() !== new Date(Date.now()).getFullYear()) {

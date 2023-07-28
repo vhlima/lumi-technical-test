@@ -3,12 +3,13 @@ import { Invoice } from "../interfaces";
 import { raiseAxiosError } from "../utils/raise-axios-error";
 
 export class CreateInvoiceService {
-  public async execute(file: File): Promise<Invoice | null> {
+  public async execute(file: File, clientId?: number): Promise<Invoice | null> {
     try {
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append("file", file);
+      formData.append("clientId", String(clientId));
 
-      const req = await http.post(`/invoices/${7202788969}/upload`, formData, {
+      const req = await http.post(`/invoices/upload`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

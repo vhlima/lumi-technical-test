@@ -3,9 +3,12 @@ import Section from "../Section";
 import { useState } from "react";
 import ChangeConsumptionFilter from "./components/ChangeConsumptionFilter";
 import { useConsumptionFilter } from "./hooks/useConsumptionFilter";
+import { Box } from "@mui/material";
+import ClientAddressesSelect from "../../../../components/ClientAddressesSelect";
 
 const ConsumptionSection: React.FC = () => {
   const [selectedValue, setSelectedValue] = useState<string>("cost");
+  const [selectedAddress, setSelectedAddress] = useState<string>("");
 
   const { filters } = useConsumptionFilter();
 
@@ -23,14 +26,32 @@ const ConsumptionSection: React.FC = () => {
       </Section.Title>
 
       <Section.Content>
-        <ConsumptionChart
-          label={currentValueInfo.label}
-          onValueIncrement={(invoice, value) =>
-            selectedValue === "energySpent"
-              ? (value += invoice.energySpent)
-              : (value += invoice.price)
-          }
+        <ClientAddressesSelect
+          id="installmentFilter"
+          label="Filter by Installment"
+          value={selectedAddress}
+          onChange={(value) => setSelectedAddress(value ? value : "")}
         />
+
+        <Box sx={{ marginTop: 2 }}>
+          <ConsumptionChart
+            filter={
+              selectedAddress
+                ? (invoices) =>
+                    invoices.filter(
+                      (invoice) =>
+                        invoice.address.streetAddress === selectedAddress
+                    )
+                : undefined
+            }
+            label={currentValueInfo.label}
+            onValueIncrement={(invoice, value) =>
+              selectedValue === "energySpent"
+                ? (value += invoice.energySpent)
+                : (value += invoice.price)
+            }
+          />
+        </Box>
       </Section.Content>
     </Section.Root>
   );

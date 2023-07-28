@@ -20,8 +20,8 @@ export class CreateInvoiceFromPDFService {
   ) {}
 
   public async execute(
-    clientId: number,
-    pdfPath: string
+    pdfPath: string,
+    clientId?: number
   ): Promise<Invoice | null> {
     const pdfDoc = await this.pdfLoader.execute(pdfPath);
 
@@ -35,7 +35,7 @@ export class CreateInvoiceFromPDFService {
       return null;
     }
 
-    if (parsedInvoice.client.id !== clientId) {
+    if (clientId && parsedInvoice.client.id !== clientId) {
       throw new ServerError(
         "InvoiceNotFromClient",
         "This Invoice is not from the current client you are trying to upload",
@@ -79,6 +79,9 @@ export class CreateInvoiceFromPDFService {
     const createdExpenses = await Promise.all(promises);
     createdInvoice.expenses = createdExpenses;
 
-    return createdInvoice;
+    return {
+      ...createdInvoice,
+      energySpent: createdInvoice.energySpent,
+    };
   }
 }

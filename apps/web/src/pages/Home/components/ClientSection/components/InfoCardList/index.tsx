@@ -3,21 +3,22 @@ import { Stack } from "@mui/material";
 import { Receipt, AttachMoney, MonetizationOn, Power } from "@mui/icons-material";
 
 import InfoCard from "../InfoCard";
-import { useEffect, useState } from "react";
-import { ClientProfile } from "../../../../../../interfaces";
-import { FindClientProfileService } from "../../../../../../services";
 import { parseToBRL } from "../../../../../../utils/currency-parser";
+import { useInvoiceList } from "../../../../hooks/useInvoiceList";
 
 const InfoCardList: React.FC = () => {
-  const [clientProfile, setClientProfile] = useState<ClientProfile>();
+  const { invoices } = useInvoiceList();
 
-  useEffect(() => {
-    (async () => {
-      const findClientProfileService = new FindClientProfileService();
-      const clientProfileResponse = await findClientProfileService.execute();
-      setClientProfile(clientProfileResponse);
-    })();
-  }, []);
+  const invoicesTotalPrice = invoices.reduce(
+    (acc, item) => (acc += item.price),
+    0
+  );
+
+  const energySpent = invoices.reduce((acc, invoice) => {
+    return (acc += invoice.energySpent);
+  }, 0);
+
+  const averageMonthlyPrice = invoicesTotalPrice / invoices.length;
 
   return (
     <Stack
@@ -28,25 +29,25 @@ const InfoCardList: React.FC = () => {
       <InfoCard
         title="Energy Spent"
         description="Amount of energy spent from all invoices"
-        value={`${clientProfile?.energySpent || 0} kWh`}
+        value={`${energySpent} kWh`}
         icon={Power}
       />
       <InfoCard
         title="Invoices"
         description="Total amount of invoices registered"
-        value={String(clientProfile?.invoiceCount || 0)}
+        value={String(invoices.length)}
         icon={Receipt}
       />
       <InfoCard
         title="Total Cost"
         description="Total cost of invoices registered"
-        value={parseToBRL(clientProfile?.invoicesTotalPrice || 0)}
+        value={parseToBRL(invoicesTotalPrice)}
         icon={AttachMoney}
       />
       <InfoCard
         title="Average Cost"
         description="Average monthly price for invoices"
-        value={parseToBRL(clientProfile?.averageMonthlyPrice || 0)}
+        value={parseToBRL(averageMonthlyPrice)}
         icon={MonetizationOn}
       />
     </Stack>

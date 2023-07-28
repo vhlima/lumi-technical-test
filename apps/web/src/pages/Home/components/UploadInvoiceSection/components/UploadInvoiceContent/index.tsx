@@ -3,9 +3,12 @@ import UploadInvoiceButton from "../UploadInvoiceButton";
 import { CreateInvoiceService } from "../../../../../../services";
 import { Typography } from "@mui/material";
 import { useSession } from "../../../../../../hooks/useSession";
+import { useInvoiceList } from "../../../../hooks/useInvoiceList";
 
 const UploadInvoiceContent: React.FC = (props) => {
   const { client: session, signIn } = useSession();
+
+  const { setInvoices } = useInvoiceList();
 
   const [uploadMessage, setUploadMessage] = useState<string>();
 
@@ -17,13 +20,14 @@ const UploadInvoiceContent: React.FC = (props) => {
 
     try {
       const createInvoiceService = new CreateInvoiceService();
-      const invoice = await createInvoiceService.execute(file);
+      const invoice = await createInvoiceService.execute(file, session?.id);
 
       if (invoice) {
         if (!session) {
           signIn(invoice.client);
         }
 
+        setInvoices((invoices) => [...invoices, invoice]);
         setUploadMessage(`Invoice #${invoice.id} loaded with success.`);
       }
     } catch (err) {
