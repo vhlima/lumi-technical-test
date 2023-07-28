@@ -53,7 +53,6 @@ const InvoicesList: React.FC = () => {
             {filteredInvoices.map((invoice) => (
               <InvoiceItem
                 key={`invoice-item-${invoice.id}`}
-                hideAddress={!!selectedTab}
                 {...invoice}
               />
             ))}
