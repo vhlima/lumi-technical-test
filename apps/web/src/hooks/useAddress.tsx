@@ -1,5 +1,7 @@
 import {
+  Dispatch,
   PropsWithChildren,
+  SetStateAction,
   createContext,
   useContext,
   useMemo,
@@ -9,6 +11,7 @@ import { ClientAddress } from "../interfaces";
 
 interface AddressContextData {
   address: ClientAddress;
+  setAddress: Dispatch<SetStateAction<ClientAddress>>;
 }
 
 const AddressContext = createContext({} as AddressContextData);
