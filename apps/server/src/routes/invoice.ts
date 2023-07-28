@@ -5,7 +5,6 @@ import path from "path";
 import {
   getCreateInvoiceFromPDFService,
   getListInvoicesService,
-  getListLatestInvoicesService,
 } from "@/main/factories";
 import { errorHandler } from "@/adapters";
 import { Joi, Segments, celebrate } from "celebrate";
@@ -57,29 +56,17 @@ invoicesRouter.post(
 );
 
 invoicesRouter.get(
-  "/:clientId/latest",
+  "/:addressId",
   celebrate({
     [Segments.PARAMS]: {
-      clientId: Joi.number().required(),
-    },
-  }),
-  async (req, res) => {
-    const listLatestInvoicesService = getListLatestInvoicesService();
-    const latest = await listLatestInvoicesService.execute(req.body.clientId);
-    res.status(200).json(latest);
-  }
-);
-
-invoicesRouter.get(
-  "/:clientId",
-  celebrate({
-    [Segments.PARAMS]: {
-      clientId: Joi.number().required(),
+      addressId: Joi.number().required(),
     },
   }),
   async (req, res) => {
     const listInvoicesService = getListInvoicesService();
-    const invoices = await listInvoicesService.execute(req.body.clientId);
+    const invoices = await listInvoicesService.execute(
+      parseInt(req.params.addressId, 10)
+    );
     res.status(200).json(invoices);
   }
 );

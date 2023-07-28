@@ -18,7 +18,7 @@ const InfoCardList: React.FC = () => {
     return (acc += invoice.energySpent);
   }, 0);
 
-  const averageMonthlyPrice = invoicesTotalPrice / invoices.length;
+  const averageMonthlyPrice = invoices.length > 0 ? invoicesTotalPrice / invoices.length : 0;
 
   return (
     <Stack

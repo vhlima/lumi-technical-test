@@ -1,37 +1,28 @@
-import { useEffect, useState } from "react";
-import { Invoice } from "../../../../../../interfaces";
-import { ListLatestInvoicesService } from "../../../../../../services";
-import { Box, CircularProgress, List, Typography } from "@mui/material";
+import { List, Typography } from "@mui/material";
 import InvoiceItem from "../../../../../../components/InvoiceItem";
+import { useInvoiceList } from "../../../../hooks/useInvoiceList";
 
 const LatestInvoicesList: React.FC = () => {
-  const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const { invoices } = useInvoiceList();
 
-  useEffect(() => {
-    (async () => {
-      setLoading(true);
-      const listLatestInvoicesService = new ListLatestInvoicesService();
-      const latestInvoicesResponse = await listLatestInvoicesService.execute();
-      setInvoices(latestInvoicesResponse);
-      setLoading(false);
-    })();
-  }, []);
+  const latestInvoices = invoices
+    .sort(
+      (i1, i2) =>
+        new Date(i2.relativeTo).getTime() - new Date(i1.relativeTo).getTime()
+    )
+    .slice(0, 3);
 
-  if (loading || invoices.length === 0) {
+  if (latestInvoices.length === 0) {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        {loading && <CircularProgress />}
-        {!loading && invoices.length === 0 && (
-          <Typography>No invoice was found.</Typography>
-        )}
-      </Box>
+      <Typography sx={{ marginTop: 2, textAlign: "center" }}>
+        No invoice was found.
+      </Typography>
     );
   }
 
   return (
     <List disablePadding>
-      {invoices.map((invoice) => (
+      {latestInvoices.map((invoice) => (
         <InvoiceItem key={`invoice-${invoice.id}`} {...invoice} />
       ))}
     </List>

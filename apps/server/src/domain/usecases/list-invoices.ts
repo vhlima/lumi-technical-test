@@ -1,5 +1,5 @@
 import { Invoice } from "@/domain/entities";
 
 export interface ListInvoices {
-  execute: (clientId: number) => Promise<Invoice[]>;
+  execute: (addressId: number) => Promise<Invoice[]>;
 }
