@@ -1,4 +1,4 @@
-import { FilterAltOutlined } from "@mui/icons-material";
+import { SortRounded } from "@mui/icons-material";
 import { Box, Button, Menu, MenuItem, Typography } from "@mui/material";
 import { useState } from "react";
 import { useConsumptionFilter } from "../../hooks/useConsumptionFilter";
@@ -23,11 +23,10 @@ export const ChangeConsumptionFilter: React.FC<Props> = (props) => {
       <Button
         fullWidth
         variant="contained"
-        size="small"
-        startIcon={<FilterAltOutlined />}
+        startIcon={<SortRounded />}
         onClick={(e) => setAnchorElUser(e.currentTarget)}
       >
-        Change filter
+        Change sort
       </Button>
 
       <Menu
