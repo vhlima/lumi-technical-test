@@ -21,7 +21,9 @@ const AddressSelect: React.FC = () => {
           marginBottom: 2,
         }}
       >
-        <Typography variant="h6">{address.streetAddress}</Typography>
+        <Typography sx={{ color: "text.primary" }} variant="h6">
+          {address.streetAddress}
+        </Typography>
 
         <Button
           sx={{ sm: { width: "100%" }, marginLeft: { md: "auto" } }}

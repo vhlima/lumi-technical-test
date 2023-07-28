@@ -27,7 +27,9 @@ const InvoiceItem: React.FC<Props> = (props) => {
         </ListItemIcon>
         <ListItemText
           primary={
-            <Typography>{format(new Date(relativeTo), "MMMM/yyyy")}</Typography>
+            <Typography sx={{ color: "text.primary" }}>
+              {format(new Date(relativeTo), "MMMM/yyyy")}
+            </Typography>
           }
           secondary={
             <>
