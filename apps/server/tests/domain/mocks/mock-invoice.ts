@@ -20,12 +20,20 @@ export const mockInvoice = (expenses?: InvoiceExpense[]): Invoice => {
     client: {
       id: faker.number.int(),
       fullName: faker.person.fullName(),
+      addresses: [],
+    },
+    address: {
+      city: "",
+      district: "",
+      id: 1,
+      state: "",
+      streetAddress: "",
+      zipCode: "",
     },
     energySpent: 0,
     expenses: [],
     price: 0,
     expiresAt,
-    installationNumber: faker.number.int(),
     id: faker.number.int(),
     relativeTo,
   };

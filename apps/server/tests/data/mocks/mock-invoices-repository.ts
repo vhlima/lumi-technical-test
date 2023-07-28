@@ -15,11 +15,19 @@ export class MockInvoicesRepository implements IInvoicesRepository {
     const invoice: Invoice = {
       id: faker.number.int(),
       expenses: [],
-      price: 0,
       energySpent: 0,
       client: {
         id: clientId,
         fullName: "",
+        addresses: [],
+      },
+      address: {
+        city: "",
+        district: "",
+        id: 11,
+        state: "",
+        streetAddress: "",
+        zipCode: "",
       },
       ...invoiceData,
     };
@@ -30,11 +38,13 @@ export class MockInvoicesRepository implements IInvoicesRepository {
 
   public async findByDate(
     clientId: number,
+    addressId: number,
     date: Date
   ): Promise<Invoice | null> {
     const invoice = this.invoices.find(
       (invoice) =>
         invoice.client?.id === clientId &&
+        invoice.address?.id === addressId &&
         invoice.relativeTo.getTime() === date.getTime()
     );
 
