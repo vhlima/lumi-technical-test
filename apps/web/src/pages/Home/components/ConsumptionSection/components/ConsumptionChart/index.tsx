@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
 import { Invoice } from "../../../../../../interfaces";
-import { ListInvoicesService } from "../../../../../../services";
 import { Bar } from "react-chartjs-2";
 
 import {
@@ -13,6 +11,7 @@ import {
   Legend,
 } from "chart.js";
 import { format } from "date-fns";
+import { useInvoiceList } from "../../../../hooks/useInvoiceList";
 
 ChartJS.register(
   CategoryScale,
@@ -30,15 +29,8 @@ interface Props {
 
 const ConsumptionChart: React.FC<Props> = (props) => {
   const { label, onValueIncrement } = props;
-  const [invoices, setInvoices] = useState<Invoice[]>([]);
 
-  useEffect(() => {
-    (async () => {
-      const listInvoicesService = new ListInvoicesService();
-      const invoicesResponse = await listInvoicesService.execute();
-      setInvoices(invoicesResponse);
-    })();
-  }, []);
+  const { invoices } = useInvoiceList();
 
   /* Months label generator */
   const labels = Array.from({ length: 12 }).map((_, index) =>
