@@ -3,58 +3,39 @@ import { Invoice } from "../../../../interfaces";
 import { ListInvoicesService } from "../../../../services";
 import { Box, CircularProgress, List, Typography } from "@mui/material";
 import InvoiceItem from "../../../../components/InvoiceItem";
-import { useSession } from "../../../../hooks/useSession";
-import ClientAddressesSelect from "../../../../components/ClientAddressesSelect";
+import { useAddress } from "../../../../hooks/useAddress";
 
 const InvoicesList: React.FC = () => {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [selectedTab, setSelectedTab] = useState<string>("");
 
-  const { client: session } = useSession();
+  const { address } = useAddress();
 
   useEffect(() => {
     (async () => {
-      if (!session) {
+      if (!address) {
         return;
       }
 
       setLoading(true);
       const listInvoicesService = new ListInvoicesService();
-      const invoicesResponse = await listInvoicesService.execute(session.id);
+      const invoicesResponse = await listInvoicesService.execute(address.id);
       setInvoices(invoicesResponse);
       setLoading(false);
     })();
-  }, [session]);
-
-  const filteredInvoices = !selectedTab
-    ? invoices
-    : invoices.filter(
-        (invoice) => invoice.address.streetAddress === selectedTab
-      );
+  }, [address]);
 
   return (
     <Box>
-      <ClientAddressesSelect
-        id="installmentFilter"
-        sx={{ marginBottom: 2, marginTop: 2 }}
-        label="Filter by Installment"
-        value={selectedTab}
-        onChange={(value) => setSelectedTab(value ? value : "")}
-      />
-
       {loading && <CircularProgress />}
 
       {!loading &&
-        (filteredInvoices.length === 0 ? (
+        (invoices.length === 0 ? (
           <Typography>No invoice was found.</Typography>
         ) : (
           <List disablePadding>
-            {filteredInvoices.map((invoice) => (
-              <InvoiceItem
-                key={`invoice-item-${invoice.id}`}
-                {...invoice}
-              />
+            {invoices.map((invoice) => (
+              <InvoiceItem key={`invoice-item-${invoice.id}`} {...invoice} />
             ))}
           </List>
         ))}
