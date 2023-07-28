@@ -1,7 +1,7 @@
 import { ListItem, ListItemButton, ListItemText } from "@mui/material";
-import Selector from "../../../../../../../../components/Selector";
-import { useSession } from "../../../../../../../../hooks/useSession";
-import { useAddress } from "../../../../../../../../hooks/useAddress";
+import { useSession } from "../../../../hooks/useSession";
+import { useAddress } from "../../../../hooks/useAddress";
+import Selector from "../../../Selector";
 
 interface Props {
   open: boolean;

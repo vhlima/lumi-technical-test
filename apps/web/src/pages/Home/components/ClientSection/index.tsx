@@ -2,7 +2,7 @@ import { useSession } from "../../../../hooks/useSession";
 import InfoCardList from "./components/InfoCardList";
 import Section from "../Section";
 import { Divider } from "@mui/material";
-import AddressSelect from "./components/AddressSelect";
+import AddressSelect from "../../../../components/AddressSelect";
 
 const ClientSection: React.FC = () => {
   const { client: session } = useSession();

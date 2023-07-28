@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
 import AddressSelector from "./components/AddressSelector";
-import { useAddress } from "../../../../../../hooks/useAddress";
+import { useAddress } from "../../hooks/useAddress";
 
 const AddressSelect: React.FC = () => {
   const [open, setOpen] = useState<boolean>(false);
