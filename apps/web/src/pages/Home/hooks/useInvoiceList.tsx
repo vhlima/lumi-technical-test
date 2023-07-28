@@ -35,8 +35,6 @@ export const InvoiceListProvider: React.FC<PropsWithChildren> = (props) => {
 
       const listInvoicesService = new ListInvoicesService();
       const invoiceListResponse = await listInvoicesService.execute(session.id);
-
-      console.log(`invoice list? ${JSON.stringify(invoiceListResponse)}`);
       setInvoices(invoiceListResponse);
     })();
   }, [session]);
