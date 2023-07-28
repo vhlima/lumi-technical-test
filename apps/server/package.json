@@ -8,7 +8,7 @@
     "dev": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules src/index.ts",
     "migration:run": "dotenv -- typeorm-ts-node-esm migration:run -d src/infra/data-sources/postgres.ts",
     "test": "jest",
-    "build": "tsc --outDir build -p . --esModuleInterop --experimentalDecorators --resolveJsonModule --lib es6 --module commonjs",
+    "build": "tsc --outDir build -p tsconfig-build.json --esModuleInterop --experimentalDecorators --resolveJsonModule --lib es6 --module commonjs",
     "start": "node --loader ts-paths-esm-loader build/src/index.js"
   },
   "dependencies": {
