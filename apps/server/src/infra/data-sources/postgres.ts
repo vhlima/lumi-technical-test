@@ -10,7 +10,8 @@ export const PostgresDataSource = new DataSource({
   synchronize: process.env.NODE_ENV === 'development',
   logging: process.env.NODE_ENV === 'development',
   entities:['./src/infra/entities/**/*.ts'],
-  migrations: ['./src/infra/migrations/*.ts']
+  migrations: ['./src/infra/migrations/*.ts'],
+  migrationsRun: true,
 });
 
 export const connectPostgres = async () => {
