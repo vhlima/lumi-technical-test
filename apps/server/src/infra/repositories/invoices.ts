@@ -68,4 +68,21 @@ export class InvoicesRepository implements IInvoicesRepository {
 
     return invoice;
   }
+
+  public async findById(invoiceId: number): Promise<Invoice | null> {
+    const invoice = await this.ormRepository.findOne({
+      where: {
+        id: invoiceId,
+      },
+      relations: {
+        client: {
+          addresses: true,
+        },
+        address: true,
+        expenses: true,
+      }
+    });
+
+    return invoice;
+  }
 }

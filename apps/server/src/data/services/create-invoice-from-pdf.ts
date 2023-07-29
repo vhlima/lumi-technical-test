@@ -1,22 +1,22 @@
 import { Invoice } from "@/domain/entities";
-import {
-  CreateClient,
-  CreateClientAddress,
-  CreateInvoice,
-  CreateInvoiceExpense,
-  InvoiceParsers,
-  LoadPDF,
-} from "@/domain/usecases";
+import { InvoiceParsers, LoadPDF } from "@/domain/usecases";
 import { ServerError } from "@/errors";
+import {
+  IClientsAddressesRepository,
+  IClientsRepository,
+  IInvoicesExpensesRepository,
+  IInvoicesRepository,
+} from "../contracts";
+import { firstLetterUppercase } from "@/utils/string-utils";
 
 export class CreateInvoiceFromPDFService {
   constructor(
     private readonly pdfLoader: LoadPDF,
     private readonly invoiceParserService: InvoiceParsers,
-    private readonly createClientService: CreateClient,
-    private readonly createInvoiceService: CreateInvoice,
-    private readonly createInvoiceExpenseService: CreateInvoiceExpense,
-    private readonly createClientAddressService: CreateClientAddress
+    private readonly clientsRepository: IClientsRepository,
+    private readonly invoicesRepository: IInvoicesRepository,
+    private readonly invoicesExpensesRepository: IInvoicesExpensesRepository,
+    private readonly clientsAddressesRepository: IClientsAddressesRepository
   ) {}
 
   public async execute(
@@ -32,7 +32,11 @@ export class CreateInvoiceFromPDFService {
     const parsedInvoice = this.invoiceParserService.execute(textContent);
 
     if (!parsedInvoice) {
-      return null;
+      throw new ServerError(
+        "ErrorParsingInvoice",
+        "There was an error parsing this invoice",
+        400
+      );
     }
 
     if (clientId && parsedInvoice.client.id !== clientId) {
@@ -43,61 +47,104 @@ export class CreateInvoiceFromPDFService {
       );
     }
 
-    const createdClient = await this.createClientService.execute({
-      id: parsedInvoice.client.id,
-      fullName: parsedInvoice.client.fullName,
-    });
+    const invoiceDateExists = await this.invoicesRepository.findByDate(
+      parsedInvoice.client.id,
+      parsedInvoice.address.id,
+      parsedInvoice.relativeYear,
+      parsedInvoice.relativeMonth
+    );
 
-    const createdClientAddress = await this.createClientAddressService.execute({
-      clientId: parsedInvoice.client.id,
-      city: parsedInvoice.address.city,
-      district: parsedInvoice.address.district,
-      state: parsedInvoice.address.state,
-      streetAddress: parsedInvoice.address.streetAddress,
-      zipCode: parsedInvoice.address.zipCode,
-    });
-
-    if (!createdClient.addresses) {
-      createdClient.addresses = [];
+    if (invoiceDateExists) {
+      throw new ServerError(
+        "InvoiceAlreadyRegistered",
+        "There is already an invoice registered within this month",
+        409
+      );
     }
 
-    if (
-      createdClient.addresses.findIndex(
-        (address) => address.id === createdClientAddress.id
-      ) === -1
-    ) {
-      createdClient.addresses = [
-        ...createdClient.addresses,
-        createdClientAddress,
-      ];
+    /* Data transfer between parsed invoice and Invoice entity */
+    const invoice = new Invoice();
+    invoice.price = parsedInvoice.price;
+    invoice.expiresAt = parsedInvoice.expiresAt;
+    invoice.relativeMonth = parsedInvoice.relativeMonth;
+    invoice.relativeYear = parsedInvoice.relativeYear;
+
+    const clientExists = await this.clientsRepository.findById(
+      parsedInvoice.client.id
+    );
+
+    if (clientExists) {
+      invoice.client = clientExists;
+    } else {
+      invoice.client = await this.clientsRepository.create({
+        id: parsedInvoice.client.id,
+        fullName: parsedInvoice.client.fullName
+          .split(" ")
+          .map((name) => firstLetterUppercase(name))
+          .join(" "),
+      });
     }
 
-    const createdInvoice = await this.createInvoiceService.execute({
-      clientId: parsedInvoice.client.id,
-      addressId: createdClientAddress.id,
-      price: parsedInvoice.price,
-      expiresAt: parsedInvoice.expiresAt,
-      relativeMonth: parsedInvoice.relativeMonth,
-      relativeYear: parsedInvoice.relativeYear,
+    const addressExists =
+      await this.clientsAddressesRepository.findByStreetAddress(
+        parsedInvoice.address.streetAddress
+      );
+
+    if (addressExists) {
+      invoice.address = addressExists;
+    } else {
+      const { district, streetAddress, city, ...address } =
+        parsedInvoice.address;
+
+      invoice.address = await this.clientsAddressesRepository.create({
+        clientId: parsedInvoice.client.id,
+        ...address,
+        district: district
+          .split(" ")
+          .map((dis) => firstLetterUppercase(dis))
+          .join(" "),
+        streetAddress: streetAddress
+          .split(" ")
+          .map((address) => firstLetterUppercase(address))
+          .join(" "),
+        city: firstLetterUppercase(city),
+      });
+    }
+
+    const createdInvoice = await this.invoicesRepository.create({
+      clientId: invoice.client.id,
+      addressId: invoice.address.id,
+      price: invoice.price,
+      expiresAt: invoice.expiresAt,
+      relativeMonth: invoice.relativeMonth,
+      relativeYear: invoice.relativeYear,
     });
 
-    createdInvoice.client = createdClient;
-    createdInvoice.address = createdClientAddress;
+    invoice.id = createdInvoice.id;
 
-    const promises = parsedInvoice.expenses.map(async (expenseData) => {
-      const expense = await this.createInvoiceExpenseService.execute({
-        invoiceId: createdInvoice.id,
+    const expensesPromise = parsedInvoice.expenses.map(async (expenseData) => {
+      const expense = await this.invoicesExpensesRepository.create({
+        invoiceId: invoice.id,
         ...expenseData,
       });
       return expense;
     });
 
-    const createdExpenses = await Promise.all(promises);
-    createdInvoice.expenses = createdExpenses;
+    await Promise.all(expensesPromise);
+
+    const freshInvoice = await this.invoicesRepository.findById(invoice.id);
+
+    if (!freshInvoice) {
+      throw new ServerError(
+        "ErrorCreatingInvoice",
+        "There was an error while creating invoice",
+        400
+      );
+    }
 
     return {
-      ...createdInvoice,
-      energySpent: createdInvoice.energySpent,
+      ...freshInvoice,
+      energySpent: freshInvoice.energySpent,
     };
   }
 }

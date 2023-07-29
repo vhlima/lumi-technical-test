@@ -28,6 +28,11 @@ import {
 export function getCreateInvoiceFromPDFService(): CreateInvoiceFromPDFService {
   const labelMapper = new LabelMapperService();
 
+  // private readonly clientsRepository: IClientsRepository,
+  // private readonly invoicesRepository: IInvoicesRepository,
+  // private readonly invoicesExpensesRepository: IInvoicesExpensesRepository,
+  // private readonly clientsAddressesRepository: IClientsAddressesRepository
+
   const service = new CreateInvoiceFromPDFService(
     new LoadPDFAdapter(),
     new InvoiceParsersService(
@@ -36,10 +41,14 @@ export function getCreateInvoiceFromPDFService(): CreateInvoiceFromPDFService {
       new ParseExpensesService(new InvoiceExpenseValidator(), labelMapper),
       new ParseClientAddressService(new ClientAddressValidator(), labelMapper)
     ),
-    new CreateClientService(new ClientsRepository()),
-    new CreateInvoiceService(new InvoicesRepository()),
-    new CreateInvoiceExpenseService(new InvoicesExpensesRepository()),
-    new CreateClientAddressService(new ClientsAddressesRepository())
+    new ClientsRepository(),
+    new InvoicesRepository(),
+    new InvoicesExpensesRepository(),
+    new ClientsAddressesRepository(),
+    // new CreateClientService(new ClientsRepository()),
+    // new CreateInvoiceService(new InvoicesRepository()),
+    // new CreateInvoiceExpenseService(new InvoicesExpensesRepository()),
+    // new CreateClientAddressService(new ClientsAddressesRepository())
   );
   return service;
 }
