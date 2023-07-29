@@ -35,7 +35,11 @@ export const InvoiceListProvider: React.FC<PropsWithChildren> = (props) => {
 
       const listInvoicesService = new ListInvoicesService();
       const invoiceListResponse = await listInvoicesService.execute(address.id);
-      setInvoices(invoiceListResponse);
+
+      const invoicesSorted = invoiceListResponse.sort(
+        (i1, i2) => i1.relativeYear - i2.relativeYear
+      );
+      setInvoices(invoicesSorted);
     })();
   }, [address]);
 
