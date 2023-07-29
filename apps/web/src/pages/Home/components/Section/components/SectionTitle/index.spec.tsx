@@ -27,7 +27,16 @@ describe("SectionTitle", () => {
     expect(sectionElement).toBeInTheDocument();
     expect(sectionElement.textContent).toEqual(title);
 
-    const description = sut.queryByTestId("section-description");
-    expect(description).not.toBeInTheDocument();
+    const descriptionElement = sut.queryByTestId("section-description");
+    expect(descriptionElement).not.toBeInTheDocument();
+  });
+  test("Should render description correctly", () => {
+    const description = faker.lorem.lines(1);
+
+    const { sut } = createSut(description);
+
+    const descriptionElement = sut.getByTestId("section-description");
+    expect(descriptionElement).toBeInTheDocument();
+    expect(descriptionElement.textContent).toEqual(description);
   });
 });
