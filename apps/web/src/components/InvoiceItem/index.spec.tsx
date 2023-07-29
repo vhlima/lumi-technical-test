@@ -3,6 +3,7 @@ import { Invoice } from "../../interfaces";
 import { mockInvoice } from "../../../tests/mocks";
 import InvoiceItem from ".";
 import { format } from "date-fns";
+import { parseToBRL } from "../../utils/currency-parser";
 
 type SutType = {
   invoice: Invoice;
@@ -48,5 +49,25 @@ describe("InvoiceItem", () => {
     );
 
     expect(titleElement.textContent).toEqual(dateFormatted);
+  });
+  test("Should render invoice description correctly", () => {
+    const { sut, invoice } = createSut();
+
+    const priceElement = sut.getByTestId("invoice-item-price");
+    expect(priceElement).toBeInTheDocument();
+
+    const priceFormatted = parseToBRL(invoice.price);
+
+    expect(priceElement.textContent).toEqual(priceFormatted);
+
+    const expirationElement = sut.getByTestId("invoice-item-expiration");
+    expect(expirationElement).toBeInTheDocument();
+
+    const expirationFormatted = format(
+      new Date(invoice.expiresAt),
+      "MMMM dd, yyyy"
+    );
+
+    expect(expirationElement.textContent).toEqual(expirationFormatted);
   });
 });

@@ -46,16 +46,16 @@ const InvoiceItem: React.FC<Props> = (props) => {
                 variant="body2"
               >
                 {`Price: `}
-                <span data-testid="invoice-price">{parseToBRL(price)}</span>
+                <span data-testid="invoice-item-price">{parseToBRL(price)}</span>
               </Typography>
               <Typography
                 sx={{ display: "block" }}
                 component="span"
                 variant="body2"
-              >{`Expires at: ${format(
-                new Date(expiresAt),
-                "MMMM dd, yyyy"
-              )}`}</Typography>
+              >
+                {`Expires at: `}
+                <span data-testid="invoice-item-expiration">{format(new Date(expiresAt), "MMMM dd, yyyy")}</span>
+              </Typography>
             </>
           }
         />
