@@ -1,4 +1,4 @@
-import { RenderResult, cleanup, render } from "@testing-library/react";
+import { RenderResult, render } from "@testing-library/react";
 import InvoicesList from ".";
 import { faker } from "@faker-js/faker";
 import { Invoice } from "../../../../interfaces";
@@ -24,9 +24,6 @@ const createSut = (empty?: boolean): SutType => {
 };
 
 describe("InvoiceList", () => {
-  afterEach(() => {
-    cleanup();
-  });
   test("Should render a list of invoices", () => {
     const { sut, invoices } = createSut();
 
