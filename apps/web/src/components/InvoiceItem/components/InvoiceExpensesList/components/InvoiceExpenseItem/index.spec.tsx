@@ -27,7 +27,7 @@ describe("InvoiceExpenseItem", () => {
 
     const nameElement = sut.getByTestId("invoice-expense-name");
     expect(nameElement).toBeInTheDocument();
-    expect(nameElement).toEqual(expense.name);
+    expect(nameElement.textContent).toEqual(expense.name);
 
     const priceElement = sut.getByTestId("invoice-expense-price");
     expect(priceElement).toBeInTheDocument();
