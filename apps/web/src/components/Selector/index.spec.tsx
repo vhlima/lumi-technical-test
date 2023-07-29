@@ -20,7 +20,10 @@ const createSut = (childCount = 0): SutType => {
       emptyText={childCount === 0 ? emptyText : undefined}
       onClose={() => ({})}
     >
-      {childCount > 0 && <span>{childCount}</span>}
+      {childCount > 0 &&
+        Array.from({ length: childCount }).map((_, index) => (
+          <span key={`child-${index}`}>{childCount}</span>
+        ))}
     </Selector>
   );
 
