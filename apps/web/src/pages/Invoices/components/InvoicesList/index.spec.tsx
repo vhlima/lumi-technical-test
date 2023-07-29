@@ -1,4 +1,4 @@
-import { RenderResult, fireEvent, render } from "@testing-library/react";
+import { RenderResult, cleanup, render } from "@testing-library/react";
 import InvoicesList from ".";
 import { faker } from "@faker-js/faker";
 import { Invoice } from "../../../../interfaces";
@@ -10,8 +10,8 @@ type SutType = {
 };
 
 /* eslint-disable */
-const createSut = (): SutType => {
-  const invoices = Array.from({
+const createSut = (empty?: boolean): SutType => {
+  const invoices = empty ? [] : Array.from({
     length: faker.number.int({ min: 1, max: 5 }),
   }).map(() => mockInvoice());
 
@@ -24,6 +24,9 @@ const createSut = (): SutType => {
 };
 
 describe("InvoiceList", () => {
+  afterEach(() => {
+    cleanup();
+  });
   test("Should render a list of invoices", () => {
     const { sut, invoices } = createSut();
 
@@ -34,5 +37,14 @@ describe("InvoiceList", () => {
     expect(emptyElement).not.toBeInTheDocument();
 
     expect(listElement.childElementCount).toEqual(invoices.length);
+  });
+  test("Should render empty list message if invoices is empty", () => {
+    const { sut } = createSut(true);
+
+    const listElement = sut.queryByTestId("invoice-list");
+    expect(listElement).not.toBeInTheDocument();
+
+    const emptyElement = sut.getByTestId("invoice-list-empty");
+    expect(emptyElement).toBeInTheDocument();
   });
 });
