@@ -2,15 +2,21 @@ import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
 import AddressSelector from "./components/AddressSelector";
 import { useAddress } from "../../hooks/useAddress";
+import { useSession } from "../../hooks/useSession";
 
 const AddressSelect: React.FC = () => {
   const [open, setOpen] = useState<boolean>(false);
 
+  const { client: session } = useSession();
   const { address } = useAddress();
 
   return (
     <>
-      <AddressSelector open={open} onClose={() => setOpen(false)} />
+      <AddressSelector
+        addresses={session?.addresses || []}
+        open={open}
+        onClose={() => setOpen(false)}
+      />
 
       <Box
         sx={{
@@ -21,7 +27,11 @@ const AddressSelect: React.FC = () => {
           marginBottom: 2,
         }}
       >
-        <Typography sx={{ color: "text.primary" }} variant="h6" data-testid="street-address">
+        <Typography
+          sx={{ color: "text.primary" }}
+          variant="h6"
+          data-testid="street-address"
+        >
           {address.streetAddress}
         </Typography>
 

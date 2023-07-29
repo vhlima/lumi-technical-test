@@ -7,10 +7,10 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Client } from "../../../../../../../../interfaces";
-import { useSession } from "../../../../../../../../hooks/useSession";
-import { ListClientsService } from "../../../../../../../../services";
 import { Close } from "@mui/icons-material";
+import { useSession } from "../../../../../../../hooks/useSession";
+import { Client } from "../../../../../../../interfaces";
+import { ListClientsService } from "../../../../../../../services";
 import ClientItem from "./components/ClientItem";
 
 interface Props {

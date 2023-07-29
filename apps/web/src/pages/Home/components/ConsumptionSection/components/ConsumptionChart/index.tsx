@@ -10,9 +10,9 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { format, parseISO } from "date-fns";
-import { useInvoiceList } from "../../../../hooks/useInvoiceList";
+import { format } from "date-fns";
 import { useCallback, useMemo } from "react";
+import { useInvoiceList } from "../../../../../../hooks/useInvoiceList";
 
 ChartJS.register(
   CategoryScale,

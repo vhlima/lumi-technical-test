@@ -1,6 +1,6 @@
 import { List, Typography } from "@mui/material";
 import InvoiceItem from "../../../../../../components/InvoiceItem";
-import { useInvoiceList } from "../../../../hooks/useInvoiceList";
+import { useInvoiceList } from "../../../../../../hooks/useInvoiceList";
 
 const LatestInvoicesList: React.FC = () => {
   const { invoices } = useInvoiceList();

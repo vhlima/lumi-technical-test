@@ -1,18 +1,18 @@
 import { Button } from "@mui/material";
 import { useState } from "react";
-import ClientSelectorDialog from "./components/ClientSelectorDialog";
+import ClientSelectorDialog from "./components/AccountSelector";
 
-const ClientSelector: React.FC = () => {
+const AccountSelector: React.FC = () => {
   const [open, setOpen] = useState<boolean>(false);
 
   return (
     <>
       <ClientSelectorDialog open={open} onClose={() => setOpen(false)} />
-      <Button sx={{ marginLeft: "auto" }} onClick={() => setOpen(true)}>
+      <Button sx={{ color: 'white' }} onClick={() => setOpen(true)}>
         Switch account
       </Button>
     </>
   );
 };
 
-export default ClientSelector;
+export default AccountSelector;

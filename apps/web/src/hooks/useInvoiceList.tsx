@@ -8,10 +8,10 @@ import {
   useMemo,
   useState,
 } from "react";
+import { Invoice } from "../interfaces";
+import { useAddress } from "./useAddress";
+import { ListInvoicesService } from "../services";
 
-import { Invoice } from "../../../interfaces";
-import { ListInvoicesService } from "../../../services";
-import { useAddress } from "../../../hooks/useAddress";
 
 interface InvoiceListContextData {
   invoices: Invoice[];
@@ -35,7 +35,11 @@ export const InvoiceListProvider: React.FC<PropsWithChildren> = (props) => {
 
       const listInvoicesService = new ListInvoicesService();
       const invoiceListResponse = await listInvoicesService.execute(address.id);
-      setInvoices(invoiceListResponse);
+
+      const invoicesSorted = invoiceListResponse.sort(
+        (i1, i2) => i1.relativeYear - i2.relativeYear
+      );
+      setInvoices(invoicesSorted);
     })();
   }, [address]);
 

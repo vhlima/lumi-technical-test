@@ -45,7 +45,7 @@ const InvoiceItem: React.FC<Props> = (props) => {
                 component="span"
                 variant="body2"
               >
-                {`Price: `}
+                {`Cost: `}
                 <span data-testid="invoice-item-price">{parseToBRL(price)}</span>
               </Typography>
               <Typography

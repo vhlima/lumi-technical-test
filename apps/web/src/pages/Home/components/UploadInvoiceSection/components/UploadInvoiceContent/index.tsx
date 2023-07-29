@@ -3,7 +3,7 @@ import UploadInvoiceButton from "../UploadInvoiceButton";
 import { CreateInvoiceService } from "../../../../../../services";
 import { Typography } from "@mui/material";
 import { useSession } from "../../../../../../hooks/useSession";
-import { useInvoiceList } from "../../../../hooks/useInvoiceList";
+import { useInvoiceList } from "../../../../../../hooks/useInvoiceList";
 
 const UploadInvoiceContent: React.FC = (props) => {
   const { client: session, signIn } = useSession();
