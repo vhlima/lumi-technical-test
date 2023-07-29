@@ -41,17 +41,19 @@ export const mockPdfTextContent = (invoice: Partial<Invoice>): string[][] => {
 
   const price = invoice.price ? String(invoice.price) : "";
 
-  const relativeTo = invoice.relativeTo
-    ? `${parseMonthByIndex(
-        invoice.relativeTo.getMonth() - 1
-      )}/${invoice.relativeTo.getFullYear()}`
-    : "";
+  const relativeTo =
+    invoice.relativeMonth && invoice.relativeYear
+      ? `${parseMonthByIndex(invoice.relativeMonth)}/${
+          invoice.relativeYear
+        }`
+      : "";
 
-  const relativeToReduced = invoice.relativeTo
-    ? `${parseMonthByIndex(invoice.relativeTo.getMonth())
-        .slice(0, 3)
-        .toUpperCase()}/${invoice.relativeTo.getFullYear()}`
-    : "";
+  const relativeToReduced =
+    invoice.relativeMonth && invoice.relativeYear
+      ? `${parseMonthByIndex(invoice.relativeMonth)
+          .slice(0, 3)
+          .toUpperCase()}/${invoice.relativeYear}`
+      : "";
 
   const expiresAt = invoice.expiresAt
     ? formatDateToBrazilianTimeFormat(invoice.expiresAt)

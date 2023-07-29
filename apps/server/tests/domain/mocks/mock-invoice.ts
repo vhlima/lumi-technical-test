@@ -35,7 +35,8 @@ export const mockInvoice = (expenses?: InvoiceExpense[]): Invoice => {
     price: 0,
     expiresAt,
     id: faker.number.int(),
-    relativeTo,
+    relativeYear: relativeTo.getFullYear(),
+    relativeMonth: relativeTo.getMonth(),
   };
 
   invoice.expenses = expenses

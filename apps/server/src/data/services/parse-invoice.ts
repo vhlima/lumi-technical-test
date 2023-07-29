@@ -15,19 +15,31 @@ const labelMapping: LabelMappersObject = {
       return parseFloat(value.replace(",", "."));
     },
   },
-  relativeTo: {
+  relativeMonth: {
     label: "Referente a",
     location: [1, 1],
     parseValue: (value: string) => {
-      const [month, year] = value.split("/");
+      const [month] = value.split("/");
 
       const monthIndex = parseMonthByName(month);
-      if (monthIndex === -1 && isNaN(Number(year))) {
-        throw new Error("Error while parsing relative date from invoice");
+      if (monthIndex === -1) {
+        throw new Error("Error while parsing relative month from invoice");
       }
 
-      const parsedDate = new Date(parseInt(year, 10), monthIndex);
-      return parsedDate;
+      return monthIndex;
+    },
+  },
+  relativeYear: {
+    label: "Referente a",
+    location: [1, 1],
+    parseValue: (value: string) => {
+      const [, year] = value.split("/");
+
+      if (isNaN(Number(year))) {
+        throw new Error("Error while parsing relative year from invoice");
+      }
+
+      return parseInt(year, 10);
     },
   },
   expiresAt: {

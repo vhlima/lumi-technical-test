@@ -4,5 +4,5 @@ import { CreateInvoiceData } from "@/domain/usecases";
 export interface IInvoicesRepository {
   create: (data: CreateInvoiceData) => Promise<Invoice>;
   list: (addressId: number) => Promise<Invoice[]>;
-  findByDate: (clientId: number, addressId: number, date: Date) => Promise<Invoice | null>;
+  findByDate: (clientId: number, addressId: number, year: number, month: number) => Promise<Invoice | null>;
 }

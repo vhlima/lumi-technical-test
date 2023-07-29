@@ -28,12 +28,16 @@ export class CreateInvoices1690310475397 implements MigrationInterface {
             type: "double precision",
           },
           {
-            name: "relative_to",
-            type: "timestamp",
+            name: "relative_year",
+            type: "int",
+          },
+          {
+            name: "relative_month",
+            type: "int",
           },
           {
             name: "expires_at",
-            type: "timestamp",
+            type: "timestamptz",
           },
         ],
         foreignKeys: [

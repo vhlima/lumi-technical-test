@@ -16,7 +16,7 @@ describe("CreateInvoiceService", () => {
 
     const conflictingInvoice = mockInvoice();
     conflictingInvoice.client = invoice.client;
-    conflictingInvoice.relativeTo = invoice.relativeTo;
+    conflictingInvoice.relativeMonth = invoice.relativeMonth;
 
     // const response = sut.execute({
     //   ...conflictingInvoice,

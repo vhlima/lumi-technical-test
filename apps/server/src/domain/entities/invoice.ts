@@ -13,7 +13,9 @@ export class Invoice {
 
   energySpent: number;
 
-  relativeTo: Date;
+  relativeYear: number;
+  
+  relativeMonth: number;
 
   expiresAt: Date;
 }

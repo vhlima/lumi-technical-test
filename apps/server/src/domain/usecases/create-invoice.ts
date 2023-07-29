@@ -4,7 +4,8 @@ export interface CreateInvoiceData {
   clientId: number;
   addressId: number;
   price: number;
-  relativeTo: Date;
+  relativeYear: number;
+  relativeMonth: number;
   expiresAt: Date;
 }
 

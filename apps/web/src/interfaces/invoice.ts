@@ -5,7 +5,7 @@ export interface InvoiceExpense {
   name: string;
   price: number;
   quantity?: number;
-  unitaryPrice?: number; 
+  unitaryPrice?: number;
   unitaryTaxPrice?: number;
   measurementUnit?: string;
   invoice: Invoice;
@@ -24,7 +24,9 @@ export interface Invoice {
 
   expenses: InvoiceExpense[];
 
-  relativeTo: string;
+  relativeYear: number;
+  
+  relativeMonth: number;
 
   expiresAt: string;
 }

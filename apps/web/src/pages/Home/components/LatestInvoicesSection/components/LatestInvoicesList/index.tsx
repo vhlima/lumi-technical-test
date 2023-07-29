@@ -8,7 +8,8 @@ const LatestInvoicesList: React.FC = () => {
   const latestInvoices = invoices
     .sort(
       (i1, i2) =>
-        new Date(i2.relativeTo).getTime() - new Date(i1.relativeTo).getTime()
+        new Date(i2.relativeYear, i2.relativeMonth).getTime() -
+        new Date(i1.relativeYear, i1.relativeMonth).getTime()
     )
     .slice(0, 3);
 

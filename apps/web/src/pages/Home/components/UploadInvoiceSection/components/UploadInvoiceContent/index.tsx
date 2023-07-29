@@ -19,6 +19,8 @@ const UploadInvoiceContent: React.FC = (props) => {
     }
 
     try {
+      setUploadMessage('Loading...');
+
       const createInvoiceService = new CreateInvoiceService();
       const invoice = await createInvoiceService.execute(file, session?.id);
 

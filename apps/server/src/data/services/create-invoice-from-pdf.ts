@@ -77,7 +77,8 @@ export class CreateInvoiceFromPDFService {
       addressId: createdClientAddress.id,
       price: parsedInvoice.price,
       expiresAt: parsedInvoice.expiresAt,
-      relativeTo: parsedInvoice.relativeTo,
+      relativeMonth: parsedInvoice.relativeMonth,
+      relativeYear: parsedInvoice.relativeYear,
     });
 
     createdInvoice.client = createdClient;

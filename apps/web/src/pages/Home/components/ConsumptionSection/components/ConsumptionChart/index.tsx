@@ -10,8 +10,9 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { useInvoiceList } from "../../../../hooks/useInvoiceList";
+import { useCallback, useMemo } from "react";
 
 ChartJS.register(
   CategoryScale,
@@ -41,18 +42,17 @@ const ConsumptionChart: React.FC<Props> = (props) => {
     This function will group all the invoices from same month and sum the
     current value from each of them using the onValueIncrement function.
   */
-  const convertInvoicesToValue = (invoices: Invoice[]) => {
+  const convertInvoicesToValue = useCallback(() => {
     const invoicesByMonth: number[] = [];
 
     for (let i = 0; i < invoices.length; i++) {
       const invoice = invoices[i];
 
-      const date = new Date(invoice.relativeTo);
-      if (date.getFullYear() !== new Date(Date.now()).getFullYear()) {
+      if (invoice.relativeYear !== new Date(Date.now()).getFullYear()) {
         continue;
       }
 
-      const monthIndex = date.getMonth();
+      const monthIndex = invoice.relativeMonth;
 
       invoicesByMonth[monthIndex] = onValueIncrement(
         invoice,
@@ -61,7 +61,12 @@ const ConsumptionChart: React.FC<Props> = (props) => {
     }
 
     return invoicesByMonth;
-  };
+  }, [invoices, onValueIncrement]);
+
+  const invoicesValue = useMemo(
+    () => convertInvoicesToValue(),
+    [convertInvoicesToValue]
+  );
 
   return (
     <Bar
@@ -79,7 +84,7 @@ const ConsumptionChart: React.FC<Props> = (props) => {
         datasets: [
           {
             label,
-            data: convertInvoicesToValue(invoices),
+            data: invoicesValue,
             backgroundColor: "rgb(1, 41, 23)",
           },
         ],

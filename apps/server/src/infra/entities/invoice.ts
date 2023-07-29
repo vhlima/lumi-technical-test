@@ -48,9 +48,12 @@ export class InvoiceEntity implements Invoice {
   @OneToMany(() => InvoiceExpenseEntity, (expense) => expense.invoice)
   expenses: InvoiceExpense[];
 
-  @Column({ name: "relative_to" })
-  relativeTo: Date;
+  @Column({ name: "relative_year" })
+  relativeYear: number;
 
-  @Column({ name: "expires_at" })
+  @Column({ name: "relative_month" })
+  relativeMonth: number;
+
+  @Column({ name: "expires_at",  type: 'timestamptz' })
   expiresAt: Date;
 }

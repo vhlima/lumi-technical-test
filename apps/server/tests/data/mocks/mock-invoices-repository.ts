@@ -39,13 +39,15 @@ export class MockInvoicesRepository implements IInvoicesRepository {
   public async findByDate(
     clientId: number,
     addressId: number,
-    date: Date
+    year: number,
+    month: number
   ): Promise<Invoice | null> {
     const invoice = this.invoices.find(
       (invoice) =>
         invoice.client?.id === clientId &&
         invoice.address?.id === addressId &&
-        invoice.relativeTo.getTime() === date.getTime()
+        invoice.relativeMonth === month &&
+        invoice.relativeYear === year
     );
 
     return invoice || null;
@@ -57,7 +59,7 @@ export class MockInvoicesRepository implements IInvoicesRepository {
   ): Promise<Invoice[]> {
     const sorted = [...this.invoices]
       .filter((invoice) => invoice.client?.id === clientId)
-      .sort((i1, i2) => i1.relativeTo.getTime() - i2.relativeTo.getTime());
+      .sort((i1, i2) => (i1.relativeYear + i1.relativeMonth) - (i2.relativeYear + i2.relativeMonth));
 
     return sorted.slice(0, latest);
   }

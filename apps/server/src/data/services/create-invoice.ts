@@ -10,7 +10,8 @@ export class CreateInvoiceService implements CreateInvoice {
     const invoiceExists = await this.invoicesRepository.findByDate(
       data.clientId,
       data.addressId,
-      data.relativeTo
+      data.relativeYear,
+      data.relativeMonth,
     );
 
     if (invoiceExists) {

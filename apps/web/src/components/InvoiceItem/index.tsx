@@ -15,7 +15,7 @@ import { parseToBRL } from "../../utils/currency-parser";
 type Props = Invoice;
 
 const InvoiceItem: React.FC<Props> = (props) => {
-  const { price, expiresAt, relativeTo, expenses } = props;
+  const { price, expiresAt, relativeYear, relativeMonth, expenses } = props;
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -28,7 +28,7 @@ const InvoiceItem: React.FC<Props> = (props) => {
         <ListItemText
           primary={
             <Typography sx={{ color: "text.primary" }}>
-              {format(new Date(relativeTo), "MMMM/yyyy")}
+              {format(new Date(relativeYear, relativeMonth), "MMMM/yyyy")}
             </Typography>
           }
           secondary={
