@@ -1,7 +1,7 @@
-import { InvoiceExpense } from "@/domain/entities";
 import { ValidateInvoiceExpense } from "@/validation/contracts";
 import { ServerError } from "@/errors";
 import { Joi } from "celebrate";
+import { InvoiceExpenseModel } from "@/data/models";
 
 export class InvoiceExpenseValidator implements ValidateInvoiceExpense {
   private validationSchema = Joi.object({
@@ -13,7 +13,7 @@ export class InvoiceExpenseValidator implements ValidateInvoiceExpense {
     unitaryTaxPrice: Joi.number(),
   });
 
-  public execute(data: Record<string, unknown>): InvoiceExpense | null {
+  public execute(data: Record<string, unknown>): InvoiceExpenseModel | null {
     const validated = this.validationSchema.validate(data);
 
     if (validated.error) {
@@ -24,6 +24,6 @@ export class InvoiceExpenseValidator implements ValidateInvoiceExpense {
       );
     }
 
-    return validated.value as InvoiceExpense;
+    return validated.value as InvoiceExpenseModel;
   }
 }

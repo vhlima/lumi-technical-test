@@ -1,6 +1,5 @@
 export * from './load-pdf'
 export * from './parse-invoice';
-export * from './parse-invoice-expenses';
 export * from './list-invoices';
 export * from './label-mapper';
 export * from './parse-client';

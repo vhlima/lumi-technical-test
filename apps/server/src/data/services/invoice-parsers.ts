@@ -4,8 +4,8 @@ import {
   ParseClient,
   ParseClientAddress,
   ParseInvoice,
-  ParseInvoiceExpenses,
 } from "@/domain/usecases";
+import { ParseInvoiceExpenses } from "@/data/contracts";
 
 export class InvoiceParsersService implements InvoiceParsers {
   constructor(

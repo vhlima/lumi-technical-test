@@ -1,7 +1,8 @@
-import { LabelMapper, ParseInvoiceExpenses } from "@/domain/usecases";
-import { InvoiceExpense } from "@/domain/entities";
+import { LabelMapper } from "@/domain/usecases";
+import { InvoiceExpenseModel } from "@/data/models";
 import { ValidateInvoiceExpense } from "@/validation/contracts";
 import { ServerError } from "@/errors";
+import { ParseInvoiceExpenses } from "@/data/contracts";
 
 export class ParseExpensesService implements ParseInvoiceExpenses {
   constructor(
@@ -9,8 +10,8 @@ export class ParseExpensesService implements ParseInvoiceExpenses {
     private readonly labelMapper: LabelMapper
   ) {}
 
-  public execute(contentRows: string[][]): InvoiceExpense[] {
-    const expenses: InvoiceExpense[] = [];
+  public execute(contentRows: string[][]): InvoiceExpenseModel[] {
+    const expenses: InvoiceExpenseModel[] = [];
 
     this.labelMapper.execute(contentRows, {
       expenses: {
