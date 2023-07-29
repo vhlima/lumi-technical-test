@@ -45,4 +45,10 @@ describe("InfoCard", () => {
     const descriptionElement = sut.queryByTestId("info-card-description");
     expect(descriptionElement).not.toBeInTheDocument();
   });
+  test("Should render description if provided", () => {
+    const { sut } = createSut(faker.lorem.lines(1));
+
+    const descriptionElement = sut.getByTestId("info-card-description");
+    expect(descriptionElement).toBeInTheDocument();
+  });
 });
