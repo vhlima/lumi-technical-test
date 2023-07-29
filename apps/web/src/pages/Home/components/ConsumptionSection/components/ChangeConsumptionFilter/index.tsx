@@ -1,16 +1,14 @@
 import { SortRounded } from "@mui/icons-material";
 import { Box, Button, Menu, MenuItem, Typography } from "@mui/material";
 import { useState } from "react";
-import { useConsumptionFilter } from "../../hooks/useConsumptionFilter";
 
 interface Props {
+  filters: Record<string, { label: string }>;
   onChange: (filter: string) => void;
 }
 
 export const ChangeConsumptionFilter: React.FC<Props> = (props) => {
-  const { onChange } = props;
-
-  const { filters } = useConsumptionFilter();
+  const { filters, onChange } = props;
 
   const [anchorElUser, setAnchorElUser] = useState<HTMLElement>();
 

@@ -2,13 +2,19 @@ import ConsumptionChart from "./components/ConsumptionChart";
 import Section from "../Section";
 import { useState } from "react";
 import ChangeConsumptionFilter from "./components/ChangeConsumptionFilter";
-import { useConsumptionFilter } from "./hooks/useConsumptionFilter";
 import { Box } from "@mui/material";
 
 const ConsumptionSection: React.FC = () => {
   const [selectedValue, setSelectedValue] = useState<string>("cost");
 
-  const { filters } = useConsumptionFilter();
+  const filters = {
+    cost: {
+      label: "Cost",
+    },
+    energySpent: {
+      label: "Energy Spent",
+    },
+  };
 
   const currentValueInfo = filters[selectedValue as keyof typeof filters];
 
@@ -19,6 +25,7 @@ const ConsumptionSection: React.FC = () => {
         title={`Consumption Chart (${currentValueInfo.label})`}
       >
         <ChangeConsumptionFilter
+          filters={filters}
           onChange={(filter) => setSelectedValue(filter)}
         />
       </Section.Title>
