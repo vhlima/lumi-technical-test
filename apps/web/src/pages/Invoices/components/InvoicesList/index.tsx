@@ -12,9 +12,11 @@ const InvoicesList: React.FC<Props> = (props) => {
   return (
     <Box>
       {invoices.length === 0 ? (
-        <Typography>No invoice was found.</Typography>
+        <Typography data-testid="invoice-list-empty">
+          No invoice was found.
+        </Typography>
       ) : (
-        <List disablePadding>
+        <List disablePadding data-testid="invoice-list">
           {invoices.map((invoice) => (
             <InvoiceItem key={`invoice-item-${invoice.id}`} {...invoice} />
           ))}
