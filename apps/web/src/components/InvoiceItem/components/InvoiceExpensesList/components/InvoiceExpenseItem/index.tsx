@@ -27,7 +27,7 @@ const InvoiceExpenseItem: React.FC<Props> = (props) => {
 
       <Stack direction="column">
         <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          {`Price: `}
+          {`Cost: `}
           <span data-testid="invoice-expense-price">
             {parseToBRL(expense.price)}
           </span>
