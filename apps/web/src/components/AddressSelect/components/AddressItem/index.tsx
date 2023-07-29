@@ -15,13 +15,14 @@ const AddressItem: React.FC<Props> = (props) => {
         ...(active ? { backgroundColor: "primary.main" } : {}),
       }}
       disableGutters
+      data-testid={`address-item${active ? '-active' : ''}`}
     >
       <ListItemButton onClick={onClick}>
         <ListItemText
           sx={{
             ...(active ? { color: "white" } : {}),
           }}
-          primary={streetAddress}
+          primary={<span data-testid="street-address">{streetAddress}</span>}
         />
       </ListItemButton>
     </ListItem>
