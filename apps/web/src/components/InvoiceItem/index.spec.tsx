@@ -2,6 +2,7 @@ import { RenderResult, fireEvent, render } from "@testing-library/react";
 import { Invoice } from "../../interfaces";
 import { mockInvoice } from "../../../tests/mocks";
 import InvoiceItem from ".";
+import { format } from "date-fns";
 
 type SutType = {
   invoice: Invoice;
@@ -34,5 +35,18 @@ describe("InvoiceItem", () => {
     fireEvent.click(buttonElement);
 
     expect(sut.queryByTestId(collapseId)).toBeInTheDocument();
+  });
+  test("Should render invoice date correctly", () => {
+    const { sut, invoice } = createSut();
+
+    const titleElement = sut.getByTestId("invoice-item-title");
+    expect(titleElement).toBeInTheDocument();
+
+    const dateFormatted = format(
+      new Date(invoice.relativeYear, invoice.relativeMonth),
+      "MMMM/yyyy"
+    );
+
+    expect(titleElement.textContent).toEqual(dateFormatted);
   });
 });

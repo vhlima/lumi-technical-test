@@ -31,7 +31,10 @@ const InvoiceItem: React.FC<Props> = (props) => {
         </ListItemIcon>
         <ListItemText
           primary={
-            <Typography sx={{ color: "text.primary" }}>
+            <Typography
+              sx={{ color: "text.primary" }}
+              data-testid="invoice-item-title"
+            >
               {format(new Date(relativeYear, relativeMonth), "MMMM/yyyy")}
             </Typography>
           }
@@ -41,7 +44,10 @@ const InvoiceItem: React.FC<Props> = (props) => {
                 sx={{ display: "block" }}
                 component="span"
                 variant="body2"
-              >{`Price: ${parseToBRL(price)}`}</Typography>
+              >
+                {`Price: `}
+                <span data-testid="invoice-price">{parseToBRL(price)}</span>
+              </Typography>
               <Typography
                 sx={{ display: "block" }}
                 component="span"
