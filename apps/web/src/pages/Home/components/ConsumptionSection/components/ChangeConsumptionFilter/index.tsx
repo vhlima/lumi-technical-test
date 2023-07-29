@@ -51,6 +51,7 @@ export const ChangeConsumptionFilter: React.FC<Props> = (props) => {
               onChange(key);
               handleClose();
             }}
+            data-testid="consumption-filter-item"
           >
             <Typography textAlign="center">{filter.label}</Typography>
           </MenuItem>

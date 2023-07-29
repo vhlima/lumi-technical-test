@@ -42,10 +42,16 @@ describe("ChangeConsumptionFilter", () => {
 
     const dropdownId = "consumption-filter-dropdown";
 
-    expect(sut.getByTestId(dropdownId)).toHaveAttribute('aria-hidden', 'true');
+    expect(sut.getByTestId(dropdownId)).toHaveAttribute("aria-hidden", "true");
 
     fireEvent.click(buttonElement);
 
-    expect(sut.getByTestId(dropdownId)).not.toHaveAttribute('aria-hidden');
+    expect(sut.getByTestId(dropdownId)).not.toHaveAttribute("aria-hidden");
+  });
+  test("Should render a list of MenuItem", () => {
+    const { sut, filters } = createSut();
+
+    const itemsElements = sut.getAllByTestId("consumption-filter-item");
+    expect(itemsElements.length).toEqual(Object.keys(filters).length);
   });
 });
