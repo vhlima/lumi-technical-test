@@ -23,6 +23,7 @@ export const ChangeConsumptionFilter: React.FC<Props> = (props) => {
         variant="contained"
         startIcon={<SortRounded />}
         onClick={(e) => setAnchorElUser(e.currentTarget)}
+        data-testid="consumption-filter-button"
       >
         Change sort
       </Button>
@@ -41,6 +42,7 @@ export const ChangeConsumptionFilter: React.FC<Props> = (props) => {
         }}
         open={!!anchorElUser}
         onClose={handleClose}
+        data-testid="consumption-filter-dropdown"
       >
         {Object.entries(filters).map(([key, filter]) => (
           <MenuItem
