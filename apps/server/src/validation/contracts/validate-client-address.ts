@@ -1,5 +1,5 @@
-import { ClientAddress } from "@/domain/entities";
+import { ClientAddressModel } from "@/data/models";
 
 export interface ValidateClientAddress {
-  execute: (data: Record<string, unknown>) => ClientAddress | null;
+  execute: (data: Record<string, unknown>) => ClientAddressModel | null;
 }

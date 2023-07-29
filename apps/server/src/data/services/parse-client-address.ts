@@ -1,13 +1,10 @@
-import { ClientAddress } from "@/domain/entities";
-import {
-  LabelMapper,
-  LabelMappersObject,
-  ParseClientAddress,
-} from "@/domain/usecases";
+import { LabelMapper, LabelMappersObject } from "@/domain/usecases";
 import { firstLetterUppercase } from "@/utils/string-utils";
 import { ClientAddressValidator } from "@/validation/validators";
+import { ClientAddressModel } from "@/data/models";
+import { ParseClientAddress } from "@/data/contracts";
 
-const labelMapping: LabelMappersObject = {
+const labelMapping: LabelMappersObject<ClientAddressModel> = {
   streetAddress: {
     label: "Código de Débito Automático",
     location: [4, 1],
@@ -57,7 +54,7 @@ export class ParseClientAddressService implements ParseClientAddress {
     private readonly labelMapper: LabelMapper
   ) {}
 
-  public execute(contentRows: string[][]): ClientAddress | null {
+  public execute(contentRows: string[][]): ClientAddressModel | null {
     const clientAddressData = this.labelMapper.execute(
       contentRows,
       labelMapping
@@ -65,6 +62,7 @@ export class ParseClientAddressService implements ParseClientAddress {
 
     const validatedClientAddress =
       this.clientAddressValidation.execute(clientAddressData);
+
     return validatedClientAddress;
   }
 }

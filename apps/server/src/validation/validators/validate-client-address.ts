@@ -1,7 +1,7 @@
-import { ClientAddress } from "@/domain/entities";
 import { ValidateClientAddress } from "@/validation/contracts";
 import { ServerError } from "@/errors";
 import { Joi } from "celebrate";
+import { ClientAddressModel } from "@/data/models";
 
 export class ClientAddressValidator implements ValidateClientAddress {
   private validationSchema = Joi.object({
@@ -12,7 +12,7 @@ export class ClientAddressValidator implements ValidateClientAddress {
     city: Joi.string().required(),
   });
 
-  public execute(data: Record<string, unknown>): ClientAddress | null {
+  public execute(data: Record<string, unknown>): ClientAddressModel | null {
     const validated = this.validationSchema.validate(data);
 
     if (validated.error) {
@@ -23,6 +23,6 @@ export class ClientAddressValidator implements ValidateClientAddress {
       );
     }
 
-    return validated.value as ClientAddress;
+    return validated.value as ClientAddressModel;
   }
 }
