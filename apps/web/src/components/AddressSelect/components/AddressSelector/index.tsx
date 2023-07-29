@@ -1,17 +1,18 @@
-import { useSession } from "../../../../hooks/useSession";
 import { useAddress } from "../../../../hooks/useAddress";
 import Selector from "../../../Selector";
 import AddressItem from "../AddressItem";
+import { ClientAddress } from "../../../../interfaces";
+import { Typography } from "@mui/material";
 
 interface Props {
+  addresses: ClientAddress[];
   open: boolean;
   onClose: () => void;
 }
 
 const AddressSelector: React.FC<Props> = (props) => {
-  const { open, onClose } = props;
+  const { addresses, open, onClose } = props;
 
-  const { client: session } = useSession();
   const { address, setAddress } = useAddress();
 
   return (
@@ -21,8 +22,10 @@ const AddressSelector: React.FC<Props> = (props) => {
       onClose={onClose}
       data-testid="address-selector"
     >
-      {session &&
-        session.addresses.map((currentAddress) => {
+      {addresses.length === 0 ? (
+        <Typography>No address was found.</Typography>
+      ) : (
+        addresses.map((currentAddress) => {
           const active = currentAddress.id === address.id;
           return (
             <AddressItem
@@ -35,7 +38,8 @@ const AddressSelector: React.FC<Props> = (props) => {
               }}
             />
           );
-        })}
+        })
+      )}
     </Selector>
   );
 };
