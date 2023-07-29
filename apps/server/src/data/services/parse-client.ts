@@ -4,6 +4,7 @@ import {
   LabelMappersObject,
   ParseClient,
 } from "@/domain/usecases";
+import { firstLetterUppercase } from "@/utils/string-utils";
 import { ClientValidator } from "@/validation/validators";
 
 const labelMapping: LabelMappersObject = {
@@ -13,9 +14,15 @@ const labelMapping: LabelMappersObject = {
     parseValue: (value: string) => parseInt(value, 10),
   },
   fullName: {
-    label: 'Código de Débito Automático',
+    label: "Código de Débito Automático",
     location: [3, 3],
-  }
+    parseValue: (value: string) => {
+      return value
+        .split(" ")
+        .map((name) => firstLetterUppercase(name))
+        .join(" ");
+    },
+  },
 };
 
 export class ParseClientService implements ParseClient {

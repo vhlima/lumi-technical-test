@@ -7,7 +7,6 @@ import {
   IInvoicesExpensesRepository,
   IInvoicesRepository,
 } from "../contracts";
-import { firstLetterUppercase } from "@/utils/string-utils";
 
 export class CreateInvoiceFromPDFService {
   constructor(
@@ -78,10 +77,7 @@ export class CreateInvoiceFromPDFService {
     } else {
       invoice.client = await this.clientsRepository.create({
         id: parsedInvoice.client.id,
-        fullName: parsedInvoice.client.fullName
-          .split(" ")
-          .map((name) => firstLetterUppercase(name))
-          .join(" "),
+        fullName: parsedInvoice.client.fullName,
       });
     }
 
@@ -93,21 +89,9 @@ export class CreateInvoiceFromPDFService {
     if (addressExists) {
       invoice.address = addressExists;
     } else {
-      const { district, streetAddress, city, ...address } =
-        parsedInvoice.address;
-
       invoice.address = await this.clientsAddressesRepository.create({
         clientId: parsedInvoice.client.id,
-        ...address,
-        district: district
-          .split(" ")
-          .map((dis) => firstLetterUppercase(dis))
-          .join(" "),
-        streetAddress: streetAddress
-          .split(" ")
-          .map((address) => firstLetterUppercase(address))
-          .join(" "),
-        city: firstLetterUppercase(city),
+        ...parsedInvoice.address,
       });
     }
 
