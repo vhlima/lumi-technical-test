@@ -21,7 +21,11 @@ const InvoiceItem: React.FC<Props> = (props) => {
 
   return (
     <>
-      <ListItemButton divider onClick={() => setOpen((prev) => !prev)}>
+      <ListItemButton
+        divider
+        onClick={() => setOpen((prev) => !prev)}
+        data-testid="invoice-item-button"
+      >
         <ListItemIcon sx={{ color: "grey.600" }}>
           <Receipt fontSize="large" />
         </ListItemIcon>
@@ -53,7 +57,12 @@ const InvoiceItem: React.FC<Props> = (props) => {
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
 
-      <Collapse in={open} timeout="auto" unmountOnExit>
+      <Collapse
+        in={open}
+        timeout="auto"
+        unmountOnExit
+        data-testid="invoice-item-collapse"
+      >
         <InvoiceExpensesList expenses={expenses} />
       </Collapse>
     </>
