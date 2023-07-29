@@ -33,12 +33,14 @@ const YearsTab: React.FC<Props> = (props) => {
     <Tabs
       value={Object.keys(years)[0]}
       onChange={(_, value) => onChange(value)}
+      data-testid="year-tabs"
     >
       {Object.entries(years).map(([year, count]) => (
         <Tab
           key={`year-tab-${year}`}
           value={year}
           label={`${year} (${count})`}
+          data-testid="year-tab"
         />
       ))}
     </Tabs>
