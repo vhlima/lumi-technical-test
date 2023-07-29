@@ -1,13 +1,13 @@
-import { Invoice } from "@/domain/entities";
 import {
   LabelMapper,
   LabelMappersObject,
-  ParseInvoice,
 } from "@/domain/usecases";
 import { parseBrazilianDate, parseMonthByName } from "@/utils/date-utils";
 import { InvoiceValidator } from "@/validation/validators";
+import { ParseInvoice } from "@/data/contracts";
+import { InvoiceModel } from "@/data/models";
 
-const labelMapping: LabelMappersObject = {
+const labelMapping: LabelMappersObject<InvoiceModel> = {
   price: {
     label: "Valor a pagar (R$)",
     location: [1, 5],
@@ -55,7 +55,7 @@ export class ParseInvoiceService implements ParseInvoice {
     private readonly labelMapper: LabelMapper
   ) {}
 
-  public execute(contentRows: string[][]): Invoice | null {
+  public execute(contentRows: string[][]): InvoiceModel | null {
     const invoiceData = this.labelMapper.execute(contentRows, labelMapping);
 
     const validatedInvoice = this.invoiceValidation.execute(invoiceData);

@@ -30,7 +30,7 @@ interface LabelMapperItem {
   ) => string | number | Date | Record<string, unknown> | unknown[];
 }
 
-export type LabelMappersObject = { [key: string]: LabelMapperItem };
+export type LabelMappersObject<T = any> = { [key: string]: LabelMapperItem };
 
 export interface LabelMapper {
   execute: (contentRows: string[][], items: LabelMappersObject) => Record<string, unknown>;

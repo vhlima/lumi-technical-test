@@ -1,7 +1,7 @@
-import { Invoice } from "@/domain/entities";
 import { ValidateInvoice } from "@/validation/contracts";
 import { ServerError } from "@/errors";
 import { Joi } from "celebrate";
+import { InvoiceModel } from "@/data/models";
 
 export class InvoiceValidator implements ValidateInvoice {
   private validationSchema = Joi.object({
@@ -11,7 +11,7 @@ export class InvoiceValidator implements ValidateInvoice {
     expiresAt: Joi.date().required(),
   });
 
-  public execute(data: Record<string, unknown>): Invoice | null {
+  public execute(data: Record<string, unknown>): InvoiceModel | null {
     const validated = this.validationSchema.validate(data);
 
     if (validated.error) {
@@ -22,6 +22,6 @@ export class InvoiceValidator implements ValidateInvoice {
       );
     }
 
-    return validated.value as Invoice;
+    return validated.value as InvoiceModel;
   }
 }

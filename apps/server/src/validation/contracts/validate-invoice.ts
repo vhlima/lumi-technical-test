@@ -1,5 +1,5 @@
-import { Invoice } from "@/domain/entities";
+import { InvoiceModel } from "@/data/models";
 
 export interface ValidateInvoice {
-  execute: (data: Record<string, unknown>) => Invoice | null;
+  execute: (data: Record<string, unknown>) => InvoiceModel | null;
 }
