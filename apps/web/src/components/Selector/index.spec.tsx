@@ -49,4 +49,16 @@ describe("Selector", () => {
     const listElement = sut.queryByTestId("selector-list");
     expect(listElement).not.toBeInTheDocument();
   });
+  test("Should render list correctly", () => {
+    const childCount = faker.number.int({ min: 1, max: 5 });
+
+    const { sut } = createSut(childCount);
+
+    const listElement = sut.getByTestId("selector-list");
+    expect(listElement).toBeInTheDocument();
+    expect(listElement.childElementCount).toEqual(childCount);
+
+    const emptyElement = sut.queryByTestId("selector-empty");
+    expect(emptyElement).not.toBeInTheDocument();
+  });
 });
