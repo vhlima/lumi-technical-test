@@ -4,7 +4,7 @@ import { Receipt, AttachMoney, MonetizationOn, Power } from "@mui/icons-material
 
 import InfoCard from "../InfoCard";
 import { parseToBRL } from "../../../../../../utils/currency-parser";
-import { useInvoiceList } from "../../../../hooks/useInvoiceList";
+import { useInvoiceList } from "../../../../../../hooks/useInvoiceList";
 
 const InfoCardList: React.FC = () => {
   const { invoices } = useInvoiceList();

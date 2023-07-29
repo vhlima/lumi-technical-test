@@ -3,8 +3,8 @@ import Layout from "../../layout";
 import { Navigate } from "react-router-dom";
 import AddressSelect from "../../components/AddressSelect";
 import { useSession } from "../../hooks/useSession";
-import { InvoiceListProvider } from "../Home/hooks/useInvoiceList";
 import Invoices from "./components/Invoices";
+import { InvoiceListProvider } from "../../hooks/useInvoiceList";
 
 const InvoicesPage: React.FC = () => {
   const { client: session } = useSession();

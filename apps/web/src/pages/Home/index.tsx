@@ -6,7 +6,7 @@ import ClientSection from "./components/ClientSection";
 import { useSession } from "../../hooks/useSession";
 import UnauthSection from "./components/UnauthSection";
 import LatestInvoicesSection from "./components/LatestInvoicesSection";
-import { InvoiceListProvider } from "./hooks/useInvoiceList";
+import { InvoiceListProvider } from "../../hooks/useInvoiceList";
 
 const HomePage: React.FC = () => {
   const { client: session } = useSession();

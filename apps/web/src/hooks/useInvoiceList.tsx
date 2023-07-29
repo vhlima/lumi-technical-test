@@ -8,10 +8,10 @@ import {
   useMemo,
   useState,
 } from "react";
+import { Invoice } from "../interfaces";
+import { useAddress } from "./useAddress";
+import { ListInvoicesService } from "../services";
 
-import { Invoice } from "../../../interfaces";
-import { ListInvoicesService } from "../../../services";
-import { useAddress } from "../../../hooks/useAddress";
 
 interface InvoiceListContextData {
   invoices: Invoice[];

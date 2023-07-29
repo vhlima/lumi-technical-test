@@ -1,8 +1,8 @@
 import { Divider } from "@mui/material";
-import { useInvoiceList } from "../../../Home/hooks/useInvoiceList";
 import YearsTab from "../YearsTab";
 import InvoicesList from "../InvoicesList";
 import { useMemo, useState } from "react";
+import { useInvoiceList } from "../../../../hooks/useInvoiceList";
 
 const Invoices: React.FC = () => {
   const { invoices } = useInvoiceList();
