@@ -1,7 +1,7 @@
-import { ListItem, ListItemButton, ListItemText } from "@mui/material";
 import { useSession } from "../../../../hooks/useSession";
 import { useAddress } from "../../../../hooks/useAddress";
 import Selector from "../../../Selector";
+import AddressItem from "../AddressItem";
 
 interface Props {
   open: boolean;
@@ -15,32 +15,25 @@ const AddressSelector: React.FC<Props> = (props) => {
   const { address, setAddress } = useAddress();
 
   return (
-    <Selector title="Select your address" open={open} onClose={onClose} data-testid="address-selector">
+    <Selector
+      title="Select your address"
+      open={open}
+      onClose={onClose}
+      data-testid="address-selector"
+    >
       {session &&
         session.addresses.map((currentAddress) => {
           const active = currentAddress.id === address.id;
           return (
-            <ListItem
+            <AddressItem
               key={`address-${currentAddress.id}`}
-              sx={{
-                ...(active ? { backgroundColor: "primary.main" } : {}),
+              streetAddress={currentAddress.streetAddress}
+              active={active}
+              onClick={() => {
+                setAddress(currentAddress);
+                onClose();
               }}
-              disableGutters
-            >
-              <ListItemButton
-                onClick={() => {
-                  setAddress(currentAddress);
-                  onClose();
-                }}
-              >
-                <ListItemText
-                  sx={{
-                    ...(active ? { color: "white" } : {}),
-                  }}
-                  primary={currentAddress.streetAddress}
-                />
-              </ListItemButton>
-            </ListItem>
+            />
           );
         })}
     </Selector>
