@@ -10,7 +10,7 @@ const InvoiceExpensesList: React.FC<Props> = (props) => {
   const { expenses } = props;
 
   return (
-    <List disablePadding>
+    <List disablePadding data-testid="invoice-expenses-list">
       {expenses.map((expense) => (
         <InvoiceExpenseItem
           key={`invoice-expense-${expense.id}`}
