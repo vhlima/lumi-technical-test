@@ -47,8 +47,7 @@ describe("AddressSelect", () => {
 
     const addressSelectorId = "address-selector";
     
-    const dialogElement = sut.queryByTestId(addressSelectorId);
-    expect(dialogElement).not.toBeInTheDocument();
+    expect(sut.queryByTestId(addressSelectorId)).not.toBeInTheDocument();
 
     fireEvent.click(buttonElement);
     

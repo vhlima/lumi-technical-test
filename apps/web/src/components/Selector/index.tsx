@@ -17,10 +17,10 @@ interface Props {
 }
 
 const Selector: React.FC<PropsWithChildren<Props>> = (props) => {
-  const { title, open, emptyText, children, onClose } = props;
+  const { title, open, emptyText, children, onClose, ...rest } = props;
 
   return (
-    <Dialog onClose={onClose} open={open}>
+    <Dialog onClose={onClose} open={open} {...rest}>
       <DialogTitle>
         {title}
         <IconButton
