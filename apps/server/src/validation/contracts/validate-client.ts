@@ -1,5 +1,5 @@
-import { Client } from "@/domain/entities";
+import { ClientModel } from "@/data/models";
 
 export interface ValidateClient {
-  execute: (data: Record<string, unknown>) => Client | null;
+  execute: (data: Record<string, unknown>) => ClientModel | null;
 }

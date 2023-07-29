@@ -1,13 +1,10 @@
-import { Client } from "@/domain/entities";
-import {
-  LabelMapper,
-  LabelMappersObject,
-  ParseClient,
-} from "@/domain/usecases";
+import { LabelMapper, LabelMappersObject } from "@/domain/usecases";
 import { firstLetterUppercase } from "@/utils/string-utils";
 import { ClientValidator } from "@/validation/validators";
+import { ClientModel } from "@/data/models";
+import { ParseClient } from "@/data/contracts";
 
-const labelMapping: LabelMappersObject = {
+const labelMapping: LabelMappersObject<ClientModel> = {
   id: {
     label: "Nº DO CLIENTE",
     location: [1, 1],
@@ -31,7 +28,7 @@ export class ParseClientService implements ParseClient {
     private readonly labelMapper: LabelMapper
   ) {}
 
-  public execute(contentRows: string[][]): Client | null {
+  public execute(contentRows: string[][]): ClientModel | null {
     const clientData = this.labelMapper.execute(contentRows, labelMapping);
 
     const validatedClient = this.clientValidation.execute(clientData);

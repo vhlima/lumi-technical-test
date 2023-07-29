@@ -4,3 +4,4 @@ export * from './clients-repository';
 export * from './clients-addresses-repository';
 export * from './parse-invoice-expenses';
 export * from './parse-invoice';
+export * from './parse-client';

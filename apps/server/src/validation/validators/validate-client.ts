@@ -1,7 +1,7 @@
-import { Client } from "@/domain/entities";
 import { ValidateClient } from "@/validation/contracts";
 import { ServerError } from "@/errors";
 import { Joi } from "celebrate";
+import { ClientModel } from "@/data/models";
 
 export class ClientValidator implements ValidateClient {
   private validationSchema = Joi.object({
@@ -9,7 +9,7 @@ export class ClientValidator implements ValidateClient {
     fullName: Joi.string().required(),
   });
 
-  public execute(data: Record<string, unknown>): Client | null {
+  public execute(data: Record<string, unknown>): ClientModel | null {
     const validated = this.validationSchema.validate(data);
 
     if (validated.error) {
@@ -20,6 +20,6 @@ export class ClientValidator implements ValidateClient {
       );
     }
 
-    return validated.value as Client;
+    return validated.value as ClientModel;
   }
 }
