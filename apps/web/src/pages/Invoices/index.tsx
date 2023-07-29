@@ -1,9 +1,10 @@
 import { CircularProgress, Divider, Typography } from "@mui/material";
 import Layout from "../../layout";
-import InvoicesList from "./components/InvoicesList";
 import { Navigate } from "react-router-dom";
 import AddressSelect from "../../components/AddressSelect";
 import { useSession } from "../../hooks/useSession";
+import { InvoiceListProvider } from "../Home/hooks/useInvoiceList";
+import Invoices from "./components/Invoices";
 
 const InvoicesPage: React.FC = () => {
   const { client: session } = useSession();
@@ -33,7 +34,9 @@ const InvoicesPage: React.FC = () => {
       <AddressSelect />
       <Divider />
 
-      <InvoicesList />
+      <InvoiceListProvider>
+        <Invoices />
+      </InvoiceListProvider>
     </Layout>
   );
 };
