@@ -15,7 +15,7 @@ const AddressSelector: React.FC<Props> = (props) => {
   const { address, setAddress } = useAddress();
 
   return (
-    <Selector title="Select your address" open={open} onClose={onClose}>
+    <Selector title="Select your address" open={open} onClose={onClose} data-testid="address-selector">
       {session &&
         session.addresses.map((currentAddress) => {
           const active = currentAddress.id === address.id;

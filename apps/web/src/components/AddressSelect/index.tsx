@@ -29,6 +29,7 @@ const AddressSelect: React.FC = () => {
           sx={{ sm: { width: "100%" }, marginLeft: { md: "auto" } }}
           variant="contained"
           onClick={() => setOpen(true)}
+          data-testid="address-select-button"
         >
           Change selected address
         </Button>

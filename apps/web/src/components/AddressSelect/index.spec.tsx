@@ -1,9 +1,7 @@
-import { RenderResult, render } from "@testing-library/react";
+import { RenderResult, fireEvent, render } from "@testing-library/react";
 import { ClientAddress } from "../../interfaces";
 import { AddressProvider } from "../../hooks/useAddress";
 import AddressSelect from ".";
-
-jest.mock("axios");
 
 type SutType = {
   address: ClientAddress;
@@ -40,5 +38,20 @@ describe("AddressSelect", () => {
     const titleElement = sut.getByTestId("street-address");
     expect(titleElement).toBeInTheDocument();
     expect(titleElement.textContent).toEqual(address.streetAddress);
+  });
+  test("Should show AddressSelector on button click", () => {
+    const { sut, address } = createSut();
+
+    const buttonElement = sut.getByTestId("address-select-button");
+    expect(buttonElement).toBeInTheDocument();
+
+    const addressSelectorId = "address-selector";
+    
+    const dialogElement = sut.queryByTestId(addressSelectorId);
+    expect(dialogElement).not.toBeInTheDocument();
+
+    fireEvent.click(buttonElement);
+    
+    expect(sut.queryByTestId(addressSelectorId)).toBeInTheDocument();
   });
 });
