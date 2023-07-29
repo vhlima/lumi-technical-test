@@ -21,7 +21,7 @@ const AddressSelect: React.FC = () => {
           marginBottom: 2,
         }}
       >
-        <Typography sx={{ color: "text.primary" }} variant="h6">
+        <Typography sx={{ color: "text.primary" }} variant="h6" data-testid="street-address">
           {address.streetAddress}
         </Typography>
 
@@ -29,6 +29,7 @@ const AddressSelect: React.FC = () => {
           sx={{ sm: { width: "100%" }, marginLeft: { md: "auto" } }}
           variant="contained"
           onClick={() => setOpen(true)}
+          data-testid="address-select-button"
         >
           Change selected address
         </Button>

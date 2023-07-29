@@ -1,5 +1,6 @@
-import { List, ListItem, Stack, Typography } from "@mui/material";
+import { List } from "@mui/material";
 import { InvoiceExpense } from "../../../../interfaces";
+import InvoiceExpenseItem from "./components/InvoiceExpenseItem";
 
 interface Props {
   expenses: InvoiceExpense[];
@@ -9,42 +10,12 @@ const InvoiceExpensesList: React.FC<Props> = (props) => {
   const { expenses } = props;
 
   return (
-    <List disablePadding>
+    <List disablePadding data-testid="invoice-expenses-list">
       {expenses.map((expense) => (
-        <ListItem
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "start",
-          }}
+        <InvoiceExpenseItem
           key={`invoice-expense-${expense.id}`}
-          divider
-        >
-          <Typography sx={{ color: "text.primary" }}>{expense.name}</Typography>
-
-          <Stack direction="column">
-            <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              Price: R$ {expense.price}
-            </Typography>
-            {expense.quantity && (
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                {`Consumption: ${expense.quantity}${
-                  expense.measurementUnit ? ` ${expense.measurementUnit}` : ""
-                }`}
-              </Typography>
-            )}
-            {expense.unitaryPrice && (
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                Unitary Price: {expense.unitaryPrice}
-              </Typography>
-            )}
-            {expense.unitaryTaxPrice && (
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                Unitary Tax Price: {expense.unitaryTaxPrice}
-              </Typography>
-            )}
-          </Stack>
-        </ListItem>
+          expense={expense}
+        />
       ))}
     </List>
   );

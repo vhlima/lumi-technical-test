@@ -12,16 +12,16 @@ import { PropsWithChildren } from "react";
 interface Props {
   title: string;
   open: boolean;
-  emptyText?: boolean;
+  emptyText?: string;
   onClose: () => void;
 }
 
 const Selector: React.FC<PropsWithChildren<Props>> = (props) => {
-  const { title, open, emptyText, children, onClose } = props;
+  const { title, open, emptyText, children, onClose, ...rest } = props;
 
   return (
-    <Dialog onClose={onClose} open={open}>
-      <DialogTitle>
+    <Dialog onClose={onClose} open={open} {...rest}>
+      <DialogTitle data-testid="selector-title">
         {title}
         <IconButton
           size="large"
@@ -32,12 +32,12 @@ const Selector: React.FC<PropsWithChildren<Props>> = (props) => {
         </IconButton>
       </DialogTitle>
 
-      {emptyText ? (
+      {!!emptyText ? (
         <DialogContent>
-          <Typography>{emptyText}</Typography>
+          <Typography data-testid="selector-empty">{emptyText}</Typography>
         </DialogContent>
       ) : (
-        <List sx={{ pt: 0 }}>{children}</List>
+        <List sx={{ pt: 0 }} data-testid="selector-list">{children}</List>
       )}
     </Dialog>
   );

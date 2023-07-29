@@ -21,13 +21,20 @@ const InvoiceItem: React.FC<Props> = (props) => {
 
   return (
     <>
-      <ListItemButton divider onClick={() => setOpen((prev) => !prev)}>
+      <ListItemButton
+        divider
+        onClick={() => setOpen((prev) => !prev)}
+        data-testid="invoice-item-button"
+      >
         <ListItemIcon sx={{ color: "grey.600" }}>
           <Receipt fontSize="large" />
         </ListItemIcon>
         <ListItemText
           primary={
-            <Typography sx={{ color: "text.primary" }}>
+            <Typography
+              sx={{ color: "text.primary" }}
+              data-testid="invoice-item-title"
+            >
               {format(new Date(relativeYear, relativeMonth), "MMMM/yyyy")}
             </Typography>
           }
@@ -37,15 +44,18 @@ const InvoiceItem: React.FC<Props> = (props) => {
                 sx={{ display: "block" }}
                 component="span"
                 variant="body2"
-              >{`Price: ${parseToBRL(price)}`}</Typography>
+              >
+                {`Price: `}
+                <span data-testid="invoice-item-price">{parseToBRL(price)}</span>
+              </Typography>
               <Typography
                 sx={{ display: "block" }}
                 component="span"
                 variant="body2"
-              >{`Expires at: ${format(
-                new Date(expiresAt),
-                "MMMM dd, yyyy"
-              )}`}</Typography>
+              >
+                {`Expires at: `}
+                <span data-testid="invoice-item-expiration">{format(new Date(expiresAt), "MMMM dd, yyyy")}</span>
+              </Typography>
             </>
           }
         />
@@ -53,7 +63,12 @@ const InvoiceItem: React.FC<Props> = (props) => {
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
 
-      <Collapse in={open} timeout="auto" unmountOnExit>
+      <Collapse
+        in={open}
+        timeout="auto"
+        unmountOnExit
+        data-testid="invoice-item-collapse"
+      >
         <InvoiceExpensesList expenses={expenses} />
       </Collapse>
     </>
