@@ -1,10 +1,11 @@
-import { Invoice } from "@/domain/entities";
 import {
   InvoiceParsers,
+  InvoiceParsersResponse,
   ParseClient,
   ParseClientAddress,
-} from "@/domain/usecases";
-import { ParseInvoice, ParseInvoiceExpenses } from "@/data/contracts";
+  ParseInvoice,
+  ParseInvoiceExpenses,
+} from "@/data/contracts";
 
 export class InvoiceParsersService implements InvoiceParsers {
   constructor(
@@ -14,7 +15,7 @@ export class InvoiceParsersService implements InvoiceParsers {
     private readonly parseClientAddressService: ParseClientAddress
   ) {}
 
-  public execute(contentRows: string[][]): Invoice | null {
+  public execute(contentRows: string[][]): InvoiceParsersResponse | null {
     const parsedClient = this.parseClientService.execute(contentRows);
 
     if (!parsedClient) {
@@ -34,13 +35,13 @@ export class InvoiceParsersService implements InvoiceParsers {
       return null;
     }
 
-    parsedInvoice.client = parsedClient;
-    parsedInvoice.address = parsedClientAddress;
-
     const parsedExpenses = this.parseInvoiceExpenseService.execute(contentRows);
 
-    parsedInvoice.expenses = parsedExpenses;
-
-    return parsedInvoice;
+    return {
+      client: parsedClient,
+      expenses: parsedExpenses,
+      invoice: parsedInvoice,
+      address: parsedClientAddress,
+    };
   }
 }
