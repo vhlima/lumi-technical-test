@@ -2,7 +2,7 @@ import { useAddress } from "../../../../hooks/useAddress";
 import Selector from "../../../Selector";
 import AddressItem from "../AddressItem";
 import { ClientAddress } from "../../../../interfaces";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 interface Props {
   addresses: ClientAddress[];
@@ -23,22 +23,26 @@ const AddressSelector: React.FC<Props> = (props) => {
       data-testid="address-selector"
     >
       {addresses.length === 0 ? (
-        <Typography>No address was found.</Typography>
+        <Typography data-testid="address-selector-empty">
+          No address was found.
+        </Typography>
       ) : (
-        addresses.map((currentAddress) => {
-          const active = currentAddress.id === address.id;
-          return (
-            <AddressItem
-              key={`address-${currentAddress.id}`}
-              streetAddress={currentAddress.streetAddress}
-              active={active}
-              onClick={() => {
-                setAddress(currentAddress);
-                onClose();
-              }}
-            />
-          );
-        })
+        <Box data-testid="address-selector-list">
+          {addresses.map((currentAddress) => {
+            const active = currentAddress.id === address.id;
+            return (
+              <AddressItem
+                key={`address-${currentAddress.id}`}
+                streetAddress={currentAddress.streetAddress}
+                active={active}
+                onClick={() => {
+                  setAddress(currentAddress);
+                  onClose();
+                }}
+              />
+            );
+          })}
+        </Box>
       )}
     </Selector>
   );
