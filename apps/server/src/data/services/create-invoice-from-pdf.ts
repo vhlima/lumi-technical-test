@@ -1,12 +1,13 @@
 import { Invoice } from "@/domain/entities";
-import { InvoiceParsers, LoadPDF } from "@/domain/usecases";
+import { LoadPDF } from "@/domain/usecases";
 import { ServerError } from "@/errors";
 import {
   IClientsAddressesRepository,
   IClientsRepository,
   IInvoicesExpensesRepository,
   IInvoicesRepository,
-} from "../contracts";
+  InvoiceParsers,
+} from "@/data/contracts";
 
 export class CreateInvoiceFromPDFService {
   constructor(
@@ -28,9 +29,9 @@ export class CreateInvoiceFromPDFService {
 
     const textContent = await page.getTextContent();
 
-    const parsedInvoice = this.invoiceParserService.execute(textContent);
+    const parserResponse = this.invoiceParserService.execute(textContent);
 
-    if (!parsedInvoice) {
+    if (!parserResponse) {
       throw new ServerError(
         "ErrorParsingInvoice",
         "There was an error parsing this invoice",
@@ -38,7 +39,14 @@ export class CreateInvoiceFromPDFService {
       );
     }
 
-    if (clientId && parsedInvoice.client.id !== clientId) {
+    const {
+      invoice: parsedInvoice,
+      client: parsedClient,
+      expenses: parsedExpenses,
+      address: parsedAddress,
+    } = parserResponse;
+
+    if (clientId && parsedClient.id !== clientId) {
       throw new ServerError(
         "InvoiceNotFromClient",
         "This Invoice is not from the current client you are trying to upload",
@@ -47,8 +55,8 @@ export class CreateInvoiceFromPDFService {
     }
 
     const invoiceDateExists = await this.invoicesRepository.findByDate(
-      parsedInvoice.client.id,
-      parsedInvoice.address.id,
+      parsedClient.id,
+      parsedAddress.id,
       parsedInvoice.relativeYear,
       parsedInvoice.relativeMonth
     );
@@ -68,30 +76,28 @@ export class CreateInvoiceFromPDFService {
     invoice.relativeMonth = parsedInvoice.relativeMonth;
     invoice.relativeYear = parsedInvoice.relativeYear;
 
-    const clientExists = await this.clientsRepository.findById(
-      parsedInvoice.client.id
-    );
+    const clientExists = await this.clientsRepository.findById(parsedClient.id);
 
     if (clientExists) {
       invoice.client = clientExists;
     } else {
       invoice.client = await this.clientsRepository.create({
-        id: parsedInvoice.client.id,
-        fullName: parsedInvoice.client.fullName,
+        id: parsedClient.id,
+        fullName: parsedClient.fullName,
       });
     }
 
     const addressExists =
       await this.clientsAddressesRepository.findByStreetAddress(
-        parsedInvoice.address.streetAddress
+        parsedAddress.streetAddress
       );
 
     if (addressExists) {
       invoice.address = addressExists;
     } else {
       invoice.address = await this.clientsAddressesRepository.create({
-        clientId: parsedInvoice.client.id,
-        ...parsedInvoice.address,
+        clientId: parsedClient.id,
+        ...parsedAddress,
       });
     }
 
@@ -106,7 +112,7 @@ export class CreateInvoiceFromPDFService {
 
     invoice.id = createdInvoice.id;
 
-    const expensesPromise = parsedInvoice.expenses.map(async (expenseData) => {
+    const expensesPromise = parsedExpenses.map(async (expenseData) => {
       const expense = await this.invoicesExpensesRepository.create({
         invoiceId: invoice.id,
         ...expenseData,

@@ -5,6 +5,7 @@ import { ClientAddressModel } from "@/data/models";
 
 export class ClientAddressValidator implements ValidateClientAddress {
   private validationSchema = Joi.object({
+    id: Joi.number().required(),
     streetAddress: Joi.string().required(),
     district: Joi.string().required(),
     zipCode: Joi.string().required(),

@@ -21,7 +21,7 @@ export class CreateInvoices1690310475397 implements MigrationInterface {
           },
           {
             name: "address_id",
-            type: "int",
+            type: "bigint",
           },
           {
             name: "price",

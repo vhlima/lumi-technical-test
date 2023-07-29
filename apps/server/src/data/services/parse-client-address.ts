@@ -5,6 +5,13 @@ import { ClientAddressModel } from "@/data/models";
 import { ParseClientAddress } from "@/data/contracts";
 
 const labelMapping: LabelMappersObject<ClientAddressModel> = {
+  id: {
+    label: "Código de Débito Automático",
+    location: [1, 3],
+    parseValue: (value: string) => {
+      return parseInt(value, 10);
+    },
+  },
   streetAddress: {
     label: "Código de Débito Automático",
     location: [4, 1],
