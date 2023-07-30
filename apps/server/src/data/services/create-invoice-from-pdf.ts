@@ -87,10 +87,9 @@ export class CreateInvoiceFromPDFService {
       });
     }
 
-    const addressExists =
-      await this.clientsAddressesRepository.findByStreetAddress(
-        parsedAddress.streetAddress
-      );
+    const addressExists = await this.clientsAddressesRepository.findById(
+      parsedAddress.id
+    );
 
     if (addressExists) {
       invoice.address = addressExists;

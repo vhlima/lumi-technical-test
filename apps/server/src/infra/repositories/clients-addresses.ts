@@ -1,5 +1,5 @@
 import { IClientsAddressesRepository, CreateClientAddressData } from "@/data/contracts";
-import { ILike, Repository } from "typeorm";
+import { Repository } from "typeorm";
 import { ClientAddressEntity } from "@/infra/entities";
 import { PostgresDataSource } from "@/infra/data-sources";
 import { ClientAddress } from "@/domain/entities";
@@ -28,16 +28,6 @@ export class ClientsAddressesRepository implements IClientsAddressesRepository {
     return this.ormRepository.findOne({
       where: {
         id: addressId,
-      },
-    });
-  }
-
-  public async findByStreetAddress(
-    streetAddress: string
-  ): Promise<ClientAddress | null> {
-    return this.ormRepository.findOne({
-      where: {
-        streetAddress: ILike(streetAddress),
       },
     });
   }

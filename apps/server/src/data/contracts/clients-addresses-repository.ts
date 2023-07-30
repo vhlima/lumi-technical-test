@@ -13,5 +13,4 @@ export interface CreateClientAddressData {
 export interface IClientsAddressesRepository {
   create: (data: CreateClientAddressData) => Promise<ClientAddress>;
   findById: (addressId: number) => Promise<ClientAddress | null>;
-  findByStreetAddress: (streetAddress: string) => Promise<ClientAddress | null>;
 }
