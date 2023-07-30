@@ -1,5 +1,13 @@
 import { Invoice } from "@/domain/entities";
-import { CreateInvoiceData } from "@/domain/usecases";
+
+export interface CreateInvoiceData {
+  clientId: number;
+  addressId: number;
+  price: number;
+  relativeYear: number;
+  relativeMonth: number;
+  expiresAt: Date;
+}
 
 export interface IInvoicesRepository {
   create: (data: CreateInvoiceData) => Promise<Invoice>;

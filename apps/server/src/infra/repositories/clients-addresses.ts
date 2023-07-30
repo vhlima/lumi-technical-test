@@ -1,9 +1,8 @@
-import { IClientsAddressesRepository } from "@/data/contracts";
+import { IClientsAddressesRepository, CreateClientAddressData } from "@/data/contracts";
 import { ILike, Repository } from "typeorm";
 import { ClientAddressEntity } from "@/infra/entities";
 import { PostgresDataSource } from "@/infra/data-sources";
 import { ClientAddress } from "@/domain/entities";
-import { CreateClientAddressData } from "@/domain/usecases";
 
 export class ClientsAddressesRepository implements IClientsAddressesRepository {
   private ormRepository: Repository<ClientAddressEntity>;

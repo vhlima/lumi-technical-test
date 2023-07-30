@@ -1,5 +1,9 @@
 import { Client } from "@/domain/entities";
-import { CreateClientData } from "@/domain/usecases";
+
+export interface CreateClientData {
+  id: number;
+  fullName: string;
+}
 
 export interface IClientsRepository {
   list: () => Promise<Client[]>;

@@ -1,9 +1,8 @@
-import { IInvoicesRepository } from "@/data/contracts";
+import { CreateInvoiceData, IInvoicesRepository } from "@/data/contracts";
 import { Repository } from "typeorm";
 import { InvoiceEntity } from "@/infra/entities";
 import { PostgresDataSource } from "@/infra/data-sources";
 import { Invoice } from "@/domain/entities";
-import { CreateInvoiceData } from "@/domain/usecases";
 
 export class InvoicesRepository implements IInvoicesRepository {
   private ormRepository: Repository<InvoiceEntity>;
