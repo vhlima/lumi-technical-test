@@ -8,6 +8,8 @@ import {
 import { Invoice } from "@/domain/entities";
 import { MockLoadPDF } from "@/tests/adapters/mocks";
 import { getInvoiceParsersService } from "@/main/factories";
+import { faker } from "@faker-js/faker";
+import { IInvoicesRepository } from "@/data/contracts";
 
 type SutType = {
   invoice: Invoice;
@@ -63,5 +65,12 @@ describe("CreateInvoiceFromPDF", () => {
       id: undefined,
       expenses: invoice.expenses.map(({ id, ...expense }) => expense)
     });
+  });
+  test("Should not be able to create invoice with other clientId", async () => {
+    const { sut } = createSut();
+
+    expect(async () => {
+      await sut.execute("", faker.number.int());
+    }).rejects.toThrowError();
   });
 });
