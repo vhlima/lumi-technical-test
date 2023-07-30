@@ -9,6 +9,20 @@ export class LabelMapperService implements LabelMapper {
 
     const mappingEntries = Object.entries(items);
 
+    /* 
+      The key of this algorithm is finding relatively close elements by some text label
+      and then find our desired value at index X + Y, after the X label index.
+
+      We recommend using some unique text that would appear only once, this will
+      ensure that we are scrapping the data correctly. 
+    */
+
+    /*
+      This algo has a quadratic time complexity, wich is not good in terms of
+      performance. For now we are sticking with this because we are not
+      worried about performance here.
+    */
+
     for (let i = 0; i < contentRows.length; i++) {
       for (let y = 0; y < contentRows[i].length; y++) {
         const rowFound = mappingEntries.filter(
