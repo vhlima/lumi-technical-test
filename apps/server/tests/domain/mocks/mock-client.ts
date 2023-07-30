@@ -16,7 +16,7 @@ export const mockClientAddress = (): ClientAddress => {
     city: faker.location.city(),
     district: faker.location.country(),
     id: faker.number.int(),
-    state: faker.location.state(),
+    state: faker.location.state({ abbreviated: true }),
     streetAddress: faker.location.streetAddress(),
     zipCode: faker.location.zipCode(),
   };
