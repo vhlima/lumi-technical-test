@@ -14,6 +14,7 @@ import { IInvoicesRepository } from "@/data/contracts";
 type SutType = {
   invoice: Invoice;
   sut: CreateInvoiceFromPDFService;
+  invoicesRepository: IInvoicesRepository;
 };
 
 const createSut = (): SutType => {
@@ -27,7 +28,8 @@ const createSut = (): SutType => {
   const clientsAddressRepository = new MockClientAddressesRepository(
     clientsRepository
   );
-  const invoicesRepository = new MockInvoicesRepository([],
+  const invoicesRepository = new MockInvoicesRepository(
+    [],
     clientsAddressRepository,
     clientsRepository
   );
@@ -46,6 +48,7 @@ const createSut = (): SutType => {
   return {
     sut,
     invoice,
+    invoicesRepository,
   };
 };
 
@@ -59,15 +62,33 @@ describe("CreateInvoiceFromPDF", () => {
     expect({
       ...createdInvoice,
       id: undefined,
-      expenses: (createdInvoice?.expenses || []).map(({ id, ...expense }) => expense)
+      expenses: (createdInvoice?.expenses || []).map(
+        ({ id, ...expense }) => expense
+      ),
     }).toEqual({
       ...invoice,
       id: undefined,
-      expenses: invoice.expenses.map(({ id, ...expense }) => expense)
+      expenses: invoice.expenses.map(({ id, ...expense }) => expense),
     });
   });
   test("Should not be able to create invoice with other clientId", async () => {
     const { sut } = createSut();
+
+    expect(async () => {
+      await sut.execute("", faker.number.int());
+    }).rejects.toThrowError();
+  });
+  test("Should not be able to create invoice with the same date", async () => {
+    const { sut, invoice, invoicesRepository } = createSut();
+
+    await invoicesRepository.create({
+      addressId: invoice.address.id,
+      clientId: invoice.client.id,
+      expiresAt: invoice.expiresAt,
+      price: invoice.price,
+      relativeMonth: invoice.relativeMonth,
+      relativeYear: invoice.relativeYear,
+    });
 
     expect(async () => {
       await sut.execute("", faker.number.int());
