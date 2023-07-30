@@ -10,4 +10,9 @@ describe('Home page unauthenticated', () => {
     cy.get('a.MuiButton-root.MuiButton-text.MuiButton-textPrimary')
       .should('have.length', 2);
   });
+  it('should show a file upload button', () => {
+    cy.get('button.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary')
+      .should('be.visible')
+      .contains('Upload invoice');
+  });
 });
