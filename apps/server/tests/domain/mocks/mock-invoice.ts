@@ -1,8 +1,8 @@
 import { Invoice, InvoiceExpense } from "@/domain/entities";
 import { faker } from "@faker-js/faker";
-import { mockInvoiceExpense } from "./mock-invoice-expense";
+import { mockClient } from "./mock-client";
 
-export const mockInvoice = (expenses?: InvoiceExpense[]): Invoice => {
+export const mockInvoice = (): Invoice => {
   const expiresAt = faker.date.future();
   expiresAt.setHours(0);
   expiresAt.setMinutes(0);
@@ -10,45 +10,46 @@ export const mockInvoice = (expenses?: InvoiceExpense[]): Invoice => {
   expiresAt.setMilliseconds(0);
 
   const relativeTo = faker.date.recent();
-  relativeTo.setDate(1);
-  relativeTo.setHours(0);
-  relativeTo.setMinutes(0);
-  relativeTo.setSeconds(0);
-  relativeTo.setMilliseconds(0);
+
+  const client = mockClient();
+
+  const expenses = Array.from({ length: faker.number.int({ min: 1, max: 5 }) }).map(
+    () => mockInvoiceExpense()
+  );
 
   const invoice: Invoice = {
-    client: {
-      id: faker.number.int(),
-      fullName: faker.person.fullName(),
-      addresses: [],
-    },
-    address: {
-      city: "",
-      district: "",
-      id: 1,
-      state: "",
-      streetAddress: "",
-      zipCode: "",
-    },
+    client: client,
+    address: client.addresses[0],
     energySpent: 0,
-    expenses: [],
-    price: 0,
+    expenses,
+    price: expenses.reduce((acc, expense) => acc += expense.price, 0),
     expiresAt,
     id: faker.number.int(),
     relativeYear: relativeTo.getFullYear(),
     relativeMonth: relativeTo.getMonth(),
   };
 
-  invoice.expenses = expenses
-    ? expenses
-    : Array.from({
-        length: faker.number.int({ min: 1, max: 5 }),
-      }).map(() => mockInvoiceExpense());
-
-  invoice.price = invoice.expenses.reduce(
-    (acc, expense) => (acc += expense.price),
-    0
-  );
-
   return invoice;
+};
+
+export const mockInvoiceExpense = (): InvoiceExpense => {
+  const isSimple = faker.number.int({ min: 1, max: 10 }) % 2 === 0;
+
+  const basicExpense: InvoiceExpense = {
+    id: faker.number.int(),
+    price: faker.number.int({ max: 50000 }),
+    name: faker.science.chemicalElement().name,
+  };
+
+  if (isSimple) {
+    return basicExpense;
+  }
+
+  return {
+    ...basicExpense,
+    measurementUnit: faker.science.chemicalElement().symbol,
+    quantity: faker.number.int(),
+    unitaryPrice: faker.number.float(),
+    unitaryTaxPrice: faker.number.float(),
+  };
 };
