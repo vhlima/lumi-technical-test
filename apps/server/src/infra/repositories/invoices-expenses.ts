@@ -3,7 +3,7 @@ import { Repository } from "typeorm";
 import { InvoiceExpenseEntity } from "@/infra/entities";
 import { PostgresDataSource } from "@/infra/data-sources";
 import { InvoiceExpense } from "@/domain/entities";
-import { CreateInvoiceExpenseData } from "@/domain/usecases";
+import { CreateInvoiceExpenseData } from "@/data/contracts";
 
 export class InvoicesExpensesRepository implements IInvoicesExpensesRepository {
   private ormRepository: Repository<InvoiceExpenseEntity>;
