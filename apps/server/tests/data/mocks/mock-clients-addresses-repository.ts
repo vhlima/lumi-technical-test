@@ -1,6 +1,7 @@
 import {
   CreateClientAddressData,
   IClientsAddressesRepository,
+  IClientsRepository,
 } from "@/data/contracts";
 import { ClientAddress } from "@/domain/entities";
 
@@ -9,14 +10,21 @@ export class MockClientAddressesRepository
 {
   addresses: ClientAddress[];
 
-  constructor(addresses: ClientAddress[] = []) {
-    this.addresses = addresses;
+  constructor(private readonly clientsRepository: IClientsRepository) {
+    this.addresses = [];
   }
 
   public async create(data: CreateClientAddressData): Promise<ClientAddress> {
+    const { clientId, ...addressData } = data;
+
     const address: ClientAddress = {
-      ...data,
+      ...addressData,
     };
+
+    const client = await this.clientsRepository.findById(clientId);
+    if (client) {
+      client.addresses.push(address);
+    }
 
     this.addresses.push(address);
     return address;
