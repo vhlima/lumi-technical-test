@@ -33,17 +33,6 @@ const createSut = (): SutType => {
     invoicesRepository
   );
 
-  /* 
-    We needed this cleanup function because running tests in watch 
-    mode was causing a bug where createSut is not being recreated from scratch.
-  */
-  const cleanup = () => {
-    clientsRepository.clients = [];
-    clientsAddressRepository.addresses = [];
-    invoicesRepository.invoices = [];
-    invoicesExpensesRepository.expenses = [];
-  }
-
   const sut = new CreateInvoiceFromPDFService(
     mockLoadPDF,
     getInvoiceParsersService(),
