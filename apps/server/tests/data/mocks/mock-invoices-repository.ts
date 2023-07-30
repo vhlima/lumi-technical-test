@@ -47,7 +47,7 @@ export class MockInvoicesRepository implements IInvoicesRepository {
     return invoice || null;
   }
 
-  public async list(clientId: number): Promise<Invoice[]> {
-    return this.invoices.filter((invoice) => invoice.client.id === clientId);
+  public async list(addressId: number): Promise<Invoice[]> {
+    return this.invoices.filter((invoice) => invoice.address.id === addressId);
   }
 }
