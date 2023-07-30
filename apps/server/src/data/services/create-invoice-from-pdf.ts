@@ -23,11 +23,7 @@ export class CreateInvoiceFromPDFService {
     pdfPath: string,
     clientId?: number
   ): Promise<Invoice | null> {
-    const pdfDoc = await this.pdfLoader.execute(pdfPath);
-
-    const page = await pdfDoc.getPage(1);
-
-    const textContent = await page.getTextContent();
+    const textContent = await this.pdfLoader.execute(pdfPath);
 
     const parserResponse = this.invoiceParserService.execute(textContent);
 

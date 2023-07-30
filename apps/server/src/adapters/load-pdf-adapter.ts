@@ -1,7 +1,6 @@
 import fs from "fs";
 import { getDocument } from "pdfjs-dist";
 import { LoadPDF } from "@/domain/usecases";
-import { PDFDocument } from "@/domain/entities";
 import { TextItem } from "pdfjs-dist/types/src/display/api";
 
 export class LoadPDFAdapter implements LoadPDF {
@@ -36,29 +35,17 @@ export class LoadPDFAdapter implements LoadPDF {
     return rows;
   }
 
-  public async execute(path: string): Promise<PDFDocument> {
+  public async execute(path: string): Promise<string[][]> {
     const pdfData = new Uint8Array(fs.readFileSync(path));
 
     const loadingTask = getDocument({ data: pdfData, useSystemFonts: true });
 
     const document = await loadingTask.promise;
 
-    const pdfDocument = new PDFDocument();
-    pdfDocument.getPage = async (pageNumber: number) => {
-      const page = await document.getPage(pageNumber);
+    const page = await document.getPage(1);
 
-      return {
-        pageNumber: page.pageNumber,
-        getTextContent: async () => {
-          const content = await page.getTextContent();
+    const content = await page.getTextContent();
 
-          return this.transformTextContentItemsToRows(
-            content.items as TextItem[]
-          );
-        },
-      };
-    };
-
-    return pdfDocument;
+    return this.transformTextContentItemsToRows(content.items as TextItem[]);
   }
 }
