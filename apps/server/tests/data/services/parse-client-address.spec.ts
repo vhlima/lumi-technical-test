@@ -35,4 +35,18 @@ describe("ParseClientAddressService", () => {
 
     expect(createAddress).toEqual(addressModel);
   });
+  test("Should throw error if validation fails", () => {
+    const sut = createSut();
+
+    const mockedInvoice = mockInvoice();
+
+    const pdfTextContent = mockPdfTextContent({
+      ...mockedInvoice,
+      address: undefined,
+    });
+
+    expect(() => {
+      sut.execute(pdfTextContent);
+    }).toThrow();
+  });
 });
