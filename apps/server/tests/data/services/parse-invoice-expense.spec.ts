@@ -1,11 +1,6 @@
 import { LabelMapperService, ParseExpensesService } from "@/data/services";
-import {
-  mockInvoice,
-  mockInvoiceExpense,
-  mockPdfTextContent,
-} from "@/tests/domain/mocks";
+import { mockInvoice, mockPdfTextContent } from "@/tests/domain/mocks";
 import { InvoiceExpenseValidator } from "@/validation/validators";
-import { faker } from "@faker-js/faker";
 
 const createSut = () => {
   const sut = new ParseExpensesService(
@@ -19,22 +14,21 @@ describe("ParseInvoiceExpensesService", () => {
   test("Should parse Invoice Expenses correctly", async () => {
     const sut = createSut();
 
-    const mockedExpenses = Array.from({
-      length: faker.number.int({ min: 1, max: 5 }),
-    }).map(() => mockInvoiceExpense());
+    const mockedInvoice = mockInvoice();
 
-    const pdfTextContent = mockPdfTextContent(mockInvoice(mockedExpenses));
+    const pdfTextContent = mockPdfTextContent(mockedInvoice);
 
     const createdExpenses = sut.execute(pdfTextContent);
 
     expect(createdExpenses).toEqual(
-      mockedExpenses.map(({ id, ...expense }) => expense)
+      mockedInvoice.expenses.map(({ id, ...expense }) => expense)
     );
   });
   test("Should throw error if validation fails", () => {
     const sut = createSut();
 
-    const mockedInvoice = mockInvoice([]);
+    const mockedInvoice = mockInvoice();
+    mockedInvoice.expenses = [];
 
     const pdfTextContent = mockPdfTextContent(mockedInvoice);
 
