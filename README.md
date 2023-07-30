@@ -5,6 +5,9 @@ Este projeto é parte da entrevista técnica da empresa Lumi.
 Os mockups deste projeto estão disponíveis no Figma:
 [Link para o Figma](https://www.figma.com/file/nxk7ksj16VDwJRYnJU77z2/Lumi?type=design&node-id=0%3A1&mode=design&t=Em7i71SCw3fKM9lc-1)
 
+## Opiniões
+Este projeto poderia ser construído utilizando uma variedade de tecnologias, como Next.js, React Query, Redux para gerenciamento de estado, Zod ou Apollo Client. No entanto, optei por abordá-lo de forma mais "simples", buscando promover um melhor entendimento de conceitos gerais, em vez de focar em conhecimentos específicos de uma determinada tecnologia ou framework (apesar de ser um grande admirador e utilizador dessas bibliotecas mencionadas em meus projetos). A escolha de tecnologias mais simples permitiu destacar os princípios fundamentais do desenvolvimento e proporcionar uma experiência mais didática ao analisar o projeto.
+
 ## Como executar o projeto
 
 **Primeira maneira:**
@@ -17,8 +20,14 @@ Se você não tiver o Docker, siga os passos abaixo:
 3. Após configurar as variáveis ambiente, inicie o app server utilizando `yarn dev`.
 4. Em seguida, você poderá iniciar o app web utilizando `yarn start`.
 
-## Opiniões
-Este projeto poderia ser construído utilizando uma variedade de tecnologias, como Next.js, React Query, Redux para gerenciamento de estado, Zod ou Apollo Client. No entanto, optei por abordá-lo de forma mais "simples", buscando promover um melhor entendimento de conceitos gerais, em vez de focar em conhecimentos específicos de uma determinada tecnologia ou framework (apesar de ser um grande admirador e utilizador dessas bibliotecas mencionadas em meus projetos). A escolha de tecnologias mais simples permitiu destacar os princípios fundamentais do desenvolvimento e proporcionar uma experiência mais didática ao analisar o projeto.
+## Testes
+
+**Frontend:**
+Testes unitários: `yarn test`
+Testes E2E: `yarn cypress`
+
+**Backend:**
+Testes unitários: `yarn test`
 
 ## Backend
 
