@@ -37,7 +37,8 @@ const labelMapping: LabelMappersObject<ClientAddressModel> = {
     label: "Código de Débito Automático",
     location: [6, 0],
     parseValue: (value: string) => {
-      return value.split(" ")[2].replace(",", "");
+      const words = value.split(" ");
+      return words[words.length - 1];
     },
   },
   city: {
