@@ -1,3 +1,4 @@
+import { ClientAddressModel, ClientModel } from "@/data/models";
 import { Invoice } from "@/domain/entities";
 import {
   formatDateToBrazilianTimeFormat,
@@ -35,18 +36,25 @@ export const mockPdfTextContent = (invoice: Partial<Invoice>): string[][] => {
     return expenseItem;
   });
 
-  const clientId = invoice.client ? String(invoice.client.id) : "";
-  const clientFullName = invoice.client ? invoice.client.fullName : "";
+  const client: ClientModel = {
+    id: invoice.client ? invoice.client.id : -1,
+    fullName: invoice.client ? invoice.client.fullName : "",
+  };
 
-  const installationNumber = invoice.address ? String(invoice.address.id) : "";
+  const address: ClientAddressModel = {
+    id: invoice.address?.id || -1,
+    city: invoice.address?.city || "",
+    district: invoice.address?.district || "",
+    state: invoice.address?.state || "",
+    streetAddress: invoice.address?.streetAddress || "",
+    zipCode: invoice.address?.zipCode || "",
+  };
 
   const price = invoice.price ? String(invoice.price) : "";
 
   const relativeTo =
     invoice.relativeMonth && invoice.relativeYear
-      ? `${parseMonthByIndex(invoice.relativeMonth)}/${
-          invoice.relativeYear
-        }`
+      ? `${parseMonthByIndex(invoice.relativeMonth)}/${invoice.relativeYear}`
       : "";
 
   const relativeToReduced =
@@ -122,7 +130,7 @@ export const mockPdfTextContent = (invoice: Partial<Invoice>): string[][] => {
       " ",
       "Total a pagar",
     ],
-    ["", "008118741548", " ", installationNumber, " ", expiresAt, " ", price],
+    ["", "008118741548", " ", String(address.id), " ", expiresAt, " ", price],
     [
       relativeTo,
       " ",
@@ -132,18 +140,18 @@ export const mockPdfTextContent = (invoice: Partial<Invoice>): string[][] => {
       "",
       "NnNnWwNwNnWnNnNnWwWnNwNnNnNnWwWwNnNnNnWwWwNnNnNnWwWwNnWwNnNwNnWnNnNnNwWnWwNnWnNwWwNnWwNwNnNnWnWnNnNwWwNnWnNnNwNwWnNnWnNwNwWnNnWnWwNnNwNwNnWnNwWnWwNnWnNwNnNwWwNnNnWnWnWnNwNwNnWwNnNnWnNwWwNnNnNwWnNnNnNwWnWwWwNnNwNnWnNwNnWnNwWnWnN",
       "",
-      clientFullName,
+      client.fullName,
     ],
-    ["", "RUA JOAO DE ASSIS MARTINS 71 IN"],
-    ["CENTRO SUL"],
-    ["35182-036 TIMOTEO, MG"],
+    ["", address.streetAddress],
+    [address.district],
+    [`${address.zipCode} ${address.city}, ${address.state}`],
     ["CPF 097.7**.***-**"],
     ["", "Nº DO CLIENTE", " ", "Nº DA INSTALAÇÃO"],
     [
       "",
-      clientId,
+      String(client.id),
       " ",
-      installationNumber,
+      String(address.id),
       "",
       "Referente a",
       " ",
