@@ -20,4 +20,11 @@ describe("Home page unauthenticated", () => {
       .should("be.visible")
       .contains("Upload invoice");
   });
+  it("Should have switch accounts button", () => {
+    cy.get(
+      "button.MuiButton-root"
+    )
+      .should("be.visible")
+      .contains("Switch account");
+  });
 });
