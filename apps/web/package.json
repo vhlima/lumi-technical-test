@@ -31,7 +31,8 @@
     "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!axios)/\"",
     "eject": "react-scripts eject",
     "start:prod": "NODE_ENV=production node_modules/react-scripts/bin/react-scripts.js start",
-    "build:prod": "node_modules/react-scripts/bin/react-scripts.js build"
+    "build:prod": "node_modules/react-scripts/bin/react-scripts.js build",
+    "cypress": "cypress open"
   },
   "eslintConfig": {
     "extends": [
