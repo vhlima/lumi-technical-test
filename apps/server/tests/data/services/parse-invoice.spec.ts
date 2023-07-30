@@ -1,3 +1,4 @@
+import { InvoiceModel } from "@/data/models";
 import { LabelMapperService, ParseInvoiceService } from "@/data/services";
 import { mockInvoice, mockPdfTextContent } from "@/tests/domain/mocks";
 import { InvoiceValidator } from "@/validation/validators";
@@ -12,24 +13,28 @@ const createSut = () => {
 };
 
 describe("ParseInvoiceService", () => {
-  test("Should parse Invoice informations correctly", async () => {
+  test("Should parse Invoice correctly", async () => {
     const sut = createSut();
 
-    const mockedInvoice = mockInvoice([]);
+    const mockedInvoice = mockInvoice();
 
     const pdfTextContent = mockPdfTextContent(mockedInvoice);
 
     const createdInvoice = sut.execute(pdfTextContent);
 
-    const { id, price, expenses, client, energySpent, ...invoiceCompare } =
-      mockedInvoice;
+    const invoiceModel: InvoiceModel = {
+      price: mockedInvoice.price,
+      expiresAt: mockedInvoice.expiresAt,
+      relativeMonth: mockedInvoice.relativeMonth,
+      relativeYear: mockedInvoice.relativeYear,
+    };
 
-    expect(createdInvoice).toEqual(invoiceCompare);
+    expect(createdInvoice).toEqual(invoiceModel);
   });
   test("Should throw error if validation fails", () => {
     const sut = createSut();
 
-    const { expenses, price, id, ...invoiceData } = mockInvoice([]);
+    const { expenses, price, id, ...invoiceData } = mockInvoice();
 
     /* Select random fields from mockedInvoice */
     const shuffled = Object.entries(invoiceData).sort(
@@ -41,8 +46,8 @@ describe("ParseInvoiceService", () => {
       faker.number.int({ min: 0, max: shuffled.length - 2 })
     );
 
-    /* We are passing some valid fields and other invalids to always make 
-       sure we are not validating the same thing 
+    /* We are passing some valid fields and other invalids to always make
+       sure we are not validating the same thing
     */
     const pdfTextContent = mockPdfTextContent(
       Object.fromEntries(selectedEntries)
