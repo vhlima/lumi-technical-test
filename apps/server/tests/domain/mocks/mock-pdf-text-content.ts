@@ -36,6 +36,7 @@ export const mockPdfTextContent = (invoice: Partial<Invoice>): string[][] => {
   });
 
   const clientId = invoice.client ? String(invoice.client.id) : "";
+  const clientFullName = invoice.client ? invoice.client.fullName : "";
 
   const installationNumber = invoice.address ? String(invoice.address.id) : "";
 
@@ -131,7 +132,7 @@ export const mockPdfTextContent = (invoice: Partial<Invoice>): string[][] => {
       "",
       "NnNnWwNwNnWnNnNnWwWnNwNnNnNnWwWwNnNnNnWwWwNnNnNnWwWwNnWwNnNwNnWnNnNnNwWnWwNnWnNwWwNnWwNwNnNnWnWnNnNwWwNnWnNnNwNwWnNnWnNwNwWnNnWnWwNnNwNwNnWnNwWnWwNnWnNwNnNwWwNnNnWnWnWnNwNwNnWwNnNnWnNwWwNnNnNwWnNnNnNwWnWwWwNnNwNnWnNwNnWnNwWnWnN",
       "",
-      "BRONYER TOZATTI FERREIRA",
+      clientFullName,
     ],
     ["", "RUA JOAO DE ASSIS MARTINS 71 IN"],
     ["CENTRO SUL"],
