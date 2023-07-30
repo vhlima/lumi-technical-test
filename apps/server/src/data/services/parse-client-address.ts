@@ -1,5 +1,5 @@
 import { LabelMapper, LabelMappersObject } from "@/domain/usecases";
-import { firstLetterUppercase } from "@/utils/string-utils";
+import { allFirstLettersToUppercase, firstLetterUppercase } from "@/utils/string-utils";
 import { ClientAddressValidator } from "@/validation/validators";
 import { ClientAddressModel } from "@/data/models";
 import { ParseClientAddress } from "@/data/contracts";
@@ -16,20 +16,14 @@ const labelMapping: LabelMappersObject<ClientAddressModel> = {
     label: "Código de Débito Automático",
     location: [4, 1],
     parseValue: (value: string) => {
-      return value
-        .split(" ")
-        .map((address) => firstLetterUppercase(address))
-        .join(" ");
+      return allFirstLettersToUppercase(value);
     },
   },
   district: {
     label: "Código de Débito Automático",
     location: [5, 0],
     parseValue: (value: string) => {
-      return value
-        .split(" ")
-        .map((dis) => firstLetterUppercase(dis))
-        .join(" ");
+      return allFirstLettersToUppercase(value);
     },
   },
   zipCode: {
@@ -50,7 +44,13 @@ const labelMapping: LabelMappersObject<ClientAddressModel> = {
     label: "Código de Débito Automático",
     location: [6, 0],
     parseValue: (value: string) => {
-      return firstLetterUppercase(value.split(" ")[1].replace(",", ""));
+      const words = value.split(" ");
+      return allFirstLettersToUppercase(
+        words
+          .slice(1, words.length - 1)
+          .join(" ")
+          .replace(",", "")
+      );
     },
   },
 };
