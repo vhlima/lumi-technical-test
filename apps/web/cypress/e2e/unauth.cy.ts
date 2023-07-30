@@ -27,4 +27,12 @@ describe("Home page unauthenticated", () => {
       .should("be.visible")
       .contains("Switch account");
   });
+  it("Should sign in", () => {
+    cy.get("button.MuiButton-root")
+      .should("be.visible")
+      .contains("Switch account")
+      .click();
+  
+    cy.get("li.MuiListItem-root").should("be.visible").click();
+  });
 });
