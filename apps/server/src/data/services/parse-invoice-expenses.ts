@@ -37,8 +37,13 @@ export class ParseExpensesService implements ParseInvoiceExpenses {
             }
 
             if (content.length === 3) {
+              const name = content[0];
+              if(name === "TOTAL") {
+                break;
+              }
+
               const invoiceData = {
-                name: content[0],
+                name,
                 price: parseFloat(content[2].replace(",", ".")),
               };
 
