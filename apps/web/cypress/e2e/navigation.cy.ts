@@ -11,4 +11,7 @@ describe("Home page unauthenticated", () => {
   it("Should have switch accounts button", () => {
     cy.get('[data-testid="switch-account-button"]').contains("Switch account");
   });
+  it("Should not have client account button", () => {
+    cy.get('[data-testid="client-account-button"]').should("not.exist");
+  })
 });

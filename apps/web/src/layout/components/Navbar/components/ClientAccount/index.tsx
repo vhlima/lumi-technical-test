@@ -26,6 +26,7 @@ const ClientAccount: React.FC = () => {
           size="large"
           color="inherit"
           onClick={(e) => setAnchorElUser(e.currentTarget)}
+          data-testid="client-account-button"
         >
           <AccountCircle />
         </IconButton>
