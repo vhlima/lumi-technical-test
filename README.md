@@ -27,7 +27,7 @@ Testes unitários:
 `yarn test`
 Testes E2E: 
 `yarn cypress`
-**ATENÇÃO:** Antes de rodar os testes de integração, pelo menos um boleto precisa ser enviado ao banco de dados.
+**ATENÇÃO:** Antes de rodar os testes E2E, pelo menos um boleto precisa ser enviado ao banco de dados.
 
 **Backend:**
 Testes unitários: `yarn test`
