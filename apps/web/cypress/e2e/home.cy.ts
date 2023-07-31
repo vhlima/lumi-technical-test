@@ -19,6 +19,15 @@ describe("Home page authenticated", () => {
       .click();
     cy.get(addressSelector).should("not.exist");
   });
+  it("Should change consumption sort filter", () => {
+    const dropdownId = '[data-testid="consumption-filter-dropdown"]';
+
+    cy.get(dropdownId).should('not.exist');
+    cy.get('[data-testid="consumption-filter-button"]').should('be.visible').click();
+    cy.get(dropdownId).should('be.visible');
+
+    cy.get('[data-testid="consumption-filter-item"]').should('have.length', 2).eq(1).click();
+  });
   it("Should view all invoices", () => {
     cy.contains("View all").click();
     cy.url().should("include", "/invoices");
