@@ -46,6 +46,7 @@ const ClientAccount: React.FC = () => {
         }}
         open={!!anchorElUser}
         onClose={handleClose}
+        data-testid="client-account-menu"
       >
         <MenuItem
           onClick={() => {
