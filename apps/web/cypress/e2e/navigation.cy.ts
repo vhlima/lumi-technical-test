@@ -1,3 +1,5 @@
+import { mockLocalStorage } from "../../tests/mocks";
+
 describe("Home page unauthenticated", () => {
   beforeEach(() => {
     cy.visit("http://localhost:3000");
@@ -13,5 +15,9 @@ describe("Home page unauthenticated", () => {
   });
   it("Should not have client account button", () => {
     cy.get('[data-testid="client-account-button"]').should("not.exist");
+  })
+  it("Should have client account button", () => {
+    mockLocalStorage();
+    cy.get('[data-testid="client-account-button"]').should("be.visible");
   })
 });
