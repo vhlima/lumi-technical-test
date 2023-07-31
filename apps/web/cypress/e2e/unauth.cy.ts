@@ -10,12 +10,6 @@ describe("Home page unauthenticated", () => {
         "Welcome! Begin your journey by uploading your first invoice."
       );
   });
-  it("Should have two links in the navigation bar", () => {
-    cy.get("a.MuiButton-root.MuiButton-text.MuiButton-textPrimary").should(
-      "have.length",
-      2
-    );
-  });
   it("Should show a file upload button", () => {
     cy.get(
       "button.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary"

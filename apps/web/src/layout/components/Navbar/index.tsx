@@ -65,7 +65,7 @@ const Navbar: React.FC = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} onClick={handleCloseNavMenu} data-testid="navbar-link">
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -78,6 +78,7 @@ const Navbar: React.FC = () => {
                 href={index === 0 ? "/" : page.toLowerCase()}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
+                data-testid="navbar-link"
               >
                 {page}
               </Button>
