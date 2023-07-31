@@ -6,7 +6,7 @@ Os mockups deste projeto estão disponíveis no Figma:
 [Link para o Figma](https://www.figma.com/file/nxk7ksj16VDwJRYnJU77z2/Lumi?type=design&node-id=0%3A1&mode=design&t=Em7i71SCw3fKM9lc-1)
 
 ## Opiniões
-Este projeto poderia ser construído utilizando uma variedade de tecnologias, como Next.js, React Query, Redux para gerenciamento de estado, Zod ou Apollo Client. No entanto, optei por abordá-lo de forma mais "simples", buscando promover um melhor entendimento de conceitos gerais, em vez de focar em conhecimentos específicos de uma determinada tecnologia ou framework (apesar de ser um grande admirador e utilizador dessas bibliotecas mencionadas em meus projetos). A escolha de tecnologias mais simples permitiu destacar os princípios fundamentais do desenvolvimento e proporcionar uma experiência mais didática ao analisar o projeto.
+Este projeto poderia ser construído utilizando uma variedade de tecnologias, como Next.js, React Query, Redux e Apollo Client. No entanto, optei por abordá-lo de forma mais "simples", buscando promover um melhor entendimento de conceitos gerais, em vez de focar em conhecimentos específicos de uma determinada tecnologia ou framework (apesar de ser um grande admirador e utilizador dessas bibliotecas mencionadas em meus projetos). A escolha de tecnologias mais simples permitiu destacar os princípios fundamentais do desenvolvimento e proporcionar uma experiência mais didática ao analisar o projeto.
 
 ## Como executar o projeto
 
