@@ -14,7 +14,7 @@ describe("Home page unauthenticated", () => {
     cy.get('[data-testid="upload-invoice-button"]').contains("Upload invoice");
   });
   it("Should sign in", () => {
-    cy.get("button.MuiButton-root")
+    cy.get('[data-testid="switch-account-button"]')
       .should("be.visible")
       .contains("Switch account")
       .click();
