@@ -26,7 +26,7 @@ const InvoicesPage: React.FC = () => {
 
   return (
     <Layout>
-      <Typography variant="h5" gutterBottom>
+      <Typography sx={{ color: "text.primary" }} variant="h5" gutterBottom>
         Invoices
       </Typography>
       <Divider />
