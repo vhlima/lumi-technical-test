@@ -12,10 +12,8 @@ describe("Home page unauthenticated", () => {
   });
   it("Should show a file upload button", () => {
     cy.get(
-      "button.MuiButton-root.MuiButton-contained.MuiButton-containedPrimary"
-    )
-      .should("be.visible")
-      .contains("Upload invoice");
+      '[data-testid="upload-invoice-button"]'
+    ).contains("Upload invoice");
   });
   it("Should have switch accounts button", () => {
     cy.get("button.MuiButton-root")

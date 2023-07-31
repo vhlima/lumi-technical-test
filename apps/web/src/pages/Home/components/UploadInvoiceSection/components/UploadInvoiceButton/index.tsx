@@ -18,6 +18,7 @@ const UploadInvoiceButton: React.FC<Props> = (props) => {
         variant="contained"
         size="small"
         onClick={() => inputRef?.current?.click()}
+        data-testid="upload-invoice-button"
       >
         <FileUploadOutlined sx={{ marginRight: 1 }} />
         <input
