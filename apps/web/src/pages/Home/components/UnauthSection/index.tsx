@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 export const UnauthSection: React.FC = () => {
   return (
     <Box>
-      <Typography variant="h5">
+      <Typography variant="h5" data-testid="unauth-header">
         Welcome! Begin your journey by uploading your first invoice.
       </Typography>
       <Typography sx={{ color: "text.secondary" }} gutterBottom>
