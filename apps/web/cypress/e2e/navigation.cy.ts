@@ -8,4 +8,7 @@ describe("Home page unauthenticated", () => {
       4
     );
   });
+  it("Should have switch accounts button", () => {
+    cy.get('[data-testid="switch-account-button"]').contains("Switch account");
+  });
 });

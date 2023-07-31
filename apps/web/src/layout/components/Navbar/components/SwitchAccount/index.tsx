@@ -8,7 +8,7 @@ const AccountSelector: React.FC = () => {
   return (
     <>
       <ClientSelectorDialog open={open} onClose={() => setOpen(false)} />
-      <Button sx={{ color: 'white' }} onClick={() => setOpen(true)}>
+      <Button sx={{ color: 'white' }} onClick={() => setOpen(true)} data-testid="switch-account-button">
         Switch account
       </Button>
     </>
