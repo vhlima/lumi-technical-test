@@ -52,6 +52,7 @@ const ClientAccount: React.FC = () => {
             signOut();
             handleClose();
           }}
+          data-testid="sign-out-button"
         >
           <Typography textAlign="center">Logout</Typography>
         </MenuItem>
