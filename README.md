@@ -23,8 +23,11 @@ Se você não tiver o Docker, siga os passos abaixo:
 ## Testes
 
 **Frontend:**
-Testes unitários: `yarn test`
-Testes E2E: `yarn cypress`
+Testes unitários: 
+`yarn test`
+Testes E2E: 
+`yarn cypress`
+**ATENÇÃO:** Antes de rodar os testes de integração, pelo menos um boleto precisa ser enviado ao banco de dados.
 
 **Backend:**
 Testes unitários: `yarn test`
