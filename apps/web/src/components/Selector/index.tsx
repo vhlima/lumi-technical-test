@@ -27,6 +27,7 @@ const Selector: React.FC<PropsWithChildren<Props>> = (props) => {
           size="large"
           sx={{ marginLeft: 2, color: "warning.main" }}
           onClick={onClose}
+          data-testid="selector-close-button"
         >
           <Close />
         </IconButton>
